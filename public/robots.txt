@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://marketplace.digitalax.xyz
+Host: https://designers.digitalax.xyz
 
 # Sitemaps
-Sitemap: https://marketplace.digitalax.xyz/sitemap.xml
+Sitemap: https://designers.digitalax.xyz/sitemap.xml
