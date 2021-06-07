@@ -1,0 +1,82 @@
+@import "../../../../assets/scss/helpers/variables.scss";
+@import "../../../../assets/scss/helpers/helpers.scss";
+
+.leftBox {
+  min-width: 618px;
+  margin-right: 85px;
+  flex-basis: 50%;
+  flex-shrink: 0;
+  z-index: 2;
+  flex-grow: 1;
+  @media only screen and (max-width: 1200px) {
+    margin-right: 0;
+    min-width: 0px;
+    max-width: 618px;
+  }
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  width: 618px;
+
+  @media (max-width: $sm-width) {
+    width: calc(100vw - 2rem);
+  }
+}
+
+.tabContainer {
+  flex-grow: 1;
+  position: relative;
+
+  .tab {
+    @include reset-button();
+    @include active();
+    padding: 17px 25px 19px 25px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: $darkGray3;
+    border: 1px solid #e6e6e6;
+    min-height: 54px;
+    text-transform: uppercase;
+
+    &.active {
+      background-color: $lightGray1;
+      border: 0;
+      border: 1px solid transparent;
+      border-top: 2px solid $black;
+      color: $black;
+    }
+  }
+
+  .gap {
+    width: 0;
+    height: 0;
+    border-right: 18px solid transparent;
+    border-top: 18px solid orangered;
+    display: block;
+  }
+  
+  .bannerText {
+    background-color: orangered;
+    display: block;
+    padding: 3px;
+  }
+
+  .countTag {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.625rem;
+    color: white;
+    // width: 105px;
+    right: 0;
+    top: 1px;
+  }
+}
