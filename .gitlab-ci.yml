@@ -83,7 +83,7 @@ stages:
   extends: .build
   environment:
     name: prod
-    url: https://marketplace.digitalax.xyz/
+    url: https://designers.digitalax.xyz/
   only:
     - tags
     - master
@@ -157,7 +157,7 @@ stages:
   stage: 🚀 deploy
   environment:
     name: prod
-    url: https://marketplace.digitalax.xyz/
+    url: https://designers.digitalax.xyz/
   tags:
     - pp-builder
   only:

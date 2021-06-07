@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://marketplace.digitalax.xyz',  
+  siteUrl: 'https://designers.digitalax.xyz',  
   generateRobotsTxt: true
 }
