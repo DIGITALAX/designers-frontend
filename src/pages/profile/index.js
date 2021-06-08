@@ -46,12 +46,12 @@ const Profile = ({ history }) => {
       <div className={styles.leftSideWrapper}>
         <div className={styles.avatarIDSection}>
           <img src={user.get('avatar') ? user.get('avatar') : '../../../images/user-photo.svg'} />
-          <span>{user.get('username')}</span>
+          <span className="text-white">{user.get('username')}</span>
         </div>
         <span className={styles.email}>{user.get('email')}</span>
         <div className={styles.inputItemwrapper}>
           <span>Changing Room</span>
-          <p>{nfts.length}</p>
+          <p className="text-white">{nfts.length}</p>
         </div>
         <div className={styles.inputItemwrapper}>
           <span>Game Tags</span>
@@ -59,11 +59,11 @@ const Profile = ({ history }) => {
         </div>
         <div className={styles.inputItemwrapper}>
           <span>Whitelisted IP address</span>
-          <p>{user.get('ipAddrs')}</p>
+          <p className="text-white">{user.get('ipAddrs')}</p>
         </div>
         <div className={styles.walletAddress}>
           <span>Connected Wallet Address</span>
-          <p>
+          <p className="text-white">
             {account}
             <img src="/images/clipboard.svg" onClick={onCopyWalletAddress} />
           </p>

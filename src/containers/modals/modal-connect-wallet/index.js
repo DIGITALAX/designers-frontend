@@ -34,7 +34,7 @@ const ModalConnectWallet = ({
               <span className={styles.modalsTextForIcon}>Arkane Wallet</span>
               <img
                 className={styles.modalIcon}
-                src="https://raw.githubusercontent.com/ArkaneNetwork/content-management/master/ads/icons/arkane-network.png"
+                src="/images/arkane.png"
                 alt="arkane"
               />
             </div>
