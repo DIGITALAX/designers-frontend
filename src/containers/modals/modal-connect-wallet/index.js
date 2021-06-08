@@ -8,6 +8,7 @@ import Notification from '@components/notification';
 
 import { closeConnectMetamaskModal, closeNotInstalledMetamask } from '@actions/modals.actions';
 import userActions from '@actions/user.actions';
+import { WALLET_METAMASK, WALLET_ARKANE } from '@constants/global.constants';
 
 import styles from './styles.module.scss';
 
@@ -22,7 +23,7 @@ const ModalConnectWallet = ({
     dispatch(closeNotInstalledMetamask());
   };
 
-  const handleClick = () => dispatch(userActions.tryToLogin());
+  const handleClick = (source) => dispatch(userActions.tryToLogin(source));
 
   return (
     <>
@@ -30,10 +31,23 @@ const ModalConnectWallet = ({
         <Modal onClose={() => handleClose()} title={title} className={className}>
           <div className={styles.modalItem}>
             <div className={styles.modalLeftBox}>
+              <span className={styles.modalsTextForIcon}>Arkane Wallet</span>
+              <img
+                className={styles.modalIcon}
+                src="https://raw.githubusercontent.com/ArkaneNetwork/content-management/master/ads/icons/arkane-network.png"
+                alt="arkane"
+              />
+            </div>
+            <Button className={styles.modalButton} background="black" onClick={() => handleClick(WALLET_ARKANE)}>
+              {buttonText}
+            </Button>
+          </div>
+          <div className={styles.modalItem}>
+            <div className={styles.modalLeftBox}>
               <span className={styles.modalsTextForIcon}>{textForIcon}</span>
               <img className={styles.modalIcon} src={icon} alt="metamask" />
             </div>
-            <Button className={styles.modalButton} background="black" onClick={() => handleClick()}>
+            <Button className={styles.modalButton} background="black" onClick={() => handleClick(WALLET_METAMASK)}>
               {buttonText}
             </Button>
             {isShowNotificationConnectMetamask && (
@@ -62,7 +76,7 @@ ModalConnectWallet.propTypes = {
 
 ModalConnectWallet.defaultProps = {
   className: '',
-  title: 'Connect Metamask wallet',
+  title: 'Connect wallet',
   textForIcon: 'Metamask',
   icon: './images/icons/metamask.svg',
   buttonText: 'Connect Wallet',

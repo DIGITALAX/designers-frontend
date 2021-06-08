@@ -64,10 +64,10 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
     dispatch(accountActions.logout());
   };
 
-  return isLandingPage ? (
-    <LandingHeader/>
-  )
-  : (
+  // return isLandingPage ? (
+  //   <LandingHeader/>
+  // ) : (...)
+  return (
     <div className={cn(className, styles.wrapper, hasScrolled?styles.floatingNav:'')}>
       <div className={styles.leftBox}>
         <Logo />

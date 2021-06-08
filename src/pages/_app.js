@@ -1,6 +1,6 @@
 import 'animate.css';
 import 'react-toastify/dist/ReactToastify.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -55,6 +55,9 @@ const NetworkWrapper = (props) => {
 };
 
 const MyApp = ({ Component, pageProps, store, err }) => {
+
+  const [loadArkane, setLoadArkane] = useState(true);
+
   if (err) {
     Sentry.captureException(err, {
       extra: {},
@@ -68,6 +71,7 @@ const MyApp = ({ Component, pageProps, store, err }) => {
         <link rel="icon" type="image/png" href="/images/icons/favicon-digitalax.ico" />
         <link href="https://fonts.cdnfonts.com/css/internal-rainbows" rel="stylesheet" />
         <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet" />
+        {loadArkane && <script src="/arkane-network/web3-arkane-provider.js"></script>}
       </Head>
       <InitWrapper>
         <HeaderTopLine />

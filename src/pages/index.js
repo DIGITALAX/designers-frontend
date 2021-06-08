@@ -11,7 +11,7 @@ function Landing(props) {
       </div>
       <div className="relative">
         <video width="100%" muted autoPlay loop>
-          <source src="/v1.mp4" type="video/mp4" />
+          <source src="/video/v1.mp4" type="video/mp4" />
         </video>
 
       </div>
