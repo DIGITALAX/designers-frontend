@@ -12,7 +12,6 @@ const pinataOptions = {
 
 export const upload = async (file, metaJson) => {
     try {
-
         const cloudURL = 'https://digitalax.mypinata.cloud';
         // const cloudURL = 'https://gateway.pinata.cloud';
 
@@ -46,32 +45,4 @@ export const upload = async (file, metaJson) => {
         console.log('error --> ', error);
         return null;
     }
-    
-    // const options = {
-    //     pinataMetadata: {
-    //         name: 'CCCC',
-    //         keyvalues: {
-    //             customKey: 'customValue',
-    //             customKey2: 'customValue2'
-    //         }
-    //     },
-    //     pinataOptions: {
-    //         cidVersion: 0
-    //     }
-    // };
-
-    // pinata.pinFileToIPFS(file, options).then((result) => {
-    //     //handle results here
-    //     console.log('----result: ', result);
-    // }).catch((err) => {
-    //     //handle error here
-    //     console.log('----error: ', err);
-    // });
-    // pinata.testAuthentication().then((result) => {
-    //     //handle successful authentication here
-    //     console.log(result);
-    // }).catch((err) => {
-    //     //handle error here
-    //     console.log('error: ',err);
-    // });
 };
