@@ -14,7 +14,7 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 function Input(props) {
-  const { label, required, description } = props;
+  const { label, required, description, value, onChange } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [text, setText] = React.useState('');
@@ -40,7 +40,7 @@ function Input(props) {
         }
 
       </div>
-      <InputBase className="border-1 border-third bg-white h-9" />
+      <InputBase value={value} onChange={onChange} className="border-1 border-third bg-white h-9" />
     </div>
   );
 }

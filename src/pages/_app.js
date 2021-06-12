@@ -16,6 +16,8 @@ import { getIsInitialized, getChainId } from '@selectors/global.selectors';
 import { getEnabledNetworkByChainId } from '@services/network.service';
 import getOrCreateStore from '../lib/with-redux-store';
 
+import { UseWalletProvider } from 'use-wallet'
+
 import config from '../utils/config';
 import '../assets/scss/global.scss';
 import 'tailwindcss/dist/tailwind.css';
@@ -73,15 +75,17 @@ const MyApp = ({ Component, pageProps, store, err }) => {
         <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet" />
         {loadArkane && <script src="/arkane-network/web3-arkane-provider.js"></script>}
       </Head>
-      <InitWrapper>
-        <HeaderTopLine />
-        <Modals />
-        <NetworkWrapper>
-          <Component {...pageProps} />
-        </NetworkWrapper>
-        <Footer />
-      </InitWrapper>
-      <ToastContainer />
+      <UseWalletProvider chainId={80001}>
+        <InitWrapper>
+          <HeaderTopLine />
+          <Modals />
+          <NetworkWrapper>
+            <Component {...pageProps} />
+          </NetworkWrapper>
+          <Footer />
+        </InitWrapper>
+        <ToastContainer />
+      </UseWalletProvider>
     </Provider>
   );
 };
