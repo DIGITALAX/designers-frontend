@@ -1,8 +1,3 @@
-// const pinataSDK = require('@pinata/sdk');
-// const pinata = pinataSDK(process.env.PINATA_API_KEY, process.env.PINATA_SECRET_KEY);
-// const pinata = pinataSDK('36fe87ffe4b473e3cca9', 'ed8011351b78f3362828dfea423bf3e433fce99bafccbddc314a244f71cc3c6e');
-
-
 import axios from 'axios';
 
 const pinataOptions = {
