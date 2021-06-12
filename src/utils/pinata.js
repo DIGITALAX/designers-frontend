@@ -13,8 +13,8 @@ const pinataOptions = {
 export const upload = async (file, metaJson) => {
     try {
 
-        // const cloudURL = 'https://digitalax.mypinata.cloud';
-        const cloudURL = 'https://gateway.pinata.cloud';
+        const cloudURL = 'https://digitalax.mypinata.cloud';
+        // const cloudURL = 'https://gateway.pinata.cloud';
 
         let formData = new FormData();
         formData.append("file", file);
