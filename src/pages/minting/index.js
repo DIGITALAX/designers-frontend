@@ -38,7 +38,7 @@ function Minting(props) {
   const [issueNo, setIssueNo] = useState('');
   const [pattern, setPattern] = useState('');
   const [traits, setTraits] = useState('');
-  const [degree, setDegree] = useState('');
+  const [degree, setDegree] = useState('Common');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
 
@@ -51,6 +51,10 @@ function Minting(props) {
   }
 
   const handleContributeClick = async () => {
+    if (designerId === '' || issueNo === '' || pattern === '' || traits === '' || !file || description === '') {
+      setStatus(-1);
+      return;
+    }
     setStatus(1);
     try {
       const metaJson = {
@@ -134,7 +138,7 @@ function Minting(props) {
             <div className="w-1/2 flex flex-col mr-10">
               <Input label="Designer ID" required="true" description="Creator Name or pseudonym." value={designerId} onChange={(e) => setDesignerId(e.target.value)} />
               <Input label="Pattern, Material, Texture" value={pattern} onChange={(e) => setPattern(e.target.value)} />
-              <Input label="Degree of Exclusivity" value={degree} onChange={(e) => setDegree(e.target.value)} />
+              <Input disabled label="Degree of Exclusivity" value={degree} onChange={(e) => setDegree(e.target.value)} />
             </div>
             <div className="w-1/2 flex flex-col">
               <Input value={issueNo} onChange={(e) => setIssueNo(e.target.value)} label="Issue No." required="true" description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. " />
@@ -166,7 +170,8 @@ function Minting(props) {
             Contribute
           </button>
           <div>
-          { status === 1 && <h2 style={{ color: 'white' }}>Loading</h2> }
+          { status === -1 && <h2 style={{ color: 'red' }}>Please fill all fields</h2> }
+          { status === 1 && <h2 style={{ color: 'white' }}>Processing</h2> }
           { status === 2 && <h2 style={{ color: 'green' }}>Success</h2> }
           { status === 3 && <h2 style={{ color: 'red' }}>Failed</h2> }
           </div>
