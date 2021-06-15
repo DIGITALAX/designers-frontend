@@ -8,13 +8,9 @@ body {
   font-weight: 600 !important;
   background-color: black;
 
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  overflow-x: hidden;
 }
 
-body::-webkit-scrollbar {
-  display: none;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
