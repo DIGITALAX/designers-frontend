@@ -179,7 +179,6 @@ function Minting(props) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

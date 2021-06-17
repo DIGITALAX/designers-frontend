@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CircleMenu from '../../components/circle-menu';
 import Icon from '@material-ui/core/Icon';
 import Popper from '@material-ui/core/Popper';
 import InputBase from '@material-ui/core/InputBase';
 import Fade from '@material-ui/core/Fade';
 
-
-
 function Libraries(props) {
+
+  const [open, setOpen] = useState(true);
+  const handleClose = () => setOpen(false)
+
   return (
     <div>
       <div className="flex my-5 items-center">
@@ -27,7 +29,7 @@ function Libraries(props) {
       <div className="flex my-16">
         <img src="/images/designer_contribution.png" className="mx-auto"/>
       </div>
-      <CircleMenu />
+      {/* <CircleMenu /> */}
     </div>
   );
 }

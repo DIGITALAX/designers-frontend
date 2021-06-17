@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-// import Modal from '../../components/Modal';
+import React, { useState, useEffect } from "react";
+import Modal from '../../components/Modal';
+
+import { useWallet } from 'use-wallet'
 
 function Home(props) {
+
+  const wallet = useWallet();
+
+  const [comingModalOpen, setComingModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    wallet.connect();
+  }, []);
 
   const handleClick = () => {
     setOpen(true)
@@ -17,7 +27,6 @@ function Home(props) {
       <div className="relative" style={{ height: "976px" }} id="parentCo">
         <img src="/images/banner.png" alt="banner" className="absolute w-full h-full" />
         <img src="/images/open.svg" alt="open" className="absolute t-20 l-0 " style={{ width: "948px" }} />
-        {/* <Modal open={open} handleClose={handleClose}/> */}
       </div>
       <div>
         <p className="font-inter text-3xl text-white w-1204 mx-auto text-center mt-12">
@@ -31,25 +40,58 @@ function Home(props) {
         <div className="flex justify-between w-full">
           <div className="relative" style={{ width: "47%" }}>
             <img src="/images/product1.png" className="w-full" />
-            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" onClick={handleClick} />
+            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" onClick={() => {
+              if (wallet.status === 'connected') {
+                window.location.href = "/minting";
+                return;
+              }
+              setOpen(true);
+            }} />
           </div>
           <div className="relative" style={{ width: "48%"  }}>
             <img src="/images/product2.png" className="w-full" />
-            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce" />
+            <a href="/global">
+              <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce" />
+            </a>
           </div>
         </div>
 
         <div className="flex justify-between w-full mt-12">
           <div className="relative" style={{ width: "47%" }}>
             <img src="/images/product3.png" className="w-full" />
-            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" />
+            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" onClick={() => setComingModalOpen(true)} />
           </div>
           <div className="relative" style={{ width: "48%"  }}>
             <img src="/images/product4.png" className="w-full" />
-            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce" />
+            <a href="/fractional" >
+              <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce" />
+            </a>
           </div>
         </div>
       </div>
+
+      <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
+        <p className="text-gray-50 font-normal text-base font-inter text-center">
+          Coming Soon!
+        </p>
+      </Modal>
+
+      <Modal open={open} handleClose={handleClose}>
+        <p className="text-gray-50 font-normal text-base font-inter text-center">
+        <p className="text-gray-50 font-normal text-base font-inter text-center">
+          Hey! Please make sure to SIGN IN to contribute!
+        </p>
+        <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+          We are currently in BETA and whitelisting designers!
+        </p>
+        <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
+          If you would like to join the Global Designer Network and contribute to our on-chain open source libraries through Fractional Garment Ownership then please join our discord or telegram and reach out!
+        </p>
+        <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+          Join us on our mission as we storm the gates of the metaverse and enable the gatemakers for web3 fashion and beyond!
+        </p>
+        </p>
+      </Modal>
     </div>
   );
 }
