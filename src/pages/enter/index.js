@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
+// import { useSelector, useDispatch } from 'react-redux';
 import Modal from '../../components/modal';
 
+// import { getUser } from '@selectors/user.selectors';
+// import accountActions from '@actions/user.actions';
+
 import { useWallet } from 'use-wallet'
+import { useWeb3React } from '@web3-react/core';
 
 function Home(props) {
 
+  // const dispatch = useDispatch();
+  // const user = useSelector(getUser);
+  // if (!user) {
+  //   dispatch(accountActions.checkStorageAuth());
+  // }
+
   const wallet = useWallet();
+  const { chainId } = useWeb3React();
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
+  const [switchModalOpen, setSwitchModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -20,6 +33,18 @@ function Home(props) {
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const onContribute = () => {
+    // if (!user) {
+    //   setOpen(true);
+    //   return;
+    // }
+    if (chainId === 137) {
+      window.location.href = "/minting";
+      return;
+    }
+    setSwitchModalOpen(true);
   }
 
   return (
@@ -40,13 +65,7 @@ function Home(props) {
         <div className="flex justify-between w-full">
           <div className="relative" style={{ width: "47%" }}>
             <img src="/images/product1.png" className="w-full" />
-            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" onClick={() => {
-              if (wallet.status === 'connected') {
-                window.location.href = "/minting";
-                return;
-              }
-              setOpen(true);
-            }} />
+            <img src="/images/arrow.svg" className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce" onClick={onContribute} />
           </div>
           <div className="relative" style={{ width: "48%"  }}>
             <img src="/images/product2.png" className="w-full" />
@@ -73,6 +92,12 @@ function Home(props) {
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
         <p className="text-gray-50 font-normal text-base font-inter text-center">
           Coming Soon!
+        </p>
+      </Modal>
+
+      <Modal open={switchModalOpen} handleClose={() => setSwitchModalOpen(false)}>
+        <p className="text-gray-50 font-normal text-base font-inter text-center">
+          Please switch network to Matic on metamask
         </p>
       </Modal>
 
