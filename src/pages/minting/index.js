@@ -164,6 +164,7 @@ function Minting(props) {
                 className="text-black border-1 border-third bg-white"
                 rows={5}
                 multiline
+                style={{ paddingLeft: 12 }}
               />
             </div>
           </div>
