@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import clsx from "clsx"
 
-function SimpleModal(props) {
+function PopupModal(props) {
   const { open, handleClose, children } = props;
   console.log(open)
 
@@ -31,4 +31,4 @@ function SimpleModal(props) {
   );
 }
 
-export default SimpleModal;
+export default PopupModal;
