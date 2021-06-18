@@ -167,3 +167,20 @@ export const getResultedAuctionsByEndTimeGt = gql`
     }
   }
 `;
+
+export const getMaterialVS = gql`
+  {
+    digitalaxMaterialV2S(first: 1000) { 
+      id 
+      name 
+      image
+      tokenUri 
+      animation 
+      description 
+      attributes{ 
+        value 
+        type 
+      } 
+    } 
+  }
+`;

@@ -18,21 +18,23 @@ import { useTokenInfo } from '@hooks/token.info.hooks';
 // import styles from './styles.module.scss';
 // import './styles.modules.css';
 
-const CircleMenu = () => {
+const CircleMenu = ({ items }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentImg, setCurrentImg] = useState(0);
   const [currentMenuItem, setCurrentMenuItem] = useState(0);
-  const arr = [1, 2, 3, 4, 5, 6];
+  const arr = [1, 2, 3, 4, 5];
   const menuStyle = (item) => {
     return {
-      transform: `rotate(${item * 30 + 30 * (item - 1)}deg)`
+      transform: `rotate(${item * 60 + 60 * (item - 1)}deg)`
     }
   }
 
-  const menuItemStyle = (item) => {
+  const menuItemStyle = (item, index) => {
+    console.log('===item: ', item)
     return {
-      transform: `rotate(-${360/arr.length*item}deg)`,
-      backgroundImage: `url('/images/designers/item_${item}.jpeg')`
+      transform: `rotate(-${360/arr.length*index}deg)`,
+      backgroundImage: `url('/images/designers/item_${index}.jpeg')`
+      // backgroundImage: `url(${item.image})`
     }
   }
 
@@ -42,15 +44,20 @@ const CircleMenu = () => {
           <a className={cn("centerBtn", { 'active': menuOpen })} onClick={() => setMenuOpen(!menuOpen)}>+</a>
           {currentMenuItem != 0 && (<a className="closeBtn" onClick={() => setCurrentMenuItem(0)}>🏠</a>)}
           <ul className={cn("menu", { 'active': menuOpen })} style={menuStyle(currentMenuItem)}>
-            {arr.map(item => (
+            {items.map((item, index) => (
               <li
-                key={item}
-                onClick={() => setCurrentMenuItem(item)}
+                key={item.id}
+                onClick={() => setCurrentMenuItem(index+1)}
                 // onMouseOver={() => setCurrentImg(item)}
                 // onMouseLeave={() => setCurrentImg(0)}
-                style={menuItemStyle(item)}>
+                style={{
+                  transform: `rotate(-${360/items.length*(index+1)}deg)`,
+                  backgroundRepeat: 'round',
+                  backgroundImage: `url('/images/designers/item_${index+1}.jpeg')`
+                  // backgroundImage: `url(${item.image})`
+                }}>
                 <a>
-                  <span className="icon">{item}</span>
+                  <span className="icon">{item.name}</span>
                 </a>
               </li>
             ))}
@@ -59,13 +66,14 @@ const CircleMenu = () => {
           <svg height="0" width="0">
             <defs>
               <clipPath clipPathUnits="objectBoundingBox" id="sector">
-                <path
+                <circle cx="0.5" cy="0.5" r="0.5" />
+                {/* <path
                   fill="none"
                   stroke="#111"
                   strokeWidth="1"
                   className="sector"
                   d="M0.5,0.5 l0.5,0 A0.5,0.5 0 0,0 0.75,.066987298 z"
-                ></path>
+                ></path> */}
               </clipPath>
             </defs>
           </svg>

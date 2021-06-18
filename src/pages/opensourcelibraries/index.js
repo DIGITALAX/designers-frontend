@@ -5,10 +5,27 @@ import Popper from '@material-ui/core/Popper';
 import InputBase from '@material-ui/core/InputBase';
 import Fade from '@material-ui/core/Fade';
 
+import APIService from '@services/api/api.service';
+
 function Libraries(props) {
 
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false)
+
+  const [items, setItems] = useState([]);
+
+  console.log('===items: ', items);
+
+  async function getData() {
+    const result = await APIService.getMaterialVS();    
+    if (result && result.digitalaxMaterialV2S) {
+      setItems(result.digitalaxMaterialV2S.filter(item => item.image));
+    }
+  }
+
+  useEffect(() => {
+    getData();    
+  }, []);
 
   return (
     <div>
@@ -29,7 +46,7 @@ function Libraries(props) {
       <div className="flex my-16">
         <img src="/images/designer_contribution.png" className="mx-auto"/>
       </div>
-      {/* <CircleMenu /> */}
+      <CircleMenu items={items} />
     </div>
   );
 }

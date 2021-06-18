@@ -1,6 +1,6 @@
 import { request } from 'graphql-request';
 import config from '@utils/config';
-import { DEV_HTTP_NETWORK_URL } from '@constants/global.constants';
+import { DEV_HTTP_NETWORK_URL, MATIC_NETWORK_URL } from '@constants/global.constants';
 import {
   getAuctionsByIds,
   getAuctionsHistoryByTimestampGt,
@@ -11,6 +11,7 @@ import {
   getDesignersByIds,
   getAuctionsHistoryByIds,
   getAuctionContracts,
+  getMaterialVS
 } from '@services/api/gql.queries.api.service';
 
 class APIService {
@@ -62,6 +63,10 @@ class APIService {
     return fetch(
       `${config.EXCHANGE_API}/simple/price?ids=ethereum&vs_currencies=usd`
     ).then((response) => response.json());
+  }
+
+  async getMaterialVS() {
+    return request(MATIC_NETWORK_URL, getMaterialVS);
   }
 }
 
