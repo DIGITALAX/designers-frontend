@@ -1,34 +1,52 @@
 import React from 'react';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import clsx from "clsx"
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import styles from './styles.module.scss';
 
-function SimpleModal(props) {
-  const { open, handleClose, children } = props;
-  console.log(open)
-
-
-  return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      classes={{ paper: "bg-black outline rounded-lg border-2 border-black w-485" }}
-    >
-      <div style={{ backgroundColor: 'black' }}>
-        <p className="text-right text-gray-50 absolute r-2 cursor-pointer" onClick={() => handleClose()}>x</p>
-        <DialogContent className="mt-2">
-            { children }
-        </DialogContent>
+const Modal = ({
+  className, title, withCloseIcon, text, onClose, children, titleStyle,
+}) => (
+  <div className={styles.wrapper}>
+    <div className={cn(styles.modal, className)}>
+      {(title || withCloseIcon) && (
+        <div className={styles.modalHeader}>
+          {title && <p className={cn(styles.title, titleStyle)}>{title}</p>}
+          {withCloseIcon && (
+            <button
+              onClick={onClose}
+              className={styles.closeIcon}
+            >
+              <img src="./images/icons/close-button.svg" alt="close-icon" />
+            </button>
+          )}
+        </div>
+      )}
+      <div>
+        {!!text && text.map((item) => <p key={item} className={styles.modalBodyText}>{item}</p>)}
       </div>
-    </Dialog>
-  );
-}
+      {children}
+    </div>
+  </div>
+);
 
-export default SimpleModal;
+Modal.propTypes = {
+  className: PropTypes.any,
+  title: PropTypes.string,
+  withCloseIcon: PropTypes.bool,
+  text: PropTypes.array,
+  onClose: PropTypes.func,
+  children: PropTypes.any,
+  titleStyle: PropTypes.any,
+};
+
+Modal.defaultProps = {
+  className: '',
+  title: '',
+  withCloseIcon: true,
+  text: [],
+  onClose: () => {},
+  children: null,
+  titleStyle: {},
+};
+
+export default Modal;

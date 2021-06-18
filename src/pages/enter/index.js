@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import { useSelector, useDispatch } from 'react-redux';
-import Modal from '../../components/modal';
+import Modal from '../../components/modal/popup';
 
 // import { getUser } from '@selectors/user.selectors';
 // import accountActions from '@actions/user.actions';
