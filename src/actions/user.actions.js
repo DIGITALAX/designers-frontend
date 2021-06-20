@@ -15,6 +15,7 @@ import BaseActions from './base-actions';
 import api from '@services/api/espa/api.service';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
+import { openSuccessModal } from "@actions/modals.actions";
 
 class UserActions extends BaseActions {
 
@@ -102,9 +103,13 @@ class UserActions extends BaseActions {
     };
   }
 
-  tryAuthentication(account, signMsg, signature) {
+  tryAuthentication(account, signMsg, signature, isSignup) {
     return async (dispatch) => {
       try {
+        console.log('account: ', account)
+        console.log('signMsg: ', signMsg)
+        console.log('signature: ', signature)
+
         const data = await api.handleAuthentication(account, signMsg, signature);
         if (data) {
           const { returnData, secret } = data;
@@ -112,13 +117,21 @@ class UserActions extends BaseActions {
           localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
           localStorage.setItem(STORAGE_USER, JSON.stringify(returnData));
           localStorage.setItem(STORAGE_TOKEN, secret);
-          Router.push('/profile');
+          console.log("signin");
+          // Router.push('/');
         } else {
           dispatch(this.logout());
         }
       } catch (e) {
         console.error(e.message);
         dispatch(this.logout());
+      }
+      console.log("signup");
+      if(isSignup) {
+        dispatch(this.logout());
+        dispatch(openSuccessModal());
+      } else {
+        Router.push('/');
       }
 
       dispatch(closeSignupModal());
