@@ -41,6 +41,7 @@ function Minting(props) {
   const [degree, setDegree] = useState('Common');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
+  const [itemName, setItemName] = useState('');
 
   useEffect(() => {
     wallet.connect();
@@ -51,7 +52,7 @@ function Minting(props) {
   }
 
   const handleContributeClick = async () => {
-    if (designerId === '' || issueNo === '' || pattern === '' || traits === '' || !file || description === '') {
+    if (designerId === '' || issueNo === '' || pattern === '' || traits === '' || !file || description === '' || itemName === '') {
       setStatus(-1);
       return;
     }
@@ -77,6 +78,10 @@ function Minting(props) {
           {
             "trait_type": "Degree of Exclusivity",
             "value": degree
+          },
+          {
+            "trait_type": "Name of Item",
+            "value": itemName
           }
         ]
       }
@@ -104,6 +109,13 @@ function Minting(props) {
     setOpen((prev) => !prev);
     setText(text);
   };
+
+  const setValue = (func, value) => {
+    if (!value.includes('"')) {
+      func(value);
+    }
+  }
+
   return (
     <div className="flex flex-col pt-20 pb-16 mb-10 ml-16 pl-2" style={{ backgroundImage: "url('/images/minting_bg.png')", backgroundRepeat: "no-repeat", backgroundSize: "100% 100%" }}>
       <Popper open={open} anchorEl={anchorEl} placement="right" transition>
@@ -132,13 +144,14 @@ function Minting(props) {
         <div className='flex flex-col w-1/2 mt-12 mb-20'>
           <div className="flex justify-center">
             <div className="w-1/2 flex flex-col mr-10">
-              <Input label="Designer ID" required="true" description="Creator Name or pseudonym." value={designerId} onChange={(e) => setDesignerId(e.target.value)} />
-              <Input label="Pattern, Material, Texture" value={pattern} onChange={(e) => setPattern(e.target.value)} />
-              <Input disabled label="Degree of Exclusivity" value={degree} onChange={(e) => setDegree(e.target.value)} />
+              <Input label="Designer ID" required="true" description="Creator Name or pseudonym." value={designerId} onChange={(e) => setValue(setDesignerId, e.target.value)} />
+              <Input label="Pattern, Material, Texture" value={pattern} onChange={(e) => setValue(setPattern, e.target.value)} />
+              <Input disabled label="Degree of Exclusivity" value={degree} onChange={(e) => setValue(setDegree, e.target.value)} />
+              <Input label="Name of Item" value={itemName} onChange={(e) => setValue(setItemName, e.target.value)} />
             </div>
             <div className="w-1/2 flex flex-col">
-              <Input value={issueNo} onChange={(e) => setIssueNo(e.target.value)} label="Issue No." required="true" description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. " />
-              <Input value={traits} onChange={(e) => setTraits(e.target.value)} label="Unique Traits" required="true" description="Anything else that you want minted on chain with the contribution. Separate by commas." />
+              <Input value={issueNo} onChange={(e) => setValue(setIssueNo, e.target.value)} label="Issue No." required="true" description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. " />
+              <Input value={traits} onChange={(e) => setValue(setTraits, e.target.value)} label="Unique Traits" required="true" description="Anything else that you want minted on chain with the contribution. Separate by commas." />
               <div className="flex flex-col mt-10 w-full">
                 <div className="flex">
                   <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">File Upload</span>
@@ -160,7 +173,7 @@ function Minting(props) {
               <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">Description</span>
               <InputBase
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => setValue(setDescription, e.target.value)}
                 className="text-black border-1 border-third bg-white"
                 rows={5}
                 multiline
