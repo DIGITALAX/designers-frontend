@@ -8,30 +8,92 @@
   top: 0;
   left: 0;
   overflow: auto;
-  z-index: 3;
+  z-index: 13;
+  font-family: "Inter";
 }
 
 .modal {
-  background-color: #fff;
+  max-width: 1200px;
+  @media (max-width: 1300px) {
+    width: 90%;
+  }
+  margin: auto;
   padding: 48px;
+  @media (max-width: 980px) {
+    padding: 0;
+  }
   position: relative;
-  max-width: 840px;
-  margin: 200px auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.content {
+  width: 704px;
+  &.casual {
+    width: 840px;
+  }
+  @media (max-width: 870px) {
+    width: 100%;
+  }
+  position: relative;
+}
+.background_img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.wallets {
+  background-image: url("../../../public/create_wallet.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  border-radius: 50px;
+  padding: 36px 100px;
+  @media (max-width: 980px) {
+    padding:36px 10%;
+  }
+}
+.corner {
+  background-image: url('../../../public/corner.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  bottom: -20px;
+  right: -50px;
+  width: 128px;
+  height: 116px;
+  position: absolute;
+}
+.comment {
+  background-image: url('../../../public/comment.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  bottom: -180px;
+  right: -280px;
+  width: 304px;
+  height: 212px;
+  position: absolute;
 }
 
 .closeIcon {
   @include reset-button(); 
   @include active(); 
   position: absolute;
-  right: 32px;
-  top: 32px;
+  right: 30px;
+  top: 30px;
 }
 
 .title {
+  color: white;
   font-size: 2rem;
   line-height: 24px;
   font-weight: bold;
+  text-align: center;
   margin-bottom: 44px;
+  text-transform: uppercase;
 }
 
 .modalBodyText {
