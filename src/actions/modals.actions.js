@@ -32,6 +32,9 @@ export const closeModal = (modalNameInReducer, statusScroll) => (dispatch) => {
 export const openConnectMetamaskModal = () => (dispatch) => dispatch(openModal('isShowModalConnectMetamask', 'hideScroll'));
 export const closeConnectMetamaskModal = () => (dispatch) => dispatch(closeModal('isShowModalConnectMetamask', 'addScroll'));
 
+export const openConnectArkaneModal = () => (dispatch) => dispatch(openModal('isShowModalConnectArkane', 'hideScroll'));
+export const closeConnectArkaneModal = () => (dispatch) => dispatch(closeModal('isShowModalConnectArkane', 'addScroll'));
+
 export const openNotInstalledMetamask = () => (dispatch) => dispatch(openModal('isShowNotificationConnectMetamask'));
 export const closeNotInstalledMetamask = () => (dispatch) => dispatch(closeModal('isShowNotificationConnectMetamask'));
 
@@ -53,3 +56,6 @@ export const closeRaiseModal = () => (dispatch) => dispatch(closeModal('isShowMo
 
 export const openSignupModal = (params) => (dispatch) => dispatch(openModal('isShowModalSignup', 'hideScroll', params));
 export const closeSignupModal = () => (dispatch) => dispatch(closeModal('isShowModalSignup', 'addScroll'));
+
+export const openConnectMaticModal = (params) => (dispatch) => dispatch(openModal('isShowModalConnectMatic', 'hideScroll', params));
+export const closeConnectMaticModal = () => (dispatch) => dispatch(closeModal('isShowModalConnectMatic', 'addScroll'));

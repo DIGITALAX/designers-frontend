@@ -77,34 +77,6 @@ class UserActions extends BaseActions {
       }
     };
   }
-  // tryToLogin() {
-  //   return async (dispatch) => {
-  //     if (!isMetamaskInstalled()) {
-  //       dispatch(openNotInstalledMetamask());
-  //       return;
-  //     }
-
-  //     const { ethereum } = window;
-
-  //     try {
-  //       const [account] = await ethereum.request({
-  //         method: 'eth_requestAccounts',
-  //       });
-
-  //       if (!account) {
-  //         console.error('Account is epmty.');
-  //         return;
-  //       }
-
-  //       localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
-  //       dispatch(this.setValue('account', account));
-  //       dispatch(closeConnectMetamaskModal());
-  //       dispatch(openSignupModal());
-  //     } catch (e) {
-  //       console.error(e.message);
-  //     }
-  //   };
-  // }
 
   tryToSignup(account, userName, email, signMsg, ip) {
     return async (dispatch) => {
