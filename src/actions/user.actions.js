@@ -106,30 +106,27 @@ class UserActions extends BaseActions {
   //   };
   // }
 
-  tryToSignup(account, userName, email, signMsg, ip) {
+  tryToSignup(account, userName, email, discordUserName, signMsg, ip) {
     return async (dispatch) => {
       dispatch(this.setValue('isLoading', true));
+      var isSignup = false;
+      if(!signMsg) {
+        isSignup = true;
+      }
       if (!signMsg) {
-        const isProfanity = await api.checkProfanity(userName);
-        if (isProfanity) {
-          toast('We detected profanity in the username, please input a different one. If you believe this is a mistake, please get in touch with on our support channels');
-          dispatch(this.setValue('isLoading', false));
-          return;
-        }
-        signMsg = await api.handleSignUp(account, userName, email, ip);
+        signMsg = await api.handleSignUp(account, userName, email, discordUserName, ip);
         if (!signMsg) {
           toast.error('Sign Up is failed');
           dispatch(this.setValue('isLoading', false));
           return;
         }
       }
-
       const { signature } = await handleSignMessage({
         publicAddress: account,
         signMsg,
       });
 
-      dispatch(this.tryAuthentication(account, signMsg, signature));
+      dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
     };
   }
 
