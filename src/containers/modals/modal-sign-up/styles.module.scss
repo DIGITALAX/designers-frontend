@@ -10,15 +10,29 @@
   }
 }
 .modalButton {
-  width: 201px;
-  height: 32px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 20px !important;
   font-size: 1.125rem;
   line-height: 22px;
+  background-color: white;
+  font-family: 'Inter';
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: black;
+  &:hover {
+    color: #000000 !important;
+    --border-opacity: 0 !important;
+    border-color: white !important;
+  }
 }
 .inputItem {
   display: flex;
   flex-direction: column;
   label {
+    color: white;
     font-size: 0.75rem;
     font-weight: bold;
     margin-bottom: 9px;
@@ -35,8 +49,9 @@
     white-space: nowrap;
     position: absolute;
     margin-top: 72px;
-    font-size: 0.5rem;
-    color: #999999;
+    padding-left: 12px;
+    font-size: 0.75rem;
+    color: red;
   }
 }
 
@@ -86,4 +101,15 @@
 
 .userIdRow {
   position: relative;
+}
+
+.currentAddress {
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 }
