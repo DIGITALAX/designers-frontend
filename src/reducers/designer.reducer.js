@@ -523,6 +523,7 @@ const DEFAULT_FIELDS = Map({
     "QmUkSyTZtp2UKgmHNeKvJ36Uq8tgVWg3jyU2EDbGkQzBcq",
     "QmZ8LFgJbyMSbYghyvC7DijknJo4NCYYsUZ1F6ZhQYbh72",
     "QmSdgNUSUprH4aJcSx2z77gMtdv4w9reRCp1SMV2sL6Dph",
+    "QmfLmJqY37MDANfRJWQ4HNWe4gLUBk4aQ4K43aGSVfYJD2"
   ])
 });
 
