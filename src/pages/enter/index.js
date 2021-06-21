@@ -5,9 +5,9 @@ import Modal from '../../components/modal/popup';
 // import { getUser } from '@selectors/user.selectors';
 // import accountActions from '@actions/user.actions';
 
-import { useWallet } from 'use-wallet';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { getChainId } from '@selectors/global.selectors';
 
 function Home(props) {
   // const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function Home(props) {
 
   const router = useRouter();
   // const wallet = useWallet();
-  const { chainId } = useWeb3React();
+  const { chainId } = useSelector(getChainId);
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
