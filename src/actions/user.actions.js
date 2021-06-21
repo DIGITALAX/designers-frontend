@@ -94,12 +94,17 @@ class UserActions extends BaseActions {
           return;
         }
       }
-      const { signature } = await handleSignMessage({
-        publicAddress: account,
-        signMsg,
-      });
+      try {
+        const { signature } = await handleSignMessage({
+          publicAddress: account,
+          signMsg,
+        });
 
-      dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
+        dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
+      } catch (e) {
+        dispatch(this.setValue('isLoading', false));
+        console.log('error: ', e)
+      }
     };
   }
 
