@@ -21,7 +21,6 @@ const ModalSignUp = ({ className, title }) => {
   const params = useSelector(getModalParams);
 
   const [userName, setUserName] = useState('');
-  const [discordUserName, setDiscordUserName] = useState('');
   const [email, setEmail] = useState(params?.email);
 
   const account = useSelector(getAccount);
@@ -57,7 +56,7 @@ const ModalSignUp = ({ className, title }) => {
         return;
       }
     }
-    dispatch(userActions.tryToSignup(account, userName, email, discordUserName, signMsg, myIP));
+    dispatch(userActions.tryToSignup(account, userName, email, signMsg, myIP));
   };
 
   const userNameChanged = (username) => {

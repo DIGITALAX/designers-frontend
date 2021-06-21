@@ -79,27 +79,34 @@ class UserActions extends BaseActions {
     };
   }
 
-  tryToSignup(account, userName, email, discordUserName, signMsg, ip) {
+  tryToSignup(account, userName, email, signMsg, ip) {
     return async (dispatch) => {
       dispatch(this.setValue('isLoading', true));
+      console.log('-------------- here 1 ----------')
       var isSignup = false;
-      if(!signMsg) {
-        isSignup = true;
-      }
+
       if (!signMsg) {
-        signMsg = await api.handleSignUp(account, userName, email, discordUserName, ip);
+        isSignup = true;
+        signMsg = await api.handleSignUp(account, userName, email, ip);
         if (!signMsg) {
           toast.error('Sign Up is failed');
           dispatch(this.setValue('isLoading', false));
           return;
         }
       }
-      const { signature } = await handleSignMessage({
-        publicAddress: account,
-        signMsg,
-      });
 
-      dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
+      try {
+        console.log('-------------- before handleSignMessage ----------')
+        const { signature } = await handleSignMessage({
+          publicAddress: account,
+          signMsg,
+        });
+        console.log('-------------- after handleSignMessage ----------')
+        dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
+      } catch (e) {
+        dispatch(this.setValue('isLoading', false));
+        console.log('error: ', e)
+      }
     };
   }
 
