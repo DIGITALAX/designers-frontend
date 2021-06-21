@@ -18,7 +18,7 @@ function Home(props) {
 
   const router = useRouter();
   // const wallet = useWallet();
-  const { chainId } = useSelector(getChainId);
+  const chainId = useSelector(getChainId);
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
@@ -41,8 +41,6 @@ function Home(props) {
     //   setOpen(true);
     //   return;
     // }
-    console.log({ chainId });
-    console.log({ chainId: Number(chainId) });
     if (Number(chainId) === 137) {
       router.push('/minting');
       return;
