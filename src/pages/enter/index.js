@@ -41,6 +41,7 @@ function Home(props) {
     //   setOpen(true);
     //   return;
     // }
+    console.log({ chainId });
     console.log({ chainId: Number(chainId) });
     if (Number(chainId) === 137) {
       router.push('/minting');
