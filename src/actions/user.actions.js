@@ -5,7 +5,12 @@ import {
   openSignupModal,
 } from '@actions/modals.actions';
 import globalActions from '@actions/global.new.actions';
-import { STORAGE_IS_LOGGED_IN, STORAGE_USER, STORAGE_TOKEN, STORAGE_WALLET } from '@constants/storage.constants';
+import {
+  STORAGE_IS_LOGGED_IN,
+  STORAGE_USER,
+  STORAGE_TOKEN,
+  STORAGE_WALLET,
+} from '@constants/storage.constants';
 import { WALLET_METAMASK, WALLET_ARKANE } from '@constants/global.constants';
 import userReducer from '@reducers/user.reducer';
 import { handleSignMessage, isMetamaskInstalled } from '@services/metamask.service';
@@ -15,10 +20,9 @@ import BaseActions from './base-actions';
 import api from '@services/api/espa/api.service';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
-import { openSuccessModal } from "@actions/modals.actions";
+import { openSuccessModal } from '@actions/modals.actions';
 
 class UserActions extends BaseActions {
-
   handleArkaneWeb3Load() {
     return async (dispatch) => {
       try {
@@ -35,7 +39,7 @@ class UserActions extends BaseActions {
         dispatch(closeConnectMetamaskModal());
         dispatch(openSignupModal({ email }));
         dispatch(globalActions.changeNetwork('0x' + chainId.toString(16)));
-        dispatch(globalActions.setContractParams());
+        // dispatch(globalActions.setContractParams());
       } catch (e) {
         toast.error('Wallet Connect is failed');
       }
@@ -82,7 +86,7 @@ class UserActions extends BaseActions {
   tryToSignup(account, userName, email, signMsg, ip) {
     return async (dispatch) => {
       dispatch(this.setValue('isLoading', true));
-      console.log('-------------- here 1 ----------')
+      console.log('-------------- here 1 ----------');
       var isSignup = false;
 
       if (!signMsg) {
@@ -96,16 +100,16 @@ class UserActions extends BaseActions {
       }
 
       try {
-        console.log('-------------- before handleSignMessage ----------')
+        console.log('-------------- before handleSignMessage ----------');
         const { signature } = await handleSignMessage({
           publicAddress: account,
           signMsg,
         });
-        console.log('-------------- after handleSignMessage ----------')
+        console.log('-------------- after handleSignMessage ----------');
         dispatch(this.tryAuthentication(account, signMsg, signature, isSignup));
       } catch (e) {
         dispatch(this.setValue('isLoading', false));
-        console.log('error: ', e)
+        console.log('error: ', e);
       }
     };
   }
@@ -113,9 +117,9 @@ class UserActions extends BaseActions {
   tryAuthentication(account, signMsg, signature, isSignup) {
     return async (dispatch) => {
       try {
-        console.log('account: ', account)
-        console.log('signMsg: ', signMsg)
-        console.log('signature: ', signature)
+        console.log('account: ', account);
+        console.log('signMsg: ', signMsg);
+        console.log('signature: ', signature);
 
         const data = await api.handleAuthentication(account, signMsg, signature);
         if (data) {
@@ -124,7 +128,7 @@ class UserActions extends BaseActions {
           localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
           localStorage.setItem(STORAGE_USER, JSON.stringify(returnData));
           localStorage.setItem(STORAGE_TOKEN, secret);
-          console.log("signin");
+          console.log('signin');
           // Router.push('/');
         } else {
           dispatch(this.logout());
@@ -133,8 +137,8 @@ class UserActions extends BaseActions {
         console.error(e.message);
         dispatch(this.logout());
       }
-      console.log("signup");
-      if(isSignup) {
+      console.log('signup');
+      if (isSignup) {
         dispatch(this.logout());
         dispatch(openSuccessModal());
       } else {
@@ -162,7 +166,9 @@ class UserActions extends BaseActions {
         dispatch(this.setValue('isLoading', true));
         const isProfanity = await api.checkProfanity(user.username);
         if (isProfanity) {
-          toast('We detected profanity in the username, please input a different one. If you believe this is a mistake, please get in touch with on our support channels');
+          toast(
+            'We detected profanity in the username, please input a different one. If you believe this is a mistake, please get in touch with on our support channels'
+          );
           dispatch(this.setValue('isLoading', false));
           return;
         }
