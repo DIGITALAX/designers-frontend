@@ -17,16 +17,16 @@ function Home(props) {
   // }
 
   const router = useRouter();
-  const wallet = useWallet();
+  // const wallet = useWallet();
   const { chainId } = useWeb3React();
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    wallet.connect();
-  }, []);
+  // useEffect(() => {
+  //   wallet.connect();
+  // }, []);
 
   const handleClick = () => {
     setOpen(true);
