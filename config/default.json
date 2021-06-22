@@ -33,6 +33,7 @@
     "mainnet": "0x275f5Ad03be0Fa221B4C6649B8AeE09a42D9412A",
     "rinkeby": "0x13379fe0e6992180ed0ac5174a02479896f9c510"
   },
+  "ACCESS_CONTROL_ADDRESSES": "0xbe5c84e6b036cb41a7a6b5008b9427a5f4f1c9f5",
   "EXCHANGE_API": "https://api.coingecko.com/api/v3",
   "IMGIX_URL": "digitalax.imgix.net"
 }

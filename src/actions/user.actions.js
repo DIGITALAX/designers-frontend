@@ -21,6 +21,8 @@ import api from '@services/api/espa/api.service';
 import { toast } from 'react-toastify';
 import Router from 'next/router';
 import { openSuccessModal } from '@actions/modals.actions';
+import config from '@utils/config';
+import { getAccessControlContract } from '@services/contract.service';
 
 class UserActions extends BaseActions {
   handleArkaneWeb3Load() {
@@ -35,6 +37,7 @@ class UserActions extends BaseActions {
         } = authResult;
         const wallets = await window.web3.eth.getAccounts();
         localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
+        localStorage.setItem('account', wallets[0]);
         dispatch(this.setValue('account', wallets[0]));
         dispatch(closeConnectMetamaskModal());
         dispatch(openSignupModal({ email }));
@@ -128,6 +131,7 @@ class UserActions extends BaseActions {
           localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
           localStorage.setItem(STORAGE_USER, JSON.stringify(returnData));
           localStorage.setItem(STORAGE_TOKEN, secret);
+
           console.log('signin');
           // Router.push('/');
         } else {
@@ -156,6 +160,7 @@ class UserActions extends BaseActions {
       localStorage.removeItem(STORAGE_IS_LOGGED_IN);
       localStorage.removeItem(STORAGE_USER);
       localStorage.removeItem(STORAGE_TOKEN);
+      localStorage.removeItem('account');
       Router.push('/');
     };
   }
@@ -186,13 +191,27 @@ class UserActions extends BaseActions {
 
   checkStorageAuth() {
     return async (dispatch) => {
+      await setWeb3Provider();
       const user = getUser();
       const token = getAuthToken();
       if (!user || !token) {
         return;
       }
+      dispatch(this.setValue('account', localStorage.getItem('account')));
       dispatch(this.setValue('user', user));
     };
+  }
+
+  async checkWhitelisted(account) {
+    const accessControlContractAddress = config.ACCESS_CONTROL_ADDRESSES;
+    const contract = await getAccessControlContract(accessControlContractAddress);
+    if (!contract) return;
+    try {
+      const res = await contract.methods.hasMinterRole(account).call({ from: account });
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   uploadAvatar(file) {
