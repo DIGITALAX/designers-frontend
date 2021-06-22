@@ -156,8 +156,6 @@ function Minting(props) {
   const [text, setText] = useState('');
   const account = useSelector(getAccount);
 
-  const { library } = useWeb3React();
-
   const [status, setStatus] = useState(0);
 
   const [designerId, setDesignerId] = useState('');
@@ -220,10 +218,7 @@ function Minting(props) {
       if (!url) {
         return;
       }
-
-      const web3 = new Web3(library);
-      console.log({ web3 });
-      const contract = new web3.eth.Contract(abi, address);
+      const contract = new window.web3.eth.Contract(abi, address);
 
       let response = await contract.methods
         .createNewChildWithVerifiedRole(url, 1)
