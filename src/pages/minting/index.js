@@ -10,6 +10,8 @@ import { upload as UploadToPinata } from '../../utils/pinata';
 
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import { useSelector } from 'react-redux';
+import { getAccount } from '@selectors/user.selectors';
 
 const abi = [
   {
@@ -152,8 +154,9 @@ function Minting(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
+  const account = useSelector(getAccount);
 
-  const { library, account } = useWeb3React();
+  const { library } = useWeb3React();
 
   const [status, setStatus] = useState(0);
 
@@ -219,6 +222,7 @@ function Minting(props) {
       }
 
       const web3 = new Web3(library);
+      console.log({ web3 });
       const contract = new web3.eth.Contract(abi, address);
 
       let response = await contract.methods
