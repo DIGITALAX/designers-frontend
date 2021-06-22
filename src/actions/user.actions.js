@@ -191,12 +191,12 @@ class UserActions extends BaseActions {
 
   checkStorageAuth() {
     return async (dispatch) => {
-      await setWeb3Provider();
       const user = getUser();
       const token = getAuthToken();
       if (!user || !token) {
         return;
       }
+      await setWeb3Provider();
       dispatch(this.setValue('account', localStorage.getItem('account')));
       dispatch(this.setValue('user', user));
     };
@@ -207,7 +207,7 @@ class UserActions extends BaseActions {
     const contract = await getAccessControlContract(accessControlContractAddress);
     if (!contract) return;
     try {
-      const res = await contract.methods.hasMinterRole(account).call({ from: account });
+      const res = await contract.methods.hasVerifiedMinterRole(account).call({ from: account });
       return res;
     } catch (err) {
       console.log(err);
