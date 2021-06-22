@@ -219,7 +219,7 @@ function Minting(props) {
         return;
       }
       const contract = new window.web3.eth.Contract(abi, address);
-
+      console.log('this is before mint', address);
       let response = await contract.methods
         .createNewChildWithVerifiedRole(url, 1)
         .send({ from: account });
