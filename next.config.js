@@ -15,6 +15,7 @@ const {
   DEFAULT_WEB3_URL,
   MONA_TOKEN_ADDRESSES,
   DIGITAL_MARKETPLACE_ADDRESSES,
+  ACCESS_CONTROL_ADDRESSES,
 } = require('config');
 const withImages = require('next-images');
 
@@ -36,6 +37,7 @@ module.exports = withImages({
     DEFAULT_WEB3_URL,
     MONA_TOKEN_ADDRESSES,
     DIGITAL_MARKETPLACE_ADDRESSES,
+    ACCESS_CONTROL_ADDRESSES,
   },
   trailingSlash: true,
   assetPrefix: './',
@@ -43,10 +45,7 @@ module.exports = withImages({
     const originalEntry = cfg.entry;
     cfg.entry = async () => {
       const entries = await originalEntry();
-      if (
-        entries['main.js']
-        && !entries['main.js'].includes('./polyfills.js')
-      ) {
+      if (entries['main.js'] && !entries['main.js'].includes('./polyfills.js')) {
         entries['main.js'].unshift('./polyfills.js');
       }
       return entries;

@@ -2,45 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from '../../components/modal/popup';
 
-import { getUser } from '@selectors/user.selectors';
+import { getAccount, getUser } from '@selectors/user.selectors';
 import accountActions from '@actions/user.actions';
 
 import { useRouter } from 'next/router';
 import { getChainId } from '@selectors/global.selectors';
+import userActions from '@actions/user.actions';
+import { getEnabledNetworkByChainId } from '@services/network.service';
 
 function Home(props) {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const account = useSelector(getAccount);
   if (!user) {
     dispatch(accountActions.checkStorageAuth());
   }
 
   const router = useRouter();
-  // const wallet = useWallet();
   const chainId = useSelector(getChainId);
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
-
-  // useEffect(() => {
-  //   wallet.connect();
-  // }, []);
+  const [open1, setOpen1] = useState(false);
+  const [whitelisted, setWhitelisted] = useState(false);
 
   const handleClick = () => {
     setOpen(true);
+  };
+
+  const handleClose1 = () => {
+    setOpen1(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const fetchWhiteListed = async () => {
+      const resp = await userActions.checkWhitelisted(account);
+      if (resp !== whitelisted) setWhitelisted(resp);
+    };
+
+    if (account) {
+      fetchWhiteListed();
+    }
+  }, [account]);
+
   const onContribute = () => {
     if (!user) {
       setOpen(true);
       return;
     }
-    if (Number(chainId) === 137) {
+    if (!whitelisted) {
+      setOpen1(true);
+      return;
+    }
+    if (Number(chainId) === 137 || Number(chainId) === 80001) {
       router.push('/minting');
       return;
     }
@@ -136,6 +155,24 @@ function Home(props) {
           <p className="text-gray-50 font-normal text-base font-inter text-center">
             Hey! Please make sure to SIGN IN to contribute!
           </p>
+          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+            We are currently in BETA and whitelisting designers!
+          </p>
+          <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
+            If you would like to join the Global Designer Network and contribute to our on-chain
+            open source libraries through Fractional Garment Ownership then please join our discord
+            or telegram and reach out!
+          </p>
+          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+            Join us on our mission as we storm the gates of the metaverse and enable the gatemakers
+            for web3 fashion and beyond!
+          </p>
+        </p>
+      </Modal>
+
+      <Modal open={open1} handleClose={handleClose1}>
+        <p className="text-gray-50 font-normal text-base font-inter text-center">
+          <p className="text-gray-50 font-normal text-base font-inter text-center">Hey!</p>
           <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
             We are currently in BETA and whitelisting designers!
           </p>
