@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Modal from '../../components/modal/popup';
 
-// import { getUser } from '@selectors/user.selectors';
-// import accountActions from '@actions/user.actions';
+import { getUser } from '@selectors/user.selectors';
+import accountActions from '@actions/user.actions';
 
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
 import { getChainId } from '@selectors/global.selectors';
 
 function Home(props) {
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  if (!user) {
+    dispatch(accountActions.checkStorageAuth());
+  }
+
   const router = useRouter();
+  // const wallet = useWallet();
   const chainId = useSelector(getChainId);
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+
+  // useEffect(() => {
+  //   wallet.connect();
+  // }, []);
 
   const handleClick = () => {
     setOpen(true);
@@ -26,10 +36,10 @@ function Home(props) {
   };
 
   const onContribute = () => {
-    // if (!user) {
-    //   setOpen(true);
-    //   return;
-    // }
+    if (!user) {
+      setOpen(true);
+      return;
+    }
     if (Number(chainId) === 137) {
       router.push('/minting');
       return;
