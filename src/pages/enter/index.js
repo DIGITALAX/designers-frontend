@@ -10,23 +10,12 @@ import { useSelector } from 'react-redux';
 import { getChainId } from '@selectors/global.selectors';
 
 function Home(props) {
-  // const dispatch = useDispatch();
-  // const user = useSelector(getUser);
-  // if (!user) {
-  //   dispatch(accountActions.checkStorageAuth());
-  // }
-
   const router = useRouter();
-  // const wallet = useWallet();
   const chainId = useSelector(getChainId);
 
   const [comingModalOpen, setComingModalOpen] = useState(false);
   const [switchModalOpen, setSwitchModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
-
-  // useEffect(() => {
-  //   wallet.connect();
-  // }, []);
 
   const handleClick = () => {
     setOpen(true);
