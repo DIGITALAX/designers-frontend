@@ -463,7 +463,7 @@ const DEFAULT_FIELDS = Map({
     'QmayYHdVT84cA93pQ3BE7CJRoMuwqXRSYnc1V6yF6VTT6g',
     'Qmdj3uT97pFgmjvZHT3xWswVHdvYY4QH8FwtGGX2d7sEQz',
     'QmXx7NwPw5Bg9AgufPt4FNULddKwycovNjwPFWRafJU9SQ',
-    'QmbBdbVDEvEEBqffo3PYN8jwMHYH4BLTZKagQ3gxJnZnqX',
+    'QmSiBqX8C4VszN77ThwDbP1memTSadsmgGVyFr9AmUcMDP',
     'QmaLF9YiYgdyGcS8db8v8B6YxSZ6E4jz73hFsAB4Liagun',
     'QmNcSTL7iDTeyUtX9j7mA2yfm1VvQ3eTZ18Djg2pZ2sSdN',
     'QmQqUTyCA3Lyj3p7SgcqjceYyMDpThAsZXy9sZNXWAfQKq',
@@ -524,7 +524,7 @@ const DEFAULT_FIELDS = Map({
     'QmZ8LFgJbyMSbYghyvC7DijknJo4NCYYsUZ1F6ZhQYbh72',
     'QmSdgNUSUprH4aJcSx2z77gMtdv4w9reRCp1SMV2sL6Dph',
     'QmfLmJqY37MDANfRJWQ4HNWe4gLUBk4aQ4K43aGSVfYJD2',
-    'QmdnAiNvbf7DPZzMHrzapXt1LgT7QDDNA8yvrTnh21VEwV',
+    'QmQZTjiyWd5kSqmtXYc1XnFL1PW8YKvL7v69Uqn5X2HYqq',
   ]),
 });
 
