@@ -525,6 +525,7 @@ const DEFAULT_FIELDS = Map({
     'QmSdgNUSUprH4aJcSx2z77gMtdv4w9reRCp1SMV2sL6Dph',
     'QmfLmJqY37MDANfRJWQ4HNWe4gLUBk4aQ4K43aGSVfYJD2',
     'QmQZTjiyWd5kSqmtXYc1XnFL1PW8YKvL7v69Uqn5X2HYqq',
+    'QmRqBBUDSjdHfzTAoKAombFoDE4kU7q3jL6AcfnMd3FidZ'
   ]),
 });
 
