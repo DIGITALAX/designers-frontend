@@ -169,7 +169,7 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
               <Button onClick={() => handleClick()}>{buttonText}</Button>
             )}
           </div>
-          <a href="javascript:void(0);" className={styles.collapseIcon} onClick={onIconHander}>&#9776;</a>
+          {/* <a href="javascript:void(0);" className={styles.collapseIcon} onClick={onIconHander}>&#9776;</a> */}
         </div>
       </div>
     </div>
