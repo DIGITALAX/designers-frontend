@@ -88,7 +88,7 @@ const ModalSignUp = ({ className, title }) => {
                         <label>META ID</label>
                         <span className={styles.questionMark}>?</span>
                         <span className={styles.hint}>
-                          Username must not exceed 10 characters. No special characters allowed,
+                          No special characters allowed,
                           only numbers and letters.
                         </span>
                       </div>
