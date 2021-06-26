@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CircleMenu from '../../components/circle-menu';
+import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import Popper from '@material-ui/core/Popper';
 import InputBase from '@material-ui/core/InputBase';
@@ -13,8 +14,6 @@ function Libraries(props) {
   const handleClose = () => setOpen(false)
 
   const [items, setItems] = useState([]);
-
-  console.log('===items: ', items);
 
   async function getData() {
     const result = await APIService.getMaterialVS();    
@@ -46,7 +45,20 @@ function Libraries(props) {
       <div className="flex my-16">
         <img src="/images/designer_contribution.png" className="mx-auto"/>
       </div>
-      <CircleMenu items={items} />
+      <Grid container item xs={12}>
+        <Grid container item xs={3} justify="center">
+          <CircleMenu items={items} />
+        </Grid>
+        <Grid container item xs={3} justify="center">
+          <CircleMenu items={items} />
+        </Grid>
+        <Grid container item xs={3} justify="center">
+          <CircleMenu items={items} direction="Left" />
+        </Grid>
+        <Grid container item xs={3} justify="center">
+          <CircleMenu items={items} direction="Left" />
+        </Grid>
+      </Grid>
     </div>
   );
 }

@@ -1,96 +1,94 @@
-import React, { useState } from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import kebabCase from 'lodash.kebabcase';
-import ImportantProductInformation from '@containers/important-product-information';
-import SmallPhotoWithText from '@components/small-photo-with-text';
-import { getDesignerInfoById } from '@selectors/designer.selectors';
-import { getCardProductChartOptions } from '@services/graph.service';
-import { create2KURL } from '@services/imgix.service';
-import { getImageForCardProduct } from '@helpers/photo.helpers';
-import { PRODUCTS } from '@constants/router-constants';
-import { useTokenInfo } from '@hooks/token.info.hooks';
+import React from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { Paper } from "@material-ui/core";
 
-// import styles from './styles.module.scss';
-// import './styles.modules.css';
-
-const CircleMenu = ({ items }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [currentImg, setCurrentImg] = useState(0);
-  const [currentMenuItem, setCurrentMenuItem] = useState(0);
-  const arr = [1, 2, 3, 4, 5];
-  const menuStyle = (item) => {
-    return {
-      transform: `rotate(${item * 60 + 60 * (item - 1)}deg)`
-    }
-  }
-
-  const menuItemStyle = (item, index) => {
-    console.log('===item: ', item)
-    return {
-      transform: `rotate(-${360/arr.length*index}deg)`,
-      backgroundImage: `url('/images/designers/item_${index}.jpeg')`
-      // backgroundImage: `url(${item.image})`
-    }
-  }
-
-  return (
-      <div className="section">
-        <div className={cn("menuContainer", { 'active': currentMenuItem != 0 })}>
-          <a className={cn("centerBtn", { 'active': menuOpen })} onClick={() => setMenuOpen(!menuOpen)}>+</a>
-          {currentMenuItem != 0 && (<a className="closeBtn" onClick={() => setCurrentMenuItem(0)}>🏠</a>)}
-          <ul className={cn("menu", { 'active': menuOpen })} style={menuStyle(currentMenuItem)}>
-            {items.map((item, index) => (
-              <li
-                key={item.id}
-                onClick={() => setCurrentMenuItem(index+1)}
-                // onMouseOver={() => setCurrentImg(item)}
-                // onMouseLeave={() => setCurrentImg(0)}
-                style={{
-                  transform: `rotate(-${360/items.length*(index+1)}deg)`,
-                  backgroundRepeat: 'round',
-                  backgroundImage: `url('/images/designers/item_${index+1}.jpeg')`
-                  // backgroundImage: `url(${item.image})`
-                }}>
-                <a>
-                  <span className="icon">{item.name}</span>
-                </a>
-              </li>
-            ))}
-
-          </ul>
-          <svg height="0" width="0">
+const PiePaths = ({ count }) => {
+    const endx = Math.cos((360/count-90)*Math.PI/180)*0.5+0.5;
+    const endy = Math.sin((360/count-90)*Math.PI/180)*0.5+0.5;
+    
+    return  (
+        <svg height="0" width="0">
             <defs>
-              <clipPath clipPathUnits="objectBoundingBox" id="sector">
-                <circle cx="0.5" cy="0.5" r="0.5" />
-                {/* <path
-                  fill="none"
-                  stroke="#111"
-                  strokeWidth="1"
-                  className="sector"
-                  d="M0.5,0.5 l0.5,0 A0.5,0.5 0 0,0 0.75,.066987298 z"
-                ></path> */}
-              </clipPath>
+                <clipPath clipPathUnits="objectBoundingBox" id={'sector'+count}>
+                    <path fill="none" stroke="#111" d={"M0.5,0.5 L0.5,0 A0.5,0.5 0 0 1 "+endx+' '+endy+" z"}></path>
+                </clipPath>
             </defs>
-          </svg>
-        </div>
+        </svg>
+    );
+}
 
-        <div className={cn("detailContents", { "active": currentMenuItem != 0 })}>
-          <div className="bg-gray-400 h-1/2 p-20 text-center">Lorem ipsum dolor sit amet</div>
-          <div className="bg-gray-200 h-1/2 p-20 text-center">Lorem ipsum dolor sit amet</div>
-        </div>
+const Pie = ({ items, direction = 'Right' }) => {
+    const count = items.length;
+    const menu = useRef(null);
+    const curImage = useRef(null);
+    const imgViewer = useRef(null);
+    const title = useRef(null);
+    const description = useRef(null);
+    
+    useEffect(() => {
+        setTimeout(() => {
+            menu.current.classList.toggle("active");
+            menu.current.style.transition = "transform .25s ease-out, opacity .25s ease-in";
+        }, 1000);
+    }, []);
 
-        {/* <div className={cn("imageContents", { "active": currentImg != 0 })} style={{backgroundIamge: `url('/images/designers/item_${currentImg}.jpeg')`}}>
-        </div> */}
-        {/* <div className="detailContents">
-        <p className="text-white">Its Gold Dev</p>
-      </div> */}
-    </div>
-  );
+    const hovered = (item) => {
+        curImage.current.style.backgroundImage = `url(${item.image})`;
+        imgViewer.current.classList.remove('fadeOut' + direction);
+        imgViewer.current.classList.add('fadeIn' + direction);
+        title.current.innerHTML = "";
+        description.current.innerHTML = item.description;
+    }
+
+    const hleave = (when, e) => {
+        if((when === 1 && (e.relatedTarget && e.relatedTarget.classList.value.search("curImage") === -1 && e.relatedTarget.classList.value.search("imgViewer") === -1)) 
+            || (when === 2)) {
+            if(curImage.current !== null) {
+                imgViewer.current.classList.remove('fadeIn' + direction);
+                imgViewer.current.classList.add('fadeOut' + direction);
+            }
+        }
+    }
+
+    return  (
+        <div>
+            <section>
+                <div className="circlemenu_container">
+                    <ul className="circlemenu_ul" ref={menu}>
+                        {items.map((item, i) =>
+                            <li key={i} 
+                                style={{ transform : "rotate(-" + (360/count) * i + "deg)" , clipPath: "url(#sector"+count+")"}}
+                                onMouseEnter={() => hovered(item)}
+                                onMouseOut={(e) => hleave(1,e)}
+                            >
+                                <img className='circlemenu_piece_img' 
+                                    style={{ transform : "rotate(" + (360/count) * i + "deg)" }} 
+                                    src={item.image}
+                                />
+                                <span className='circlemenu_piespan'
+                                    style={{ right : (count>6) ? 25 + count/2 + "%" : 25 + "%" , top:100/count+"%",transform:"rotate("+180/count + "deg)"}}>
+                                    { item.name }
+                                </span>
+                            </li>
+                        )}
+                    </ul>
+                    <PiePaths count={count} />
+                </div>
+                <Paper className={"circlemenu_imgViewer fadeOut" + direction} 
+                    elevation={3} 
+                    ref={imgViewer}
+                >
+                    <div className="circlemenu_curImage"
+                        ref={curImage}
+                    >
+                        <div className="circlemenu_imgTitle" ref={title}></div>
+                        <div className="circlemenu_imgDescription" ref={description}></div>
+                    </div>
+                </Paper>
+                <div style={{ color: 'white', textAlign: 'center' }}>DIGITALAX</div>
+            </section>
+        </div>
+    );
 };
 
-export default CircleMenu;
+export default Pie;
