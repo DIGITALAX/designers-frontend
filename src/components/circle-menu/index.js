@@ -59,7 +59,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
             <section>
                 <div className="circlemenu_container">
                     <ul className="circlemenu_ul" ref={menu}>
-                        <div>
+                        {/* <div>
                             { count > 1 && items.map((item, i) =>
                                 <div
                                     className="circlemenu_borders"
@@ -69,8 +69,8 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                                     }}>
                                 </div>
                             )}
-                        </div>
-                        <div className="circlemenu_outlines"></div>
+                        </div> */}
+                        
                         { items.map((item, i) =>
                             <li key={i} 
                                 style={{ transform : "rotate(-" + (360/count) * i + "deg)" , clipPath: "url(#sector"+count+")"}}
