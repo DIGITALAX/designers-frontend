@@ -58,7 +58,7 @@ const Pie = ({ items, direction = 'Right' }) => {
                         {items.map((item, i) =>
                             <li key={i} 
                                 style={{ transform : "rotate(-" + (360/count) * i + "deg)" , clipPath: "url(#sector"+count+")"}}
-                                onMouseEnter={() => hovered(item)}
+                                onMouseOver={() => hovered(item)}
                                 onMouseOut={(e) => hleave(1,e)}
                             >
                                 <img className='circlemenu_piece_img' 

@@ -13,7 +13,86 @@ function Libraries(props) {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false)
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+    {
+        "animation": "",
+        "attributes": [
+            {
+                "type": "Designer ID",
+                "value": "DIGITALAX"
+            },
+            {
+                "type": "Degree of Exclusivity",
+                "value": "Common"
+            },
+            {
+                "type": "Issue No.",
+                "value": "1.1"
+            },
+            {
+                "type": "Unique Traits",
+                "value": "DRIP, Metaversal, REP IRL"
+            }
+        ],
+        "description": "Combat mysterious forces across the realms and summon the gods of space and time to level up throughout your Lucid Adventure.",
+        "id": "100001",
+        "image": "https://digitalax.mypinata.cloud/ipfs/QmNf1BNYkijdoTjXBJEJWDPT7HGv3oJ4gu3vLRVr4hrE4e",
+        "name": "Leveling Warrior",
+        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmRqBBUDSjdHfzTAoKAombFoDE4kU7q3jL6AcfnMd3FidZ"
+    },
+    {
+        "animation": "",
+        "attributes": [
+            {
+                "type": "Designer ID",
+                "value": "DIGITALAX"
+            },
+            {
+                "type": "Degree of Exclusivity",
+                "value": "Common"
+            },
+            {
+                "type": "Issue No.",
+                "value": "1.2"
+            },
+            {
+                "type": "Unique Traits",
+                "value": "DRIP, Metaversal, REP IRL"
+            }
+        ],
+        "description": "Enter a virtual world of floating castles amongst endless skies, where golden hue glow's fashion a transform from amateur to pro.",
+        "id": "100002",
+        "image": "https://digitalax.mypinata.cloud/ipfs/QmZZdUckQZmwsF45MqHFmMNSrKmGrzjkMNc31jubiV4wvj",
+        "name": "Sword Art",
+        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmbuAZqF6PqGxJk3vcBM5EJyiR3G7B4HRxwRcPRv634BWi"
+    },
+    {
+        "animation": "",
+        "attributes": [
+            {
+                "type": "Designer ID",
+                "value": "DIGITALAX"
+            },
+            {
+                "type": "Degree of Exclusivity",
+                "value": "Common"
+            },
+            {
+                "type": "Issue No.",
+                "value": "1.3"
+            },
+            {
+                "type": "Unique Traits",
+                "value": "DRIP, Metaversal, REP IRL"
+            }
+        ],
+        "description": "Keep pace with Shibuya Crossing as you begin your quest for GuildMaster and exchange a token of your pledge.",
+        "id": "100003",
+        "image": "https://gateway.pinata.cloud/ipfs/QmR6jFA6iMH8HGJwvE8JLAGvjecGncRL41Lt9z3nVUHEgq",
+        "name": "Tokyo Web",
+        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmV6nf689fo56Qr4XwLFtw4CjhD7Kk2tgceJ1b4ZQLQfhv"
+    }
+]);
 
   async function getData() {
     const result = await APIService.getMaterialVS();    
@@ -22,9 +101,11 @@ function Libraries(props) {
     }
   }
 
-  useEffect(() => {
-    getData();    
-  }, []);
+  // useEffect(() => {
+  //   getData();    
+  // }, []);
+
+  // console.log('===items: ', items)
 
   return (
     <div>
