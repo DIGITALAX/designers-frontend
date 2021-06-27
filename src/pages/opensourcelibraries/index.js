@@ -15,7 +15,86 @@ function Libraries(props) {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false)
 
-  const [items, setItems] = useState({});
+  const [items, setItems] = useState({
+    "Emma-Jane MacKinnon-Lee": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmPvR5BAnpUFinGcCvQkLcJ5mokomwduPNUp3UXorDMTwD",
+            "description": "sdfsd sdfsfs sfsdf "
+        }
+    ],
+    "Maria Pulido": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmTeiSM7FALgcLxtHbfV2TwFzj8pNy8QLV35d5Eu2vwDCh",
+            "description": "Poison Ivy Pattern Green Tile."
+        },
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmTeiSM7FALgcLxtHbfV2TwFzj8pNy8QLV35d5Eu2vwDCh",
+            "description": "Poison Ivy Pattern Green Tile."
+        }
+    ],
+    "ABigNeonGlitter": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmSKbgpVxmcMRvAcUrABxejnT92Wsg86rw7MskzotsCHJo",
+            "description": "This is the first pattern I extracted from a huge 'node' texture/panting made in Blender."
+        }
+    ],
+    "Fabeeo Breen": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmeyZStPtUtb5g9ndudgx3PdTnrxcUhEg4FRWmzrWzJMKL",
+            "description": "Ancient CryptoAmber pattern. From stones to data."
+        }
+    ],
+    "Jasmine Beane": [
+        {
+            "name": "pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmWhdcVSycMYNQ4oDo2D1TVctNySHTSKi3M468EYcbYUAf",
+            "description": "Tye dye animal print design with gold lips"
+        }
+    ],
+    "Aisha": [
+        {
+            "name": "Pattern ",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmSXZjajWAiGRhGuU8NYMmkoRaJYURikeyQaQcPwKmCya4",
+            "description": "Burst of colours in a marble pattern"
+        }
+    ],
+    "Majestic Apparell": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmRkvZgafMB6xGUofKLpbFNVEppgcRK88WzVH6iPnhDa67",
+            "description": "This pattern features an ash background with dramatic veins in Gray and Subtle golden tones creating an appreciative Luxurious feeling."
+        },
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmRkvZgafMB6xGUofKLpbFNVEppgcRK88WzVH6iPnhDa67",
+            "description": "This pattern features an ash background with dramatic veins in Gray and Subtle golden tones creating an appreciative Luxurious feeling."
+        },
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmR2fQg3dEGaMtgZ8ZDjVnmnb5g1U2YfeDVrm659c29Vq3",
+            "description": "This pattern features an sky blue background with dramatic veins in Royal Blue and Subtle golden tones creating an appreciative  Luxurious feeling."
+        }
+    ],
+    "Stella Achenbach": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/QmZ9JAUD464yJH66QJyMJ7qhys5MeMwBsjSBuC1sGAwP4Q",
+            "description": "The so-called vanishing twin syndrome inspires my project for this project. The idea of having a twin in your mother’s womb that will not survive the full journey of 9 months is painful yet an organic part of life itself. As a source of inspiration, I used placeholders for\nthe organic flow and the haptics of how something like this must feel if we could remember.\nThis is a four-part series here with:\n01- cyber retro sparkle"
+        }
+    ],
+    "Lorena Bello": [
+        {
+            "name": "Pattern",
+            "image": "https://digitalax.mypinata.cloud/ipfs/Qme47b1HvTAbwzwhoeqmbwmLUg1gDEf4aUaPsTDN5hdniw",
+            "description": "Maxi print with abstract flowers, urban and vibrant. Pink Blooms is a digital expressionism artwork based on real bloom pictures. A pattern made to break the reality."
+        }
+    ]
+});
 
   const designerCIDs = useSelector(getAllDesignerCIDs());
 
@@ -47,11 +126,12 @@ function Libraries(props) {
         }
       }
       setItems(data);
+      console.log('==data: ', data);
     }
   }
 
   useEffect(() => {
-    getData();    
+    // getData();    
   }, []);
 
   return (

@@ -159,10 +159,15 @@
 }
 .circlemenu_imgDescription {
   position:absolute;
-  text-align:center;
-  color:black;
-  margin-top:40%;
+  bottom: 0px;
   width:100%;
+  height: 200px;
+  background: black;
+  opacity: 0.46;
+  text-align:left;
+  color:white;
+  padding-left: 20px;
+  padding-top: 10px;
   pointer-events: none;
   user-select: none;
 }
