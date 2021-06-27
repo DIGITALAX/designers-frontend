@@ -68,8 +68,8 @@ function Libraries(props) {
       </div>
       <Grid container item xs={12}>
         { Object.keys(items).map((key, index) => (
-          <Grid container item xs={3} justify="center">
-            <CircleMenu items={items[key]} keyName={key} direction={index % 4 < 2 ? "Right" : "Left"} />
+          <Grid container item xs={4} justify="center">
+            <CircleMenu items={items[key]} keyName={key} direction={index % 3 < 2 ? "Right" : "Left"} />
           </Grid>
         )) }
         {/* <Grid container item xs={3} justify="center">
