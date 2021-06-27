@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import CircleMenu from '../../components/circle-menu';
 import { Grid } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
@@ -6,6 +7,7 @@ import Popper from '@material-ui/core/Popper';
 import InputBase from '@material-ui/core/InputBase';
 import Fade from '@material-ui/core/Fade';
 
+import { getAllDesignerCIDs } from '@selectors/designer.selectors';
 import APIService from '@services/api/api.service';
 
 function Libraries(props) {
@@ -15,7 +17,16 @@ function Libraries(props) {
 
   const [items, setItems] = useState({});
 
+  const designerCIDs = useSelector(getAllDesignerCIDs());
+
   async function getData() {
+    const idLabel = "Designer ID";
+    let ids = [];
+    for (const cid of designerCIDs) {
+      const res = await fetch(`https://digitalax.mypinata.cloud/ipfs/${cid}`);
+      const rdata = await res.json();
+      ids.push(rdata[idLabel]);
+    }
     const result = await APIService.getMaterialVS();
     const { digitalaxMaterialV2S } = result;
     if (digitalaxMaterialV2S) {
@@ -23,8 +34,8 @@ function Libraries(props) {
       for (const item of digitalaxMaterialV2S) {
         const res = await fetch(item.tokenUri);
         const rdata = await res.json();
-        if (rdata["image_url"] && rdata["Designer ID"]) {
-          const designerId = rdata["Designer ID"];
+        if (rdata["image_url"] && rdata[idLabel] && ids.includes(rdata[idLabel])) {
+          const designerId = rdata[idLabel];
           if (!data[designerId]) {
             data[designerId] = [];
           }
@@ -36,16 +47,12 @@ function Libraries(props) {
         }
       }
       setItems(data);
-      console.log('==data: ', data, Object.keys(data));
-      // setItems(result.digitalaxMaterialV2S.filter(item => item.image));
     }
   }
 
   useEffect(() => {
     getData();    
   }, []);
-
-  // console.log('===items: ', items)
 
   return (
     <div>
