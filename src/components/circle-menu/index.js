@@ -10,14 +10,18 @@ const PiePaths = ({ count }) => {
         <svg height="0" width="0">
             <defs>
                 <clipPath clipPathUnits="objectBoundingBox" id={'sector'+count}>
-                    <path fill="none" stroke="#111" d={"M0.5,0.5 L0.5,0 A0.5,0.5 0 0 1 "+endx+' '+endy+" z"}></path>
+                    { count !== 1 ? (
+                        <path fill="none" stroke="#111" d={"M0.5,0.5 L0.5,0 A0.5,0.5 0 0 1 "+endx+' '+endy+" z"}></path>
+                    ) : (
+                        <path fill="none" stroke="#111" d="M0.5,0.5 L0.5,0 A0.5,0.5 0 1 1 0.49899999999 0 z"></path>
+                    ) }
                 </clipPath>
             </defs>
         </svg>
     );
 }
 
-const Pie = ({ items, direction = 'Right' }) => {
+const Pie = ({ items, keyName, direction = 'Right' }) => {
     const count = items.length;
     const menu = useRef(null);
     const curImage = useRef(null);
@@ -55,7 +59,19 @@ const Pie = ({ items, direction = 'Right' }) => {
             <section>
                 <div className="circlemenu_container">
                     <ul className="circlemenu_ul" ref={menu}>
-                        {items.map((item, i) =>
+                        <div>
+                            { count > 1 && items.map((item, i) =>
+                                <div
+                                    className="circlemenu_borders"
+                                    style={{
+                                        height: 184,
+                                        transform:"rotate("+((360/count)*i-180)+"deg)"
+                                    }}>
+                                </div>
+                            )}
+                        </div>
+                        <div className="circlemenu_outlines"></div>
+                        { items.map((item, i) =>
                             <li key={i} 
                                 style={{ transform : "rotate(-" + (360/count) * i + "deg)" , clipPath: "url(#sector"+count+")"}}
                                 onMouseOver={() => hovered(item)}
@@ -65,10 +81,10 @@ const Pie = ({ items, direction = 'Right' }) => {
                                     style={{ transform : "rotate(" + (360/count) * i + "deg)" }} 
                                     src={item.image}
                                 />
-                                <span className='circlemenu_piespan'
+                                {/* <span className='circlemenu_piespan'
                                     style={{ right : (count>6) ? 25 + count/2 + "%" : 25 + "%" , top:100/count+"%",transform:"rotate("+180/count + "deg)"}}>
                                     { item.name }
-                                </span>
+                                </span> */}
                             </li>
                         )}
                     </ul>
@@ -77,6 +93,7 @@ const Pie = ({ items, direction = 'Right' }) => {
                 <Paper className={"circlemenu_imgViewer fadeOut" + direction} 
                     elevation={3} 
                     ref={imgViewer}
+                    onMouseLeave={(e) => hleave(2,e)}
                 >
                     <div className="circlemenu_curImage"
                         ref={curImage}
@@ -85,7 +102,7 @@ const Pie = ({ items, direction = 'Right' }) => {
                         <div className="circlemenu_imgDescription" ref={description}></div>
                     </div>
                 </Paper>
-                <div style={{ color: 'white', textAlign: 'center' }}>DIGITALAX</div>
+                <div style={{ color: 'white', textAlign: 'center' }}>{keyName}</div>
             </section>
         </div>
     );

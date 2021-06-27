@@ -13,97 +13,37 @@ function Libraries(props) {
   const [open, setOpen] = useState(true);
   const handleClose = () => setOpen(false)
 
-  const [items, setItems] = useState([
-    {
-        "animation": "",
-        "attributes": [
-            {
-                "type": "Designer ID",
-                "value": "DIGITALAX"
-            },
-            {
-                "type": "Degree of Exclusivity",
-                "value": "Common"
-            },
-            {
-                "type": "Issue No.",
-                "value": "1.1"
-            },
-            {
-                "type": "Unique Traits",
-                "value": "DRIP, Metaversal, REP IRL"
-            }
-        ],
-        "description": "Combat mysterious forces across the realms and summon the gods of space and time to level up throughout your Lucid Adventure.",
-        "id": "100001",
-        "image": "https://digitalax.mypinata.cloud/ipfs/QmNf1BNYkijdoTjXBJEJWDPT7HGv3oJ4gu3vLRVr4hrE4e",
-        "name": "Leveling Warrior",
-        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmRqBBUDSjdHfzTAoKAombFoDE4kU7q3jL6AcfnMd3FidZ"
-    },
-    {
-        "animation": "",
-        "attributes": [
-            {
-                "type": "Designer ID",
-                "value": "DIGITALAX"
-            },
-            {
-                "type": "Degree of Exclusivity",
-                "value": "Common"
-            },
-            {
-                "type": "Issue No.",
-                "value": "1.2"
-            },
-            {
-                "type": "Unique Traits",
-                "value": "DRIP, Metaversal, REP IRL"
-            }
-        ],
-        "description": "Enter a virtual world of floating castles amongst endless skies, where golden hue glow's fashion a transform from amateur to pro.",
-        "id": "100002",
-        "image": "https://digitalax.mypinata.cloud/ipfs/QmZZdUckQZmwsF45MqHFmMNSrKmGrzjkMNc31jubiV4wvj",
-        "name": "Sword Art",
-        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmbuAZqF6PqGxJk3vcBM5EJyiR3G7B4HRxwRcPRv634BWi"
-    },
-    {
-        "animation": "",
-        "attributes": [
-            {
-                "type": "Designer ID",
-                "value": "DIGITALAX"
-            },
-            {
-                "type": "Degree of Exclusivity",
-                "value": "Common"
-            },
-            {
-                "type": "Issue No.",
-                "value": "1.3"
-            },
-            {
-                "type": "Unique Traits",
-                "value": "DRIP, Metaversal, REP IRL"
-            }
-        ],
-        "description": "Keep pace with Shibuya Crossing as you begin your quest for GuildMaster and exchange a token of your pledge.",
-        "id": "100003",
-        "image": "https://gateway.pinata.cloud/ipfs/QmR6jFA6iMH8HGJwvE8JLAGvjecGncRL41Lt9z3nVUHEgq",
-        "name": "Tokyo Web",
-        "tokenUri": "https://digitalax.mypinata.cloud/ipfs/QmV6nf689fo56Qr4XwLFtw4CjhD7Kk2tgceJ1b4ZQLQfhv"
-    }
-]);
+  const [items, setItems] = useState({});
 
   async function getData() {
-    const result = await APIService.getMaterialVS();    
-    if (result && result.digitalaxMaterialV2S) {
-      setItems(result.digitalaxMaterialV2S.filter(item => item.image));
+    const result = await APIService.getMaterialVS();
+    const { digitalaxMaterialV2S } = result;
+    if (digitalaxMaterialV2S) {
+      let data = {};
+      for (const item of digitalaxMaterialV2S) {
+        const res = await fetch(item.tokenUri);
+        const rdata = await res.json();
+        if (rdata["image_url"] && rdata["Designer ID"]) {
+          const designerId = rdata["Designer ID"];
+          if (!data[designerId]) {
+            data[designerId] = [];
+          }
+          data[designerId].push({
+            name: rdata["attributes"][0].value,
+            image: rdata["image_url"],
+            description: rdata["description"]
+          })
+        }
+      }
+      setItems(data);
+      console.log('==data: ', data, Object.keys(data));
+      // setItems(result.digitalaxMaterialV2S.filter(item => item.image));
     }
   }
 
-  // useEffect(() => {
-  //   getData();    
-  // }, []);
+  useEffect(() => {
+    getData();    
+  }, []);
 
   // console.log('===items: ', items)
 
@@ -127,10 +67,12 @@ function Libraries(props) {
         <img src="/images/designer_contribution.png" className="mx-auto"/>
       </div>
       <Grid container item xs={12}>
-        <Grid container item xs={3} justify="center">
-          <CircleMenu items={items} />
-        </Grid>
-        <Grid container item xs={3} justify="center">
+        { Object.keys(items).map((key, index) => (
+          <Grid container item xs={3} justify="center">
+            <CircleMenu items={items[key]} keyName={key} direction={index % 4 < 2 ? "Right" : "Left"} />
+          </Grid>
+        )) }
+        {/* <Grid container item xs={3} justify="center">
           <CircleMenu items={items} />
         </Grid>
         <Grid container item xs={3} justify="center">
@@ -138,7 +80,7 @@ function Libraries(props) {
         </Grid>
         <Grid container item xs={3} justify="center">
           <CircleMenu items={items} direction="Left" />
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );
