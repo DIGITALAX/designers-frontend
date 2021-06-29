@@ -55,7 +55,7 @@ function Libraries(props) {
   }, []);
 
   return (
-    <div>
+    <div style={{ marginBottom: 30 }}>
       <div className="flex my-5 items-center">
         <img src="/images/on-chain.png" style={{width: "500px", marginLeft: "40px"}} />
         <img src="/images/opensource.png" style={{width: "900px", marginLeft: "50px"}} />
@@ -79,15 +79,6 @@ function Libraries(props) {
             <CircleMenu items={items[key]} keyName={key} direction={index % 3 < 2 ? "Right" : "Left"} />
           </Grid>
         )) }
-        {/* <Grid container item xs={3} justify="center">
-          <CircleMenu items={items} />
-        </Grid>
-        <Grid container item xs={3} justify="center">
-          <CircleMenu items={items} direction="Left" />
-        </Grid>
-        <Grid container item xs={3} justify="center">
-          <CircleMenu items={items} direction="Left" />
-        </Grid> */}
       </Grid>
     </div>
   );

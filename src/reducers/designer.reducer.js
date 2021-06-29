@@ -461,7 +461,7 @@ const DEFAULT_FIELDS = Map({
     'QmSiKL12E9qoWEhPypkKS3n7pEAzyXhZu9dRyVryMmxTBB',
     'QmbdkU6heGFcJaaL3f5pt1kinSracEKTrgG7Q6RxbPMDzS',
     'QmayYHdVT84cA93pQ3BE7CJRoMuwqXRSYnc1V6yF6VTT6g',
-    'Qmdj3uT97pFgmjvZHT3xWswVHdvYY4QH8FwtGGX2d7sEQz',
+    'QmU5dnPHPp524eYQiQLhKHxntHKwS56yvRwJyCfAue2Bam',
     'QmXx7NwPw5Bg9AgufPt4FNULddKwycovNjwPFWRafJU9SQ',
     'QmSiBqX8C4VszN77ThwDbP1memTSadsmgGVyFr9AmUcMDP',
     'QmaLF9YiYgdyGcS8db8v8B6YxSZ6E4jz73hFsAB4Liagun',
@@ -527,7 +527,8 @@ const DEFAULT_FIELDS = Map({
     'QmQZTjiyWd5kSqmtXYc1XnFL1PW8YKvL7v69Uqn5X2HYqq',
     'QmRqBBUDSjdHfzTAoKAombFoDE4kU7q3jL6AcfnMd3FidZ',
     'QmbuAZqF6PqGxJk3vcBM5EJyiR3G7B4HRxwRcPRv634BWi',
-    'QmV6nf689fo56Qr4XwLFtw4CjhD7Kk2tgceJ1b4ZQLQfhv'
+    'QmV6nf689fo56Qr4XwLFtw4CjhD7Kk2tgceJ1b4ZQLQfhv',
+    'QmRitnZxbZkZX2aVzL88GBYK1FNQC2gVeBJrz1NCKqu2ta'
   ]),
 });
 
