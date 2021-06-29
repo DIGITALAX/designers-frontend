@@ -20,22 +20,22 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
   const [hasScrolled, setHasScrolled] = useState(false)
   const [isCollapse, setIsCollapse] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      const offset = 0
-      const { scrollTop } = document.documentElement
-      const scrolled = scrollTop > offset
+  // useEffect(() => {
+  //   const handleScroll = throttle(() => {
+  //     const offset = 0
+  //     const { scrollTop } = document.documentElement
+  //     const scrolled = scrollTop > offset
 
-      if (hasScrolled !== scrolled) {
-        setHasScrolled(scrolled)
-      }
-    }, 200)
+  //     if (hasScrolled !== scrolled) {
+  //       setHasScrolled(scrolled)
+  //     }
+  //   }, 200)
 
-    document.addEventListener('scroll', handleScroll)
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [hasScrolled])
+  //   document.addEventListener('scroll', handleScroll)
+  //   return () => {
+  //     document.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [hasScrolled])
 
   const dispatch = useDispatch();
   const user = useSelector(getUser);
@@ -169,7 +169,7 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
               <Button onClick={() => handleClick()}>{buttonText}</Button>
             )}
           </div>
-          {/* <a href="javascript:void(0);" className={styles.collapseIcon} onClick={onIconHander}>&#9776;</a> */}
+          <a href="javascript:void(0);" className={styles.collapseIcon} onClick={onIconHander}>&#9776;</a>
         </div>
       </div>
     </div>
