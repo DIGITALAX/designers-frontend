@@ -9,7 +9,7 @@ const Logo = ({ className }) => (
   <Link href={INDEX_PATH}>
     <a className={cn(className, styles.wrapper)}>
       {/* <img src="./images/icons/logo.svg" alt="logo" /> */}
-      <p className="font-rainbow text-white text-xl font-normal">Digitalax</p>
+      <p className="font-rainbow text-white text-xl font-normal logotext">Digitalax</p>
       <p className={styles.description}>The Digital Fashion Engine</p>
     </a>
   </Link>

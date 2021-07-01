@@ -10,6 +10,29 @@ import { getChainId } from '@selectors/global.selectors';
 import userActions from '@actions/user.actions';
 import { getEnabledNetworkByChainId } from '@services/network.service';
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 function Home(props) {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
@@ -26,6 +49,12 @@ function Home(props) {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [whitelisted, setWhitelisted] = useState(false);
+  const screenWidth = useWindowDimensions().width;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    screenWidth > 376 ? setIsMobile(false) : setIsMobile(true);
+  }, [screenWidth]);
 
   const handleClick = () => {
     setOpen(true);
@@ -68,75 +97,110 @@ function Home(props) {
 
   return (
     <div className="flex flex-col">
-      <div className="relative" style={{ height: '976px' }} id="parentCo">
-        <img src="/images/banner.png" alt="banner" className="absolute w-full h-full" />
-        <img
-          src="/images/open.svg"
-          alt="open"
-          className="absolute t-20 l-0 "
-          style={{ width: '948px' }}
-        />
+      <div className="relative enterheader" id="parentCo">
+        <img src="/images/banner.png" alt="banner" className="md:absolute w-full md:h-full" />
+        <img src="/images/open.svg" alt="open" className="absolute t-20 l-0 openimg" />
       </div>
-      <div>
-        <p className="font-inter text-3xl text-white w-1204 mx-auto text-center mt-12">
+      <div style={{marginBottom:45}}>
+        <p className="font-inter text-3xl text-white md:w-1204 sm:w-auto p-12 mx-auto text-center mt-12 entertext">
           It’s often the case that we have to conform to a framework set by gatekeepers in our
           society. These gatekeepers have been around in every society since the dawn of
           agriculture. It’s something that so many of us simply must accept with no plausible
           alternative. Our current centralised economies incentivise an all out war for whoever can
           control the chokepoints for value exchange — because the model is extractive at its root.
         </p>
-        <p className="font-inter text-3xl text-white w-1204 mx-auto text-center mt-12">
+        <p className="font-inter text-3xl text-white md:w-1204 sm:w-auto p-12 mx-auto text-center md:mt-12 sm:mt-0 entertext">
           DIGITALAX is operating for a decentralised commercial environment where all players and
           creators have the ability to spin up a personal decentralised realm with dynamic access
           keys. We are growing out our ecosystem to continue to include more savvy doorways and
           access channels for more players and creators to leverage off of.
         </p>
       </div>
-      <div
-        className="mx-24 mt-10 pt-9 pb-16 pl-20 pr-12"
-        style={{
-          background: "url('/images/background.png') no-repeat",
-          backgroundSize: '100% 100%',
-        }}
-      >
-        <div className="flex justify-between w-full">
-          <div className="relative" style={{ width: '47%' }}>
-            <img src="/images/product1.png" className="w-full" />
+      <div className="md:mx-24 md:mt-10 md:pt-9 md:pb-16 md:pl-20 md:pr-12 stripebackground">
+        <div className="md:flex md:justify-between w-full">
+          {/* contribute */}
+          <div className="relative productimg">
+            <img src="/images/product1.png" className="md:w-full enterimg" alt="" />
             <img
               src="/images/arrow.svg"
               className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
               onClick={onContribute}
+              alt=""
             />
           </div>
-          <div className="relative" style={{ width: '48%' }}>
-            <img src="/images/product2.png" className="w-full" />
-            <a href="/global">
+
+          {!isMobile ? (
+            <div className="relative productimg">
+              <img src="/images/product2.png" className="w-full enterimg" alt="" />
+              <a href="/global">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
+            </div>
+          ) : (
+            <div className="relative productimg">
+              <img src="/images/product3.png" className="w-full enterimg" alt="" />
               <img
                 src="/images/arrow.svg"
-                className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                onClick={() => setComingModalOpen(true)}
+                alt=""
               />
-            </a>
-          </div>
+            </div>
+          )}
         </div>
 
-        <div className="flex justify-between w-full mt-12">
-          <div className="relative" style={{ width: '47%' }}>
-            <img src="/images/product3.png" className="w-full" />
-            <img
-              src="/images/arrow.svg"
-              className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
-              onClick={() => setComingModalOpen(true)}
-            />
-          </div>
-          <div className="relative" style={{ width: '48%' }}>
-            <img src="/images/product4.png" className="w-full" />
-            <a href="/fractional">
+        <div className="md:flex md:justify-between w-full mt-12">
+          {/* view */}
+          {!isMobile ? (
+            <div className="relative productimg">
+              <img src="/images/product3.png" className="w-full" alt="" />
               <img
                 src="/images/arrow.svg"
-                className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                onClick={() => setComingModalOpen(true)}
+                alt=""
               />
-            </a>
-          </div>
+            </div>
+          ) : (
+            <div className="relative productimg">
+              <img src="/images/product4.png" className="w-full enterimg" alt="" />
+              <a href="/fractional">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
+            </div>
+          )}
+          {!isMobile ? (
+            <div className="relative productimg">
+              <img src="/images/product4.png" className="w-full enterimg" alt="" />
+              <a href="/fractional">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
+            </div>
+          ) : (
+            <div className="relative productimg">
+              <img src="/images/product2.png" className="w-full enterimg" alt="" />
+              <a href="/global">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
+            </div>
+          )}
+          {/* Fractional */}
         </div>
       </div>
 

@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif !important;
@@ -11,10 +10,8 @@ body {
   overflow-x: hidden;
 }
 
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 button:focus {
   /*outline: 1px dotted;*/
@@ -36,11 +33,11 @@ button:focus {
 }
 
 .border-1 {
- border-width: 1px;
+  border-width: 1px;
 }
 
 .hover\:border-4:hover {
-  border-width: 4px
+  border-width: 4px;
 }
 
 .h-98 {
@@ -52,11 +49,13 @@ button:focus {
 }
 
 .border-third {
-  border-color: #db00ff !important;
+  border-color: #c6c2c7 !important;
 }
-
+.file-border{
+  border-color:#7D37F8!important;
+}
 .text-third {
-  color: #FF77F1 !important;
+  color: #ff77f1 !important;
 }
 
 .bg-fourth {
@@ -90,7 +89,7 @@ button:focus {
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
+  background: linear-gradient(90deg, #db00ff 4.23%, #2b67f1 105.79%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -139,18 +138,19 @@ button:focus {
 }
 
 @keyframes horizonbounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(-25%);
-    animationTimingFunction: cubic-bezier(0.8, 0, 1, 1);
+    animationtimingfunction: cubic-bezier(0.8, 0, 1, 1);
   }
   50% {
     transform: translateX(0);
-    animationTimingFunction: cubic-bezier(0, 0, 0.2, 1);
+    animationtimingfunction: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 
 .outline {
-  outline: 30px solid #00F0FF;
+  outline: 30px solid #00f0ff;
 }
 
 .w-485 {
@@ -191,6 +191,371 @@ button:focus {
 .questionMark:hover + .hint {
   display: block;
 }
+.openimg {
+  width: 948px;
+  top: 0;
+}
+.enterheader {
+  height: 976px;
+}
+.productimg {
+  width: 47%;
+}
+.stripebackground {
+  background: url('/images/background.png') 0% 0%/100% 100% no-repeat;
+}
+.enterimg {
+  height: 310px;
+}
+/* fractional page */
+.fractionalimg {
+  background-image: url('/images/fractional_bg.png');
+  background-repeat: repeat-y;
+  background-position-x: right;
+}
+.fractionaltext {
+  width: 66.6666%;
+  margin-left: 4rem;
+}
+.garmenttext {
+  width: 66.666%;
+  margin-left: 16rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.ownershiptext {
+  width: 66.666%;
+  margin-left: 4rem;
+}
+.subproimg {
+  width: 29%;
+}
+.mintingdiv{
+  display: flex;
+  flex-direction: column;
+  padding-top:5rem;
+  padding-bottom: 4rem;
+  padding-left:0.5rem;
+  margin-left: 4rem;
+  margin-bottom:2.5rem;
+  background-image: url('/images/minting_bg.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.mintingcontainer{
+  width: 73.5%;
+  padding-bottom:4rem;
+  padding-right: 6rem;
+  padding-left:4rem;
+}
+.minttext{
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height:1.5rem;
+  margin-top:2.5rem;
+}
+.mintform{
+  width:50%;
+  margin-bottom:5rem;
+  margin-top:3rem;
+  display: flex;
+  flex-direction: column;
+}
+.mintinputdiv{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+.onchainimg{
+  width:500px;
+  margin-left:40px;
+}
+.opensourceimg{
+  width: 900px;
+  margin-left:50px;
+}
+.llssimg{
+  width:250px;
+  margin-left:40px;
+}
+.nftimg{
+  width:250px;
+  transform:rotate(10deg);
+  margin-left:60px;
+}
+.librariesimg{
+  width:500px;
+  margin-left:150px;
+}
+.materialimg{
+  transform:rotate(4deg);
+  margin-left:2.5rem;
+  margin-right:2.5rem;
+}
+.entertextimg{
+  width:1000px;
+}
+.arrowimg{
+  width:300px
+}
+.opengatearrow{
+  width:110px;
+  height:110px;
+}
+.listdot:before{
+  content: ' \2022';
+  margin-right:10px;
+}
+@media only screen and (max-width: 415px) {
+  .logotext{
+    font-size: 20px;
+    line-height: 23.01px;
+  }
+  .greenline{
+    position: absolute;
+    left:46px;
+    height: 1275px;
+    background-color: #00F0FF;
+    width: 57px;
+    z-index: -1;
+  }
+  .violetline{
+    position: absolute;
+    left:119px;
+    height: 1275px;
+    background-color: #DB00FF;
+    width: 57px;
+    z-index: -1;
+  }
+  .indexparagraph1{
+    background-color: black;
+    padding: 0 31px;
+    margin-top:40px;
+  }
+  .buildingtext{
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 36.31px;
+  }
+  .digitaltext{
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 48.41px;
+    margin-bottom: 83px;
+  }
+  .entertextimg{
+    width:284px;
+    height: 81px;
+    align-self: flex-start;
+    margin-left:18px;
+  }
+  .arrowimg{
+    width: 100px;
+  }
+  .indexparagraph2{
+    padding:66px 29px 60px 21px;
+    margin-bottom: 288px;
+  }
+  .openimg {
+    width: 231px;
+    height: 69px;
+    top: 0;
+  }
+  .enterheader {
+    height: auto;
+  }
+  .entertext {
+    font-weight: 400;
+    font-size: 20px;
+    padding-top: 0;
+  }
+  .productimg {
+    flex: 1;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .stripebackground {
+    background: url('/images/background.png') 13px / 236% 100% no-repeat;
+    margin-right:8px;
+    margin-left:8px;
+    margin-bottom: 70px;
+  }
+  .enterimg {
+    height: auto;
+  }
+  .fractionaltext {
+    margin: auto;
+    margin-left: 2rem;
+    margin-top: 54px;
+    width: 90%;
+  }
+  .garmenttext {
+    float: right;
+    width: 90%;
+    right: 0;
+  }
+  .ownershiptext {
+    width: 81%;
+    margin-left: 2rem;
+  }
+  .fractionalcontainer{
+    margin-bottom: 40px;
+  }
+  .fractionaldiv {
+    padding-left: 27px;
+    padding-right: 19px;
+    margin-right: 31px;
+    position: relative;
+    z-index: 10;
+  }
+  .fractionalborder {
+    position: absolute;
+    right: 0;
+    top: -19px;
+    height: calc(100% + 38px);
+    width: 80px;
+    background-color: #db00ff;
+    z-index: -1;
+  }
+  .fractionalbody {
+    background: black;
+    padding: 28px 0;
+  }
+  .fractionalcontent {
+    text-align: center;
+    font-size: 20px;
+    line-height: 24.2px;
+    font-weight: normal;
+    padding-right: 32px;
+    color:white;
+    padding-left:0px;
+    font-family: 'Inter';
+    margin-top:2.5rem;
+  }
+  .fractionalul{
+    text-align: center;
+    font-size: 20px;
+    line-height: 24.2px;
+    font-weight: normal;
+    padding-right: 32px;
+    color:white;
+    padding-left:0px;
+    font-family: 'Inter';
+  }
+  .headerimages{
+    margin-bottom: 17px;
+  }
+
+  .subproimgcontainer {
+    flex-direction: column;
+    width: 323px !important;
+  }
+  .subproimg {
+    width: 100%;
+    /* height: 369px; */
+    margin-bottom: 25px;
+  }
+  .mintingcontainer {
+    width: 100%;
+    margin:0;
+    padding:0
+  }
+  .mintingdiv{
+    display: flex;
+    flex-direction: column;
+    padding-top:0;
+    padding-bottom: 4rem;
+    padding-left:0;
+    margin-left: 0;
+    margin-bottom:371px;
+    background: none;
+  }
+  .mintingheader{
+    padding:0 20px;
+  }
+  .greenbox{
+    width: 100%;
+    height: 69px;
+    background: #00F0FF;
+    margin-top:49px;
+  }
+  .violetbox{
+    width: 100%;
+    height: 69px;
+    background: #DB00FF;
+    margin-top:26px;
+  }
+  .mintingtext{
+    padding:26px 33px;
+  }
+  .minttext{
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 15px;
+    line-height:18.15px;
+    /* margin-top:0; */
+  }
+  .mintform{
+    width:100%;
+    margin-bottom:5rem;
+    margin-top:3rem;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .mintinputdiv{
+    width:100%;
+  }
+  .mobileform{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 52px;
+  }
+  /* opensourceimg */
+  .opensourceheader{
+    padding:0 20px;
+  }
+  .onchainimg{
+    width:370px;
+    margin-left:0;
+    margin-bottom:20px;
+  }
+  .opensourceimg{
+    width:370px;
+    margin-left:0;
+    margin-bottom:20px;
+  }
+  .llssimg{
+    width:375px;
+    margin-left:0;
+    margin-bottom:20px;
+  }
+  .nftimg{
+    width:250px;
+    margin-left:0;
+    margin-bottom:20px;
+    transform:rotate(10deg);
+  }
+  .librariesimg{
+    width:370px;
+    margin-bottom:20px;
+    margin-left:0;
+  }
+  .materialimg{
+    transform:rotate(4deg);
+    margin-top:10px;
+    margin-left:0;
+    margin-bottom:20px;
+    margin-right:0;
+  }
+  .opensourcecontent{
+    box-sizing: border-box;
+    max-width: 375px;
+    margin:0 65px 0px 45px;
+  }
+}
 
 @import './circle-menu.css';
-

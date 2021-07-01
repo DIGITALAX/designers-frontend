@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../../components/Input';
-import Icon from '@material-ui/core/Icon';
-import Popper from '@material-ui/core/Popper';
-import Tooltip from '@material-ui/core/Tooltip';
-import InputBase from '@material-ui/core/InputBase';
-import Fade from '@material-ui/core/Fade';
+import { Icon, ClickAwayListener, Popper, Tooltip, InputBase, Fade } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { upload as UploadToPinata } from '../../utils/pinata';
 
@@ -141,6 +137,29 @@ const abi = [
 ];
 const address = '0xED1cACcB23e4eC422ca56Ba4FB0fEA14822337fd';
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
@@ -151,6 +170,7 @@ const LightTooltip = withStyles((theme) => ({
 }))(Tooltip);
 
 function Minting(props) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
@@ -166,6 +186,21 @@ function Minting(props) {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState('');
+
+  const [istooltip, setIstooltip] = React.useState(false);
+
+  const handleTooltip = () => {
+    setIstooltip(!istooltip);
+  };
+  const handleLeave = () => {
+    setIstooltip(false);
+  };
+  const screenWidth = useWindowDimensions().width;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    screenWidth > 472 ? setIsMobile(false) : setIsMobile(true);
+  }, [screenWidth]);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -245,14 +280,7 @@ function Minting(props) {
   };
 
   return (
-    <div
-      className="flex flex-col pt-20 pb-16 mb-10 ml-16 pl-2"
-      style={{
-        backgroundImage: "url('/images/minting_bg.png')",
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%',
-      }}
-    >
+    <div className="mintingdiv">
       <Popper open={open} anchorEl={anchorEl} placement="right" transition>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
@@ -260,30 +288,63 @@ function Minting(props) {
           </Fade>
         )}
       </Popper>
-      <div className="bg-black pl-16 pr-24 pb-16" style={{ width: '73.5%' }}>
-        <div className="mt-10">
-          <p
-            className="font-inter font-black whitespace-normal text-gradient"
-            style={{ fontSize: '86px' }}
-          >
-            Contribute to Open
-          </p>
-          <p
-            className="font-inter font-black whitespace-normal text-gradient"
-            style={{ fontSize: '86px' }}
-          >
-            Source On-Chain
-          </p>
-          <p
-            className="font-inter font-black whitespace-normal text-gradient"
-            style={{ fontSize: '86px' }}
-          >
-            Libraries
-          </p>
-        </div>
+      <div className="bg-black mintingcontainer">
+        {!isMobile ? (
+          <div className="mt-10">
+            <p
+              className="font-inter font-black whitespace-normal text-gradient"
+              style={{ fontSize: '86px' }}
+            >
+              Contribute to Open
+            </p>
+            <p
+              className="font-inter font-black whitespace-normal text-gradient"
+              style={{ fontSize: '86px' }}
+            >
+              Source On-Chain
+            </p>
+            <p
+              className="font-inter font-black whitespace-normal text-gradient"
+              style={{ fontSize: '86px' }}
+            >
+              Libraries
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="mt-10 mintingheader">
+              <p
+                className="font-inter font-black whitespace-normal text-gradient"
+                style={{ fontSize: '50px' }}
+              >
+                Contribute to
+              </p>
+              <p
+                className="font-inter font-black whitespace-normal text-gradient"
+                style={{ fontSize: '50px' }}
+              >
+                Open Source
+              </p>
+              <p
+                className="font-inter font-black whitespace-normal text-gradient"
+                style={{ fontSize: '50px' }}
+              >
+                On-Chain
+              </p>
+              <p
+                className="font-inter font-black whitespace-normal text-gradient"
+                style={{ fontSize: '50px' }}
+              >
+                Libraries
+              </p>
+            </div>
+            <div className="greenbox" />
+            <div className="violetbox" />
+          </>
+        )}
 
-        <div>
-          <p className="font-inter font-normal text-base text-gray-50 mt-10">
+        <div className="mintingtext">
+          <p className="text-gray-50 minttext">
             Enter the information in the fillout boxes below to mint your 1155 NFT and contribute to
             our open sourced material, pattern, texture on-chain libraries. Your contribution can be
             used in master garments by other designers, artists, creators— it is open sourced. Open
@@ -292,7 +353,7 @@ function Minting(props) {
             open source libraries that can be leveraged in both the digital and physical dimensions.
             A decentralised commercial model.
           </p>
-          <p className="font-inter font-normal text-base text-gray-50 mt-8">
+          <p className="text-gray-50 minttext mt-5">
             Although we can’t automatically enforce in smart contract code this fractional
             cross-chain, cross-realm royalty distribution as of yet, we still are continuing to
             prove out the model and hope that those that use these open source prints contribute a
@@ -304,99 +365,207 @@ function Minting(props) {
           </p>
         </div>
 
-        <div className="flex flex-col w-1/2 mt-12 mb-20">
-          <div className="flex justify-center">
-            <div className="w-1/2 flex flex-col mr-10">
-              <Input
-                label="Designer ID"
-                required="true"
-                description="Creator Name or pseudonym."
-                value={designerId}
-                onChange={(e) => setValue(setDesignerId, e.target.value)}
-              />
-              <Input
-                label="Pattern, Material, Texture"
-                value={pattern}
-                onChange={(e) => setValue(setPattern, e.target.value)}
-              />
-              <Input
-                disabled
-                label="Degree of Exclusivity"
-                value={degree}
-                onChange={(e) => setValue(setDegree, e.target.value)}
-              />
-              <Input
-                label="Name of Item"
-                value={itemName}
-                onChange={(e) => setValue(setItemName, e.target.value)}
-              />
-            </div>
-            <div className="w-1/2 flex flex-col">
-              <Input
-                value={issueNo}
-                onChange={(e) => setValue(setIssueNo, e.target.value)}
-                label="Issue No."
-                required="true"
-                description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. "
-              />
-              <Input
-                value={traits}
-                onChange={(e) => setValue(setTraits, e.target.value)}
-                label="Unique Traits"
-                required="true"
-                description="Anything else that you want minted on chain with the contribution. Separate by commas."
-              />
-              <div className="flex flex-col mt-10 w-full">
-                <div className="flex">
-                  <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
-                    File Upload
-                  </span>
-                  <LightTooltip
-                    title="Files accepted; PNG, ERX, TIFF, GIF, MP4, MOV, AVI"
-                    placement="right"
-                  >
-                    <span className="questionMark">?</span>
-                  </LightTooltip>
-                </div>
-                <label
-                  for="file"
-                  className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium"
-                >
-                  Choose File
-                </label>
-                <InputBase
-                  type="file"
-                  id="file"
-                  className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
-                  style={{ display: 'none' }}
-                  onChange={handleFileChange}
+        {!isMobile ? (
+          <div className="flex flex-col w-1/2 mt-12 mb-20">
+            <div className="flex justify-center">
+              <div className="w-1/2 flex flex-col mr-10">
+                <Input
+                  label="Designer ID"
+                  required="true"
+                  description="Creator Name or pseudonym."
+                  value={designerId}
+                  onChange={(e) => setValue(setDesignerId, e.target.value)}
                 />
-                <span
-                  className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
-                  style={{ color: '#868686' }}
-                >
-                  {file ? file.name : 'No file Chosen'}
+                <Input
+                  label="Pattern, Material, Texture"
+                  value={pattern}
+                  onChange={(e) => setValue(setPattern, e.target.value)}
+                />
+                <Input
+                  disabled
+                  label="Degree of Exclusivity"
+                  value={degree}
+                  onChange={(e) => setValue(setDegree, e.target.value)}
+                />
+                <Input
+                  label="Name of Item"
+                  value={itemName}
+                  onChange={(e) => setValue(setItemName, e.target.value)}
+                />
+              </div>
+              <div className="w-1/2 flex flex-col">
+                <Input
+                  value={issueNo}
+                  onChange={(e) => setValue(setIssueNo, e.target.value)}
+                  label="Issue No."
+                  required="true"
+                  description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. "
+                />
+                <Input
+                  value={traits}
+                  onChange={(e) => setValue(setTraits, e.target.value)}
+                  label="Unique Traits"
+                  required="true"
+                  description="Anything else that you want minted on chain with the contribution. Separate by commas."
+                />
+                <div className="flex flex-col mt-10 w-full">
+                  <div className="flex">
+                    <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
+                      File Upload
+                    </span>
+                    <LightTooltip
+                      title="Files accepted; PNG, ERX, TIFF, GIF, MP4, MOV, AVI"
+                      placement="right"
+                    >
+                      <span className="questionMark">?</span>
+                    </LightTooltip>
+                  </div>
+                  <label className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium">
+                    Choose File
+                  </label>
+                  <InputBase
+                    type="file"
+                    id="file"
+                    className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                  />
+                  <span
+                    className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
+                    style={{ color: '#868686' }}
+                  >
+                    {file ? file.name : 'No file Chosen'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="w-full">
+              <div className="flex flex-col mt-16">
+                <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
+                  Description
                 </span>
+                <InputBase
+                  value={description}
+                  onChange={(e) => setValue(setDescription, e.target.value)}
+                  className="text-black border-1 border-third bg-white"
+                  rows={5}
+                  multiline
+                  style={{ paddingLeft: 12 }}
+                />
               </div>
             </div>
           </div>
+        ) : (
+          <div className="mobileform">
+            <div className="flex justify-center">
+              <div className="w-full flex flex-col">
+                <div style={{ marginTop: 37 }}>
+                  <Input
+                    label="Designer ID"
+                    required="true"
+                    description="Creator Name or pseudonym."
+                    value={designerId}
+                    onChange={(e) => setValue(setDesignerId, e.target.value)}
+                  />
+                </div>
+                <div style={{ marginTop: 35 }}>
+                  <Input
+                    value={issueNo}
+                    onChange={(e) => setValue(setIssueNo, e.target.value)}
+                    label="Issue No."
+                    required="true"
+                    description="Provide an issue number for your own cataloging & on-chain sorting as you grow your contributions overtime. "
+                  />
+                </div>
+                <div style={{ marginTop: 35 }}>
+                  <Input
+                    label="Pattern, Material, Texture"
+                    value={pattern}
+                    onChange={(e) => setValue(setPattern, e.target.value)}
+                  />
+                </div>
+                <div style={{ marginTop: 35 }}>
+                  <Input
+                    value={traits}
+                    onChange={(e) => setValue(setTraits, e.target.value)}
+                    label="Unique Traits"
+                    required="true"
+                    description="Anything else that you want minted on chain with the contribution. Separate by commas."
+                  />
+                </div>
+                <div style={{ marginTop: 35 }}>
+                  <Input
+                    disabled
+                    label="Degree of Exclusivity"
+                    value={degree}
+                    onChange={(e) => setValue(setDegree, e.target.value)}
+                  />
+                </div>
+                <div style={{ marginTop: 32 }}>
+                  <div className="flex flex-col mt-10 w-full">
+                    <div className="flex">
+                      <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px'}}>
+                        File Upload
+                      </span>
 
-          <div className="w-full">
-            <div className="flex flex-col mt-16">
-              <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
-                Description
-              </span>
-              <InputBase
-                value={description}
-                onChange={(e) => setValue(setDescription, e.target.value)}
-                className="text-black border-1 border-third bg-white"
-                rows={5}
-                multiline
-                style={{ paddingLeft: 12 }}
-              />
+                      <ClickAwayListener onClickAway={handleLeave}>
+                        <Tooltip
+                          title="Files accepted; PNG, ERX, TIFF, GIF, MP4, MOV, AVI"
+                          placement="right-end"
+                          open={istooltip}
+                          classes={{ popper: classes.mobilePopper, tooltip: classes.tooltip }}
+                        >
+                          <span className="questionMark" onClick={handleTooltip}>
+                            ?
+                          </span>
+                        </Tooltip>
+                      </ClickAwayListener>
+                    </div>
+                    <label className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium" style={{fontSize: 10}}>
+                      Choose File
+                    </label>
+                    <InputBase
+                      type="file"
+                      id="file"
+                      className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
+                      style={{ display: 'none' }}
+                      onChange={handleFileChange}
+                    />
+                    <span
+                      className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
+                      style={{ color: '#868686', fontSize: 10 }}
+                    >
+                      {file ? file.name : 'No file Chosen'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="w-full">
+              <div className="flex flex-col" style={{ marginTop: 61 }}>
+                <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px'}}>
+                  Description
+                </span>
+                <InputBase
+                  value={description}
+                  onChange={(e) => setValue(setDescription, e.target.value)}
+                  className="text-black border-1 border-third bg-white"
+                  rows={5}
+                  multiline
+                  style={{ paddingLeft: 12, height: 209 }}
+                />
+              </div>
+              <button
+                onClick={handleContributeClick}
+                className="font-black text-base font-inter px-4 bg-fourth rounded-xl max-w-min"
+                style={{ color: '#DB00FF', marginTop: 38, paddingTop: 7, paddingBottom: 8, fontSize: 15, }}
+              >
+                Contribute
+              </button>
             </div>
           </div>
-
+        )}
+        {!isMobile && (
           <button
             onClick={handleContributeClick}
             className="font-black text-base font-inter p-2 px-4 bg-fourth rounded-xl mt-12 max-w-min"
@@ -404,16 +573,34 @@ function Minting(props) {
           >
             Contribute
           </button>
-          <div>
-            {status === -1 && <h2 style={{ color: 'red' }}>Please fill all fields</h2>}
-            {status === 1 && <h2 style={{ color: 'white' }}>Processing</h2>}
-            {status === 2 && <h2 style={{ color: 'green' }}>Success</h2>}
-            {status === 3 && <h2 style={{ color: 'red' }}>Failed</h2>}
-          </div>
+        )}
+
+        <div>
+          {status === -1 && <h2 style={{ color: 'red' }}>Please fill all fields</h2>}
+          {status === 1 && <h2 style={{ color: 'white' }}>Processing</h2>}
+          {status === 2 && <h2 style={{ color: 'green' }}>Success</h2>}
+          {status === 3 && <h2 style={{ color: 'red' }}>Failed</h2>}
         </div>
       </div>
     </div>
   );
 }
-
+const useStyles = makeStyles({
+  mobilePopper: {
+    fontSize: 8,
+    width: 204,
+  },
+  tooltip: {
+    backgroundColor: 'white',
+    color: '#111111',
+    fontFamily: 'Inter',
+    lineHeight: '8px',
+    width: 162,
+    fontSize: 8,
+    padding: '4px 8px',
+    textAlign: 'center',
+    borderRadius: 0,
+    marginLeft: 8,
+  },
+});
 export default Minting;

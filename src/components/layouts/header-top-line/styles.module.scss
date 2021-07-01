@@ -110,12 +110,13 @@
     a {
       display: none;
     }
-
+  }
+  @media screen and (max-width: 710px){
    .collapseIcon {
       position: absolute;
       display: block;
-      top: 27px;
-      right: 27px;
+      top: 21px;
+      right: 24px;
     }
   }  
 }
@@ -149,7 +150,11 @@
     line-height: 30px;
   }
 }
-
+.signButton{
+  @media screen and (max-width:640px){
+    display: none;
+  }
+}
 .signBtn{
   @media screen and (max-width: 640px) {
       margin-right: 20px;
