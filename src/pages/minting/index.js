@@ -420,7 +420,9 @@ function Minting(props) {
                       <span className="questionMark">?</span>
                     </LightTooltip>
                   </div>
-                  <label className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium">
+                  <label
+                  for="file"
+                   className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium">
                     Choose File
                   </label>
                   <InputBase
@@ -521,7 +523,9 @@ function Minting(props) {
                         </Tooltip>
                       </ClickAwayListener>
                     </div>
-                    <label className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium" style={{fontSize: 10}}>
+                    <label
+                    for="file"
+                    className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium" style={{fontSize: 10}}>
                       Choose File
                     </label>
                     <InputBase
@@ -543,7 +547,7 @@ function Minting(props) {
             </div>
             <div className="w-full">
               <div className="flex flex-col" style={{ marginTop: 61 }}>
-                <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px'}}>
+                <span className="font-inter font-extrabold text-gray-50 mb-2" style={{ fontSize: 14, lineHeight: '22px', marginBottom: 9 }}>
                   Description
                 </span>
                 <InputBase
@@ -558,7 +562,7 @@ function Minting(props) {
               <button
                 onClick={handleContributeClick}
                 className="font-black text-base font-inter px-4 bg-fourth rounded-xl max-w-min"
-                style={{ color: '#DB00FF', marginTop: 38, paddingTop: 7, paddingBottom: 8, fontSize: 15, }}
+                style={{ color: '#DB00FF', marginTop: 38, paddingTop: 7, paddingBottom: 8, fontSize: 15 }}
               >
                 Contribute
               </button>
@@ -593,7 +597,7 @@ const useStyles = makeStyles({
   tooltip: {
     backgroundColor: 'white',
     color: '#111111',
-    fontFamily: 'Inter',
+    fontFamily: 'inter',
     lineHeight: '8px',
     width: 162,
     fontSize: 8,

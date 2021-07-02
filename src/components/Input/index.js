@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     width: 162,
     backgroundColor: 'white',
     color: '#111111',
-    fontFamily: 'Inter',
+    fontFamily: 'inter',
     fontWeight: 400,
     fontSize: 8,
     padding: '4px 8px',
@@ -83,7 +83,7 @@ function Input(props) {
         {!isMobile?(
           <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">{label}</span>
         ):(
-          <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize:14,lineHeight:'22px'}}>{label}</span>
+          <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px', fontWeight: 800 }}>{label}</span>
         )}
         {required &&
           (isMobile ? (
@@ -121,7 +121,7 @@ function Input(props) {
           value={value}
           onChange={onChange}
           className="pl-3 border-1 border-third bg-white"
-          style={{height: 34, color:'#111111'}}
+          style={{height: 34, color:'#111111', fontSize: 14}}
         />
       )}
     </div>
