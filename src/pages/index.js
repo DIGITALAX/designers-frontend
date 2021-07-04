@@ -49,7 +49,7 @@ function Landing(props) {
               />
             </div>
             <div className="relative">
-              <video width="100%" muted autoplay loop>
+              <video width="100%" autoPlay muted loop>
                 <source src="/video/v1.mp4" type="video/mp4" />
               </video>
             </div>
@@ -122,7 +122,7 @@ function Landing(props) {
       ) : (
         <div className="flex flex-col">
           <div className="relative" style={{ padding: '0 0 40px 0' }}>
-            <video width="100%" muted autoPlay loop>
+            <video width="100%" autoPlay muted loop>
               <source src="/video/v1.mp4" type="video/mp4" />
             </video>
           </div>
