@@ -74,6 +74,7 @@ const MyApp = ({ Component, pageProps, store, err }) => {
         <link href="https://fonts.cdnfonts.com/css/internal-rainbows" rel="stylesheet" />
         <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet" />
         {loadArkane && <script src="/arkane-network/web3-arkane-provider.js"></script>}
+        {/* <script src="/js/custom.js"></script> */}
       </Head>
       <UseWalletProvider chainId={137}>
         <InitWrapper>
