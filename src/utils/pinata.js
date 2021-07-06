@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const pinataOptions = {
-    'pinata_api_key': '35e372d845e4a940dcdf',
-    'pinata_secret_api_key': 'c15072fa076ce962950ed4878c61b83c67e7e8af3ae4d9dd8d2f81e6b204fb0a'
+    'pinata_api_key': '0d2ee8348c1e9452499d',
+    'pinata_secret_api_key': '3972307ed1683a4ce45ad2d3a4978ad3c71c8a41f5b4fe552b1e4f61f827ec3d'
 };
 
 export const upload = async (file, metaJson) => {
