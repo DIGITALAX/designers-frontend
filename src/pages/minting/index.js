@@ -418,7 +418,7 @@ function Minting(props) {
                       File Upload
                     </span>
                     <LightTooltip
-                      title="Files accepted; PNG, ERX, TIFF, GIF, MP4, MOV, AVI"
+                      title="Files accepted; PNG, JPEG"
                       placement="right"
                     >
                       <span className="questionMark">?</span>
@@ -432,6 +432,9 @@ function Minting(props) {
                   <InputBase
                     type="file"
                     id="file"
+                    inputProps={{
+                      accept: ".jpg, .png, .jpeg"
+                    }}
                     className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
