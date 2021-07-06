@@ -86,7 +86,7 @@ function Patterns(props) {
                 </li>
                 <li className={styles.one}>
                   <button onClick={() => handleContClick(1)}>
-                    <span className={styles.icon}>icon-1</span>
+                  <img src="/images/Rectangle.png"/>
                   </button>
                 </li>
                 
