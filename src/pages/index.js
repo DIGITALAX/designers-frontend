@@ -120,7 +120,7 @@ function Landing(props) {
           </div>
         </>
       ) : (
-        <div className="flex flex-col">
+        <div className="block" style={{height: 'fit-content'}}>
           <div className="relative" style={{ padding: '0 0 40px 0' }}>
             <video width="100%" autoPlay muted loop>
               <source src="/video/v1.mp4" type="video/mp4" />
