@@ -45,7 +45,11 @@
   margin: auto;
   padding-top: 57px;
   padding-bottom: 82px;
-
+  @media (max-width:376px){
+    margin-left:24px;
+    margin-right:22px;
+    padding-bottom: 52px;
+  }
   @media (max-width: 1440px) {
       max-width: 90%;
   }
@@ -56,6 +60,7 @@
     font-weight: 800;
     font-size: 37px;
     line-height: 45px;
+    
   }
 
   .description {
@@ -65,12 +70,12 @@
     font-size: 22px;
     line-height: 30px;
   }
-
+  
   .centerWrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 23px;
 
     .dFlex {
       display: flex;
@@ -95,8 +100,14 @@
         margin-right: 10px;
       }
       .mediumIcon {
-          margin-left: 10px;
-        }
+        margin-left: 10px;
+      }
+      .tiktokIcon {
+        margin-right: 20px;
+      }
+      .twitchIcon {
+        margin-right: 20px;
+      }
     }
 
     .faqLine {
@@ -114,7 +125,7 @@
 
       @media (max-width: 600px) {
         :not(:last-child) {
-          margin-right: 2vw;
+          margin-right: 6px;
         }
       }
     }
@@ -175,12 +186,22 @@
     }
   }
   @media (max-width: 420px) {
+    .whiteLogo{
+      margin-top:4px;
+      margin-bottom:15px;
+    }
+    .readabout{
+      width: 91px;
+    }
     .heading {
-      font-size: 30px;
+      //font-size: 30px;
+      font-size:37px;
       line-height: 40px;
       text-align: center;
     }
     .description {
+      font-family:'inter';
+      font-weight: 900;
       font-size: 12px;
       line-height: 17px;
       text-align: center;
@@ -190,18 +211,35 @@
         font-size: 10px;
         line-height: 12px;
         a {
+          font-family: 'inter';
+          font-weight: 900;
           padding-left: 10px;
           padding-right: 10px;
         }
       }
       .iconsLine {
-        img{
-          height: 25px;
+        img {
+          height: 20px;
+          width: 20px;
           margin-right: 5px;
         }
+        .mediumIcon {
+          height: 20px;
+        }
+
+        .tiktokIcon {
+          margin-right: 5px;
+        }
+
+        .twitchIcon {
+          margin-right: 5px;
+        }
+
       }
       .faqLine {
-        padding-top: 20px;
+        padding-top: 32px;
+        font-family: 'inter';
+        font-weight: 900;
         font-size: 10px;
         line-height: 12px;
       }

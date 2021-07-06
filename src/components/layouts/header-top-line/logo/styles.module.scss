@@ -11,4 +11,8 @@
   line-height: 10px;
   letter-spacing: 0.1em;
   margin-top: 2px;
+  @media screen and (max-width:640px) {
+    font-size:8px;
+    color:white;
+  }
 }
