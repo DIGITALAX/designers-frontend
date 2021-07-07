@@ -473,7 +473,6 @@ button:focus {
   .mintingdiv{
     height: fit-content;
     display: block;
-    display: flex;
     flex-direction: column;
     padding-top:0;
     padding-bottom: 4rem;
