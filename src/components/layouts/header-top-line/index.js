@@ -77,7 +77,7 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
   };
   // console.log('Show Menu => ', isCollapse);
     return (
-    <div className={cn(className, styles.wrapper, hasScrolled ? styles.floatingNav : '')}>
+    <div className={cn(className, styles.wrapper, hasScrolled ? styles.floatingNav : '')} >
       <div className={styles.leftBox}>
         <Logo />
       </div>

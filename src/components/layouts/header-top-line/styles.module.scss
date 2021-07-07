@@ -12,6 +12,10 @@
   background-color: #000;
   transition: 0.2s;
   z-index: 99;
+  @media (max-width: 707px) {
+    height: fit-content;
+    display: block;
+  }
 
   @media screen and (max-width: 1320px) {
   }
@@ -39,6 +43,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 707px) {
+    justify-content: flex-start;
+  }
 }
 
 .goToMaticButton {
