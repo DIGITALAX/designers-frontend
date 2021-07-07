@@ -231,8 +231,8 @@ button:focus {
   width: 29%;
 }
 .mintingdiv{
-  display: flex;
-  flex-direction: column;
+  height: fit-content;
+  display: block;
   padding-top:5rem;
   padding-bottom: 4rem;
   padding-left:0.5rem;
@@ -473,7 +473,7 @@ button:focus {
     background: none;
   }
   .mintingheader{
-    padding:0 20px;
+    padding:0 12px;
   }
   .greenbox{
     width: 100%;
