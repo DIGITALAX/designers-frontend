@@ -38,7 +38,7 @@ function Landing(props) {
       {!isMobile ? (
         <>
           {' '}
-          <div className="flex flex-col">
+          <div className="block" style={{height: 'fit-content'}}>
             <div className="flex items-center absolute z-50 l-8">
               <p className="uppercase font-inter text-third bg-fourth text-5xl p-1 font-black">
                 Open Gates For the metaverse
