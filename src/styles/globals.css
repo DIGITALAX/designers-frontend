@@ -307,6 +307,14 @@ button:focus {
   content: ' \2022';
   margin-right:10px;
 }
+@media (max-width: 600px) {
+  .fgo_text {
+    display: none;
+  }
+  .fractional_video {
+    display: none;
+  }
+}
 @media only screen and (max-width: 415px) {
   .logotext{
     font-size: 20px;

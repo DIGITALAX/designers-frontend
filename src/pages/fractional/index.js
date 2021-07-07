@@ -117,12 +117,12 @@ function Fractional(props) {
             </div>
             {!isMobile && (
               <>
-                <p className="font-inter font-black text-3xl text-gray-50 mt-16 pr-12 ">
+                <p className="font-inter font-black text-3xl text-gray-50 mt-16 pr-12 fgo_text">
                   See our full FGO Standard Releases below and stay up to date across our discord
                   and medium for more updates on how this ecosystem is continuing to scale and
                   evolve.
                 </p>
-                <p className="font-inter font-bold text-5xl text-gray-50 mt-16 pr-12 text-center underline">
+                <p className="font-inter font-bold text-5xl text-gray-50 mt-16 pr-12 text-center underline fgo_text">
                   <a className="mr-16 underline text-white" href="https://digitalax.xyz/fgo">
                     FGO-0001
                   </a>
@@ -137,7 +137,7 @@ function Fractional(props) {
         </div>
       </div>
       {!isMobile && (
-        <div>
+        <div className="fractional_video">
           <video width="100%" muted autoPlay loop>
             <source src="/video/v1.mp4" type="video/mp4" />
           </video>
