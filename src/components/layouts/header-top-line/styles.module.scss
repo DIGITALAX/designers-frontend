@@ -4,7 +4,7 @@
 
 .wrapper {
   @include wrapper();
-  display: flex;
+  display: inline;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -43,6 +43,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
+  float: left;
   @media (max-width: 707px) {
     justify-content: flex-start;
   }
@@ -129,11 +131,12 @@
 }
 
 .rightBox {
-  width: 100%;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: space-between;
+  width: fit-content;
+  float: right;
 }
 
 .link {
