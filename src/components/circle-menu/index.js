@@ -1,6 +1,8 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { Paper } from '@material-ui/core';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
@@ -113,10 +115,13 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 onMouseOver={() => hovered(item)}
                 onMouseOut={(e) => hleave(1, e)}
               >
-                <img
+                <LazyLoadImage
                   className="circlemenu_piece_img"
                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
                   src={item.image}
+                  effect="blur"
+                  width={375}
+                  height={375}
                   alt=""
                 />
               </li>

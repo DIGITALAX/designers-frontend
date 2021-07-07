@@ -267,11 +267,11 @@ function Minting(props) {
     }
   };
 
-  const handleHover = (text) => (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((prev) => !prev);
-    setText(text);
-  };
+  // const handleHover = (text) => (event) => {
+  //   setAnchorEl(event.currentTarget);
+  //   setOpen((prev) => !prev);
+  //   setText(text);
+  // };
 
   const setValue = (func, value) => {
     if (!value.includes('"')) {
