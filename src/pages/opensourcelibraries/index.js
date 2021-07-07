@@ -75,9 +75,9 @@ function Libraries(props) {
             image: rdata['image_url'],
             description: rdata['description'],
           });
-          setItems(data);
         }
       }
+      setItems(data);
     }
   }
 
