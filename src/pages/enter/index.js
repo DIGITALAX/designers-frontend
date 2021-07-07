@@ -143,12 +143,13 @@ function Home(props) {
           ) : (
             <div className="relative productimg">
               <img src="/images/product3.png" className="w-full enterimg" alt="" />
-              <img
-                src="/images/arrow.svg"
-                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
-                onClick={() => setComingModalOpen(true)}
-                alt=""
-              />
+              <a href="/opensourcelibraries">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
             </div>
           )}
         </div>
@@ -158,12 +159,13 @@ function Home(props) {
           {!isMobile ? (
             <div className="relative productimg">
               <img src="/images/product3.png" className="w-full" alt="" />
-              <img
-                src="/images/arrow.svg"
-                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
-                onClick={() => setComingModalOpen(true)}
-                alt=""
-              />
+              <a href="/opensourcelibraries">
+                <img
+                  src="/images/arrow.svg"
+                  className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                  alt=""
+                />
+              </a>
             </div>
           ) : (
             <div className="relative productimg">
