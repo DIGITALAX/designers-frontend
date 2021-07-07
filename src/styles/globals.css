@@ -231,8 +231,8 @@ button:focus {
   width: 29%;
 }
 .mintingdiv{
-  display: flex;
-  flex-direction: column;
+  height: fit-content;
+  display: block;
   padding-top:5rem;
   padding-bottom: 4rem;
   padding-left:0.5rem;
@@ -306,6 +306,29 @@ button:focus {
 .listdot:before{
   content: ' \2022';
   margin-right:10px;
+}
+@media (max-width: 600px) {
+  .fgo_text_1 {
+    /* display: none; */
+    font-size: 15px;
+    line-height: 18px;
+  }
+  .fgo_text_2 {
+    /* display: none; */
+    font-size: 17px;
+    line-height: 21px;
+  }
+  .fractional_video {
+    display: none;
+  }
+}
+@media (max-width: 375px) {
+  .fgo_text_2 .left {
+    margin-right: 2rem;
+  }
+  .fgo_text_2 .right {
+    margin-left: 2rem;
+  }
 }
 @media only screen and (max-width: 415px) {
   .logotext{
@@ -463,7 +486,8 @@ button:focus {
     padding:0
   }
   .mintingdiv{
-    display: flex;
+    height: fit-content;
+    display: block;
     flex-direction: column;
     padding-top:0;
     padding-bottom: 4rem;
@@ -473,7 +497,7 @@ button:focus {
     background: none;
   }
   .mintingheader{
-    padding:0 20px;
+    padding:0 12px;
   }
   .greenbox{
     width: 100%;

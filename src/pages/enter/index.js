@@ -96,7 +96,7 @@ function Home(props) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="block" style={{height: 'fit-content'}}>
       <div className="relative enterheader" id="parentCo">
         <img src="/images/banner.png" alt="banner" className="md:absolute w-full md:h-full" />
         <img src="/images/open.svg" alt="open" className="absolute t-20 l-0 openimg" />

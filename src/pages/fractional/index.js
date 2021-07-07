@@ -115,29 +115,29 @@ function Fractional(props) {
                 digital fashion and cross digital-physical realms.
               </p>
             </div>
-            {!isMobile && (
-              <>
-                <p className="font-inter font-black text-3xl text-gray-50 mt-16 pr-12 ">
-                  See our full FGO Standard Releases below and stay up to date across our discord
-                  and medium for more updates on how this ecosystem is continuing to scale and
-                  evolve.
-                </p>
-                <p className="font-inter font-bold text-5xl text-gray-50 mt-16 pr-12 text-center underline">
-                  <a className="mr-16 underline text-white" href="https://digitalax.xyz/fgo">
-                    FGO-0001
-                  </a>
-                  <span>|</span>
-                  <a className="ml-16 underline text-white" href="https://digitalax.xyz/fgo-2">
-                    FGO-0001_2
-                  </a>
-                </p>
-              </>
-            )}
           </div>
+          <div className="mt-12 bg-black md:z-50 md:pt-20 fractionaldiv">
+            <>
+              <p className="font-inter font-black text-3xl text-gray-50 mt-16 fgo_text_1">
+                See our full FGO Standard Releases below and stay up to date across our discord
+                and medium for more updates on how this ecosystem is continuing to scale and
+                evolve.
+              </p>
+              <p className="font-inter font-bold text-5xl text-gray-50 mt-16 text-center underline fgo_text_2">
+                <a className="mr-16 underline text-white left" href="https://digitalax.xyz/fgo">
+                  FGO-0001
+                </a>
+                <span>|</span>
+                <a className="ml-16 underline text-white right" href="https://digitalax.xyz/fgo-2">
+                  FGO-0001_2
+                </a>
+              </p>
+            </>
+            </div>
         </div>
       </div>
       {!isMobile && (
-        <div>
+        <div className="fractional_video">
           <video width="100%" muted autoPlay loop>
             <source src="/video/v1.mp4" type="video/mp4" />
           </video>
