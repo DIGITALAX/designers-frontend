@@ -137,6 +137,9 @@
   justify-content: space-between;
   width: fit-content;
   float: right;
+  @media (max-width: 707px) {
+    width: 100%;
+  }
 }
 
 .link {
