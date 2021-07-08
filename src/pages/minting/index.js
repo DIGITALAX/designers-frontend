@@ -553,6 +553,13 @@ function Minting(props) {
               </div>
             </div>
             <div className="w-full">
+              <div className="w-1/2 flex flex-col mr-10 w-full">
+                <Input
+                  label="Name of Item"
+                  value={itemName}
+                  onChange={(e) => setValue(setItemName, e.target.value)}
+                />
+              </div>
               <div className="flex flex-col" style={{ marginTop: 61 }}>
                 <span className="font-inter font-extrabold text-gray-50 mb-2" style={{ fontSize: 14, lineHeight: '22px', marginBottom: 9 }}>
                   Description
