@@ -73,6 +73,7 @@ class UserActions extends BaseActions {
           }
 
           localStorage.setItem(STORAGE_IS_LOGGED_IN, 1);
+          localStorage.setItem('account', account);
           dispatch(this.setValue('account', account));
           dispatch(closeConnectMetamaskModal());
           dispatch(openSignupModal());
@@ -196,7 +197,7 @@ class UserActions extends BaseActions {
       if (!user || !token) {
         return;
       }
-      // await setWeb3Provider();
+      await setWeb3Provider();
       dispatch(this.setValue('account', localStorage.getItem('account')));
       dispatch(this.setValue('user', user));
     };

@@ -176,6 +176,8 @@ function Minting(props) {
   const [text, setText] = useState('');
   const account = useSelector(getAccount);
 
+  console.log('account: ', account)
+
   const [status, setStatus] = useState(0);
 
   const [designerId, setDesignerId] = useState('');
@@ -250,11 +252,13 @@ function Minting(props) {
       };
 
       const url = await UploadToPinata(file, metaJson);
+      console.log('url: ', url)
       if (!url) {
         return;
       }
       const contract = new window.web3.eth.Contract(abi, address);
       console.log('this is before mint', address);
+      console.log('this is before mint account: ', account);
       let response = await contract.methods
         .createNewChildWithVerifiedRole(url, 1)
         .send({ from: account });
@@ -414,7 +418,7 @@ function Minting(props) {
                       File Upload
                     </span>
                     <LightTooltip
-                      title="Files accepted; PNG, ERX, TIFF, GIF, MP4, MOV, AVI"
+                      title="Files accepted; PNG, JPEG"
                       placement="right"
                     >
                       <span className="questionMark">?</span>
@@ -428,6 +432,9 @@ function Minting(props) {
                   <InputBase
                     type="file"
                     id="file"
+                    inputProps={{
+                      accept: ".jpg, .png, .jpeg"
+                    }}
                     className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
