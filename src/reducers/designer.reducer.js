@@ -504,7 +504,7 @@ const DEFAULT_FIELDS = Map({
     'QmUDdbRPZNCxBL35yUr9NKyiRieH3dHbr1zR8zkXcQfvyH',
     'QmdQ4F4Zjc6wQexA3akvLkqzhK7e3NvF95aEDVsgtAPqVG',
     'QmaDh9keCHBjMatNeZ8q4q2tbjcr9Um3VwLZM1TjNsuR6r',
-    'QmdD64XdQ1tV6nUvmBpqyAjfKJoyrfFjTbEBCSu9V6m6DJ',
+    'QmbiPkTECJamSf9w2vgUM3snCQvJxB1B1NnwAEsSvAToUB',
     'QmeeksvDyu8EDh2XLbEXt2K9EiGxSwffoSZrqtN4B7V9v1',
     'QmTpp2Ne6pHKKDCen1RnFt6NfRdWxRCphvh9avQTa2nsgf',
     'QmSY5VG6Nmq7VTLyTxGUxw6wLZeSEe7WMWrDtSnauyiggK',
