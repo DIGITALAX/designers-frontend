@@ -49,7 +49,7 @@ function Landing(props) {
               />
             </div>
             <div className="relative">
-              <video width="100%" autoPlay muted loop>
+              <video width="100%" autoPlay muted loop playsInline>
                 <source src="/video/v1.mp4" type="video/mp4" />
               </video>
             </div>
@@ -122,7 +122,7 @@ function Landing(props) {
       ) : (
         <div className="block" style={{height: 'fit-content'}}>
           <div className="relative" style={{ padding: '0 0 40px 0' }}>
-            <video width="100%" autoPlay muted loop>
+            <video width="100%" autoPlay muted loop playsInline>
               <source src="/video/v1.mp4" type="video/mp4" />
             </video>
           </div>
