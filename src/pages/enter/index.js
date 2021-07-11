@@ -56,10 +56,6 @@ function Home(props) {
     screenWidth > 376 ? setIsMobile(false) : setIsMobile(true);
   }, [screenWidth]);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
   const handleClose1 = () => {
     setOpen1(false);
   };
