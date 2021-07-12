@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Grid } from '@material-ui/core'
 import CircleMenu from '@components/circle-menu'
-import { getAllDesignerCIDs } from '@selectors/designer.selectors'
+import { getAllDesignerIDs } from '@selectors/designer.selectors'
 import APIService from '@services/api/api.service'
 
 function getWindowDimensions() {
@@ -46,26 +46,27 @@ function Libraries(props) {
     screenWidth > 796 ? setIsMobile(false) : setIsMobile(true)
   }, [screenWidth])
 
-  const designerCIDs = useSelector(getAllDesignerCIDs())
+
+  // https://digitalax.mypinata.cloud/ipfs/${cid}
+  const designerIDs = useSelector(getAllDesignerIDs())
 
   async function getData() {
     const idLabel = 'Designer ID'
-    let ids = []
-
-    for (const cid of designerCIDs) {
-      const res = await fetch(`https://digitalax.mypinata.cloud/ipfs/${cid}`)
-      const rdata = await res.json()
-      ids.push(rdata[idLabel])
-    }
+    const ids = designerIDs.map(item => item.designerID)
 
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
 
+    console.log('result: ', result)
+
     if (digitalaxMaterialV2S) {
       let data = {}
       for (const item of digitalaxMaterialV2S) {
+        console.log('--- item: ', item)
         const res = await fetch(item.tokenUri)
+        console.log('--- item res: ', res)
         const rdata = await res.json()
+        console.log('--- item rdata: ', rdata)
         if (rdata['image_url'] && rdata[idLabel] && ids.includes(rdata[idLabel])) {
           const designerId = rdata[idLabel]
           if (!data[designerId]) {
@@ -79,6 +80,7 @@ function Libraries(props) {
           })
         }
       }
+      console.log('------- designers data: ', data)
       setItems(data)
     }
   }

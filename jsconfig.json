@@ -13,6 +13,7 @@
         "@utils/*": ["./src/utils/*"],
         "@actions/*": ["./src/actions/*"],
         "@hooks/*": ["./src/hooks/*"],
+        "@data/*": ["./src/data/*"],
       }
     },
     "exclude": [

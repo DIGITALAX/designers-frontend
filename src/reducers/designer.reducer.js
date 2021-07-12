@@ -3,6 +3,7 @@ import { createModule } from 'redux-modules';
 import cloneDeep from 'lodash.clonedeep';
 import { Map, List } from 'immutable';
 import TransformModules from '../utils/transform-modules';
+import designerList from '@data/designers.json'
 
 const DEFAULT_FIELDS = Map({
   designersById: Map({}),
@@ -435,6 +436,7 @@ const DEFAULT_FIELDS = Map({
       ]),
     },
   ]),
+  designerIDs: List(designerList),
   designerCID: List([
     'QmeDMVjLR9ZdHiHcUtyK9v623WAZtk5L21rT1inJcV6jES',
     'QmXy1644mEhtz3a45NQoG2EYog9VoEekySb5v9cu3XRTao',
