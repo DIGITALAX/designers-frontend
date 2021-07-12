@@ -69,7 +69,7 @@ const MyApp = ({ Component, pageProps, store, err }) => {
   return (
     <Provider store={store}>
       <Head>
-        <title>Digitalax - The Digital Fashion Engine</title>
+        <title>Digitalax - Web3 Fashion Economy</title>
         <link rel="icon" type="image/png" href="/images/icons/favicon-digitalax.ico" />
         <link href="https://fonts.cdnfonts.com/css/internal-rainbows" rel="stylesheet" />
         <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet" />

@@ -10,7 +10,7 @@ const Logo = ({ className }) => (
     <a className={cn(className, styles.wrapper)}>
       {/* <img src="./images/icons/logo.svg" alt="logo" /> */}
       <p className="font-rainbow text-white text-xl font-normal logotext">Digitalax</p>
-      <p className={styles.description}>The Digital Fashion Engine</p>
+      <p className={styles.description}>Web3 Fashion Economy</p>
     </a>
   </Link>
 );
