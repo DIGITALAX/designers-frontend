@@ -530,7 +530,9 @@ const DEFAULT_FIELDS = Map({
     'QmV6nf689fo56Qr4XwLFtw4CjhD7Kk2tgceJ1b4ZQLQfhv',
     'QmRitnZxbZkZX2aVzL88GBYK1FNQC2gVeBJrz1NCKqu2ta',
     'QmehtAd3wn9YmqyoZCKpqt6Tov6aLCQ1tmgVoaig3o7TBm',
-    'QmXBrWfmnJ6rabDyWQMxxcAsm3CZZqxNTDKUvQdXVYec46'
+    'QmXBrWfmnJ6rabDyWQMxxcAsm3CZZqxNTDKUvQdXVYec46',
+    'QmUMF2bd2ccgZ6goRLESMfjMcGK1Q3nkJkcYwCz45bAKWk',
+    'QmNwf2RVgmZvARwvLkP7VLkb2g5a69pMymEThUgDVpBzmU'
   ]),
 });
 
