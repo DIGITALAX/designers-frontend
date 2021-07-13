@@ -77,7 +77,7 @@ function Libraries(props) {
       let data = {}
       let sampleData = []
       for (const item of digitalaxMaterialV2S) {
-        console.log('--- item: ', item)
+        // console.log('--- item: ', item)
         const res = await fetch(item.tokenUri)
         // console.log('--- item res: ', res)
         const rdata = await res.json()
