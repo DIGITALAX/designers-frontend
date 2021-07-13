@@ -77,8 +77,12 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
     }, 1000);
   }, []);
 
+  const getThumbnailFromItem = item => {
+    return (item.thumbnail && item.thumbnail !== '') ? item.thumbnail : item.image
+  }
+
   const hovered = (item) => {
-    curImage.current.style.backgroundImage = `url(${item.image})`;
+    curImage.current.style.backgroundImage = `url(${getThumbnailFromItem(item)})`;
     imgViewer.current.classList.remove('fadeOut' + direction);
     imgViewer.current.classList.add('fadeIn' + direction);
     title.current.innerHTML = '';
@@ -115,10 +119,19 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 onMouseOver={() => hovered(item)}
                 onMouseOut={(e) => hleave(1, e)}
               >
+                {/* <img
+                   className="circlemenu_piece_img"
+                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
+                   src={getThumbnailFromItem(item)}
+                  //  effect="blur"
+                   width={375}
+                   height={375}
+                   alt=""
+                />  */}
                 <LazyLoadImage
                   className="circlemenu_piece_img"
                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
-                  src={item.image}
+                  src={getThumbnailFromItem(item)}
                   effect="blur"
                   width={375}
                   height={375}

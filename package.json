@@ -2,7 +2,7 @@
   "name": "digitalax-front",
   "version": "0.1.1",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3005",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "NODE_ENV=production PORT=27320 node server.js",

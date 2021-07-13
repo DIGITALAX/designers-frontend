@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core'
 import CircleMenu from '@components/circle-menu'
 import { getAllDesignerIDs } from '@selectors/designer.selectors'
 import APIService from '@services/api/api.service'
+import api from '@services/api/espa/api.service'
 
 function getWindowDimensions() {
   const {
@@ -37,6 +38,7 @@ function Libraries(props) {
   const handleClose = () => setOpen(false)
 
   const [items, setItems] = useState({})
+  const [thumbnailList, setThumbnailList] = useState([])
 
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
@@ -51,37 +53,53 @@ function Libraries(props) {
   const designerIDs = useSelector(getAllDesignerIDs())
 
   async function getData() {
+    const thumbnails = await api.getAllThumbnails()
+    // console.log('thumbnails: ', thumbnails.data)
+    const thumbnailObj = {}
+    for (const thumbnail in thumbnails.data) {
+      const thumbItem = thumbnails.data[thumbnail]
+      thumbnailObj[thumbItem.image_url] = thumbItem.thumbnail_url
+    }
+
+    // console.log('thumbnailObj : ', thumbnailObj)
+
+    setThumbnailList(thumbnailObj)
+
     const idLabel = 'Designer ID'
     const ids = designerIDs.map(item => item.designerID)
 
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
 
-    console.log('result: ', result)
+    // console.log('result: ', result)
 
     if (digitalaxMaterialV2S) {
       let data = {}
+      let sampleData = []
       for (const item of digitalaxMaterialV2S) {
         console.log('--- item: ', item)
         const res = await fetch(item.tokenUri)
-        console.log('--- item res: ', res)
+        // console.log('--- item res: ', res)
         const rdata = await res.json()
-        console.log('--- item rdata: ', rdata)
+        // console.log('--- item rdata: ', rdata)
         if (rdata['image_url'] && rdata[idLabel] && ids.includes(rdata[idLabel])) {
           const designerId = rdata[idLabel]
           if (!data[designerId]) {
             data[designerId] = []
           }
           data[designerId].push({
+            // ...item,
             name:
               rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
             image: rdata['image_url'],
+            thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
             description: rdata['description'],
+            
           })
         }
       }
-      console.log('------- designers data: ', data)
       setItems(data)
+      // console.log('data: ', JSON.stringify(data))
     }
   }
 

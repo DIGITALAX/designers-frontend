@@ -133,6 +133,24 @@ class EspaApiService {
       return true;
     }
   }
+
+  async getThumbnailsByDesigner(designerId) {
+    try {
+      const thumbnails = await get('/get-thumbnails-by-designer', { designerId });
+      return thumbnails;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getAllThumbnails() {
+    try {
+      const thumbnails = await get('/get-all-thumbnails');
+      return thumbnails;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export default new EspaApiService();
