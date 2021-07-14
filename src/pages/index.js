@@ -28,11 +28,17 @@ function useWindowDimensions() {
 function Landing(props) {
   const screenWidth = useWindowDimensions().width;
   const [isMobile, setIsMobile] = useState(false);
+  const [showTopSocial, setShowTopSocial] = useState(false);
 
   useEffect(() => {
     
     screenWidth > 707 ? setIsMobile(false) : setIsMobile(true);
   }, [screenWidth]);
+
+  const onClickTopArrow = () => {
+    console.log('clicked!')
+    setShowTopSocial(true)
+  }
 
   return (
     <>
@@ -47,7 +53,27 @@ function Landing(props) {
               <img
                 src="/images/arrow.svg"
                 className="animate-horizonbounce opengatearrow"
+                onClick={() => onClickTopArrow()}
               />
+              {
+                showTopSocial && <div className={styles.topSocialIcons}>
+                  <a href='https://twitter.com/web3fashion' target='_blank'>
+                    <img src='/images/social-button-circle/twitter.png' />
+                  </a>
+                  <a href='https://www.instagram.com/global_designer_network/' target='_blank'>
+                    <img src='/images/social-button-circle/instagram.png' />
+                  </a>
+                  <a href='https://www.linkedin.com/company/global-designer-network/' target='_blank'>
+                    <img src='/images/social-button-circle/linkedin.png' />
+                  </a>
+                  <a href='https://www.tiktok.com/@globaldesignernetwork' target='_blank'>
+                    <img src='/images/social-button-circle/tiktok.png' />
+                  </a>
+                  <a href='https://www.youtube.com/channel/UCUoUOJ-t6lb2mKqqoefrrnA' target='_blank'>
+                    <img src='/images/social-button-circle/youtube.png' />
+                  </a>
+                </div>
+              }
             </div>
             <div className="relative">
               <video width="100%" autoPlay muted loop playsInline>
