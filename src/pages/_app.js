@@ -9,6 +9,7 @@ import { deserialize, serialize } from 'json-immutable/lib';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import Modals from '@containers/modals/index';
+import SocialFooter from '@components/layouts/social-footer';
 import Footer from '@components/layouts/footer';
 import HeaderTopLine from '@components/layouts/header-top-line';
 import globalActions from '@actions/global.actions';
@@ -83,6 +84,7 @@ const MyApp = ({ Component, pageProps, store, err }) => {
           <NetworkWrapper>
             <Component {...pageProps} />
           </NetworkWrapper>
+          <SocialFooter />
           <Footer />
         </InitWrapper>
         <ToastContainer />
