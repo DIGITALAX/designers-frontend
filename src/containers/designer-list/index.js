@@ -45,6 +45,7 @@ const DesignerList = () => {
   //     .sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10)),
   //   [designerList],
   // );
+  console.log('designerCIDs: ', designerCIDs)
   return (
     <>
       {!isMobile ? (
