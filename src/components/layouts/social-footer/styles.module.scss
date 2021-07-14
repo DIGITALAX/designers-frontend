@@ -1,0 +1,63 @@
+.socialBar {
+  // height: 360px;
+  background: linear-gradient(90deg, #DB00FF -0.81%, #2B67F1 100%); 
+  
+  font-family: Inter;
+  font-weight: 900;
+  font-size: 50px;
+  line-height: 61px;
+  /* identical to box height */
+  padding-top: 80px;
+  padding-left: 100px;
+  padding-bottom: 100px;
+  // text-align: center;
+
+  color: #FFFFFF;
+  .socialIcons {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    
+    img {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      border: 7px solid #3b1364;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      margin-right: 20px;
+    }
+  }
+}
+
+@media (max-width: 707px) {
+  .socialBar {
+    // height: 360px;
+    background: linear-gradient(90deg, #DB00FF -0.81%, #2B67F1 100%); 
+    
+    font-family: Inter;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 35px;
+    /* identical to box height */
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 10px;
+    padding-bottom: 50px;
+    // text-align: center;
+  
+    color: #FFFFFF;
+    .socialIcons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: row;
+      
+      img {
+        width: 60px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        border: 5px solid #3b1364;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        margin-right: 10px;
+      }
+    }
+  }
+}
