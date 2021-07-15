@@ -70,10 +70,12 @@ function Libraries(props) {
     const idLabel = 'Designer ID'
     const ids = designerIDs.map(item => item.designerID)
 
+    // console.log('ids: ', ids)
+
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
     let data = {}
-
+    // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
     
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
