@@ -56,9 +56,13 @@ function Libraries(props) {
     const thumbnails = await api.getAllThumbnails()
     
     const thumbnailObj = {}
+    const blockedList = []
     for (const thumbnail in thumbnails.data) {
       const thumbItem = thumbnails.data[thumbnail]
       thumbnailObj[thumbItem.image_url] = thumbItem.thumbnail_url
+      if (thumbItem.blocked) {
+        blockedList.push(thumbItem.image_url)
+      }
     }
 
     setThumbnailList(thumbnailObj)
@@ -78,13 +82,18 @@ function Libraries(props) {
         // console.log('--- item res: ', res)
         const rdata = await res.json()
         // console.log('--- item rdata: ', rdata)
-        if (rdata['image_url'] && rdata[idLabel] && ids.includes(rdata[idLabel])) {
+        if (rdata['image_url'] && rdata[idLabel] && ids.includes(rdata[idLabel]) 
+          && blockedList.findIndex(item => item === rdata['image_url']) < 0) {
           const designerId = rdata[idLabel]
           if (!data[designerId]) {
             data[designerId] = []
           }
+          if (data[designerId].findIndex(item => item.image === rdata['image_url']) >= 0) {
+            continue
+          }
+
           data[designerId].push({
-            // ...item,
+            ...item,
             name:
               rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
             image: rdata['image_url'],
@@ -95,8 +104,11 @@ function Libraries(props) {
           setItems({...data})
         }
       }
+
+      // console.log('data: ', data)
     }
   }
+  
 
   useEffect(() => {
     getData()
