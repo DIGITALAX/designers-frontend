@@ -39,7 +39,7 @@ function Libraries(props) {
 
   const [items, setItems] = useState({})
   const [thumbnailList, setThumbnailList] = useState([])
-
+  
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
 
@@ -54,14 +54,12 @@ function Libraries(props) {
 
   async function getData() {
     const thumbnails = await api.getAllThumbnails()
-    // console.log('thumbnails: ', thumbnails.data)
+    
     const thumbnailObj = {}
     for (const thumbnail in thumbnails.data) {
       const thumbItem = thumbnails.data[thumbnail]
       thumbnailObj[thumbItem.image_url] = thumbItem.thumbnail_url
     }
-
-    // console.log('thumbnailObj : ', thumbnailObj)
 
     setThumbnailList(thumbnailObj)
 
@@ -70,12 +68,10 @@ function Libraries(props) {
 
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
+    let data = {}
 
-    // console.log('result: ', result)
-
+    
     if (digitalaxMaterialV2S) {
-      let data = {}
-      let sampleData = []
       for (const item of digitalaxMaterialV2S) {
         // console.log('--- item: ', item)
         const res = await fetch(item.tokenUri)
@@ -96,10 +92,9 @@ function Libraries(props) {
             description: rdata['description'],
             
           })
+          setItems({...data})
         }
       }
-      setItems(data)
-      // console.log('data: ', JSON.stringify(data))
     }
   }
 
