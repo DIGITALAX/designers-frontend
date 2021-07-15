@@ -69,7 +69,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
   const imgViewer = useRef(null);
   const title = useRef(null);
   const description = useRef(null);
-
+  
   useEffect(() => {
     setTimeout(() => {
       menu.current.classList.toggle('active');
@@ -119,7 +119,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 onMouseOver={() => hovered(item)}
                 onMouseOut={(e) => hleave(1, e)}
               >
-                {/* <img
+                <img
                    className="circlemenu_piece_img"
                    style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
                    src={getThumbnailFromItem(item)}
@@ -127,8 +127,8 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                    width={375}
                    height={375}
                    alt=""
-                />  */}
-                <LazyLoadImage
+                /> 
+                {/* <LazyLoadImage
                   className="circlemenu_piece_img"
                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
                   src={getThumbnailFromItem(item)}
@@ -136,7 +136,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                   width={375}
                   height={375}
                   alt=""
-                />
+                /> */}
               </li>
             ))}
           </ul>
