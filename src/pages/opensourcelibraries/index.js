@@ -76,6 +76,7 @@ function Libraries(props) {
     const { digitalaxMaterialV2S } = result
     let data = {}
     // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
+    let noThumbnailData = []
     
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
@@ -84,14 +85,24 @@ function Libraries(props) {
         // console.log('--- item res: ', res)
         const rdata = await res.json()
         // console.log('--- item rdata: ', rdata)
-        if (rdata['image_url'] && rdata[idLabel] && ids.includes(rdata[idLabel]) 
-          && blockedList.findIndex(item => item === rdata['image_url']) < 0) {
-          const designerId = rdata[idLabel]
+        if (!rdata['image_url'] || !rdata[idLabel]) continue
+        const designerId = ids.find(designerItem => designerItem.toLowerCase() === rdata[idLabel].toLowerCase())
+        if (!designerId || designerId === undefined || designerId === '') continue
+
+        if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
           if (!data[designerId]) {
             data[designerId] = []
           }
           if (data[designerId].findIndex(item => item.image === rdata['image_url']) >= 0) {
             continue
+          }
+
+          if (!thumbnailObj[rdata['image_url']]) {
+            noThumbnailData.push({
+              designerId,
+              image_url: rdata['image_url'],
+              thumbnail: ''
+            })
           }
 
           data[designerId].push({
@@ -107,7 +118,7 @@ function Libraries(props) {
         }
       }
 
-      console.log('data: ', data)
+      console.log('noThumbnailData: ', JSON.stringify(noThumbnailData))
     }
   }
   
