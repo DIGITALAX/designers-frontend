@@ -84,7 +84,7 @@ function Libraries(props) {
         const res = await fetch(item.tokenUri)
         // console.log('--- item res: ', res)
         const rdata = await res.json()
-        console.log('--- item rdata: ', rdata)
+        // console.log('--- item rdata: ', rdata)
         if (!rdata['image_url'] || !rdata[idLabel]) continue
         const designerId = ids.find(designerItem => designerItem.toLowerCase() === rdata[idLabel].toLowerCase())
         if (!designerId || designerId === undefined || designerId === '') continue
