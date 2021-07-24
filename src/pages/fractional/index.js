@@ -86,10 +86,10 @@ function Fractional(props) {
                 friction that might stop us normally from any given choice dissipates, allowing for
                 new modes of interaction that are inherently fluid and liberating. And, with that
                 said, modding is the fundamental practice that drives growth and change in fashion,
-                gaming, mechanics… everything. The methodology behind modding and the byproducts that
+                gaming, mechanics… in everything. The methodology behind modding and the byproducts that
                 come from it are what actually build the metaverse. And, not just build the metaverse
                 but also ensure that it will be kept open, vital and continuously unique to each
-                personal experience.
+                personal experience. 
               </p>
               <div className="flex md:justify-between items-center mt-12 subproimgcontainer">
                 <img src="/images/subpro1.png" className="box-shadow subproimg" alt="" />
