@@ -77,7 +77,7 @@ const LandingFooter = () => {
                     className="twitter-icon"
                   />
                 </a>
-                <a href="https://www.instagram.com/digitalax_" target="_blank">
+                <a href="https://www.instagram.com/_digitalax" target="_blank">
                   <img
                     src="/images/social-icons/ig.png"
                     alt="instagram-icon"
@@ -159,7 +159,7 @@ const LandingFooter = () => {
                     className="twitter-icon"
                   />
                 </a>
-                <a href="https://www.instagram.com/digitalax_" target="_blank">
+                <a href="https://www.instagram.com/_digitalax" target="_blank">
                   <img
                     src="/images/social-icons/ig.png"
                     alt="instagram-icon"
