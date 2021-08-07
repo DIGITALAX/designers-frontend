@@ -86,10 +86,15 @@ function Libraries(props) {
         const rdata = await res.json()
         // console.log('--- item rdata: ', rdata)
         if (!rdata['image_url'] || !rdata[idLabel]) continue
-        const designerId = ids.find(designerItem => designerItem.toLowerCase() === rdata[idLabel].toLowerCase())
+        let designerId = ids.find(designerItem => designerItem.toLowerCase() === rdata[idLabel].toLowerCase())
         if (!designerId || designerId === undefined || designerId === '') continue
 
         if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
+          const designerItem = designerIDs.find(item => item.designerID.toLowerCase() === designerId.toLowerCase())
+          // console.log('designerItem: ', designerItem)
+          if (designerItem['newDesignerID'] && designerItem['newDesignerID'] !== undefined) {
+            designerId = designerItem['newDesignerID']
+          }
           if (!data[designerId]) {
             data[designerId] = []
           }
