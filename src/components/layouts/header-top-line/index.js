@@ -1,83 +1,90 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Router, { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
-import cn from 'classnames';
-import Link from 'next/link';
-import Button from '@components/buttons/button';
-import SmallPhotoWithText from '@components/small-photo-with-text';
-import { getUser } from '@selectors/user.selectors';
-import { openConnectMetamaskModal } from '@actions/modals.actions';
-import accountActions from '@actions/user.actions';
-import Logo from './logo';
-import LandingHeader from './landing';
-import Icon from '@material-ui/core/Icon';
-import styles from './styles.module.scss';
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import Router, { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import Link from 'next/link'
+import Button from '@components/buttons/button'
+import SmallPhotoWithText from '@components/small-photo-with-text'
+import { getUser } from '@selectors/user.selectors'
+import { openConnectMetamaskModal } from '@actions/modals.actions'
+import accountActions from '@actions/user.actions'
+import Logo from './logo'
+import styles from './styles.module.scss'
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  const { innerWidth: width, innerHeight: height } = window
   return {
     width,
     height,
-  };
+  }
 }
 
 function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions());
+      setWindowDimensions(getWindowDimensions())
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-  return windowDimensions;
+  return windowDimensions
 }
 
-const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const [isCollapse, setIsCollapse] = useState(false);
+const HeaderTopLine = ({ className, buttonText }) => {
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const [isCollapse, setIsCollapse] = useState(false)
 
-  const screenWidth = useWindowDimensions().width;
-  const [isMobile, setIsMobile] = useState(false);
+  const screenWidth = useWindowDimensions().width
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    screenWidth > 472 ? setIsMobile(false) : setIsMobile(true);
-  }, [screenWidth]);
+    screenWidth > 472 ? setIsMobile(false) : setIsMobile(true)
+  }, [screenWidth])
 
-  const dispatch = useDispatch();
-  const user = useSelector(getUser);
+  const dispatch = useDispatch()
+  const user = useSelector(getUser)
   if (!user) {
-    dispatch(accountActions.checkStorageAuth());
+    dispatch(accountActions.checkStorageAuth())
   }
 
-  const handleClick = () => dispatch(openConnectMetamaskModal());
+  const handleClick = () => dispatch(openConnectMetamaskModal())
   const onIconHander = () => {
-    setIsCollapse(!isCollapse);
-  };
+    setIsCollapse(!isCollapse)
+  }
 
-  const [isShowMenu, setIsShowMenu] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState(false)
 
-  const router = useRouter();
-  const pathname = router.pathname;
+  const router = useRouter()
+  const pathname = router.pathname
 
-  const isLandingPage = pathname === '/';
+  const arrayPath = pathname.split('/')
+  const isDesignerProfilePage = arrayPath && arrayPath.length > 1 && arrayPath[1].toLowerCase() === 'designer'
 
   const handleProfileClick = () => {
-    setIsShowMenu(false);
-    Router.push('/profile');
-  };
+    setIsShowMenu(false)
+    Router.push('/profile')
+  }
   const handleLogoutClick = () => {
-    setIsShowMenu(false);
-    dispatch(accountActions.logout());
-  };
-  // console.log('Show Menu => ', isCollapse);
+    setIsShowMenu(false)
+    dispatch(accountActions.logout())
+  }
+  // console.log('Show Menu => ', isCollapse)
     return (
-    <div className={cn(className, styles.wrapper, hasScrolled ? styles.floatingNav : '')} >
+    <div className=
+      {
+        cn(
+          className,
+          styles.wrapper,
+          hasScrolled ? styles.floatingNav : '',
+          isDesignerProfilePage ? styles.transparentBackground : ''
+        )
+      }
+    >
       <div className={styles.leftBox}>
         <Logo />
       </div>
@@ -143,21 +150,17 @@ const HeaderTopLine = ({ className, isShowStaking, buttonText, linkText }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 HeaderTopLine.propTypes = {
   className: PropTypes.string,
-  isShowStaking: PropTypes.bool,
   buttonText: PropTypes.string,
-  linkText: PropTypes.string,
-};
+}
 
 HeaderTopLine.defaultProps = {
   className: '',
-  isShowStaking: true,
-  buttonText: 'SIGN IN',
-  linkText: 'Staking',
-};
+  buttonText: 'SIGN IN'
+}
 
-export default HeaderTopLine;
+export default HeaderTopLine

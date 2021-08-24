@@ -126,6 +126,11 @@ class MyDocument extends Document {
               src: url("./fonts/Animosa-Regular.otf");
               font-weight: 400;
             }
+            @font-face {
+              font-family: "Faction Personal";
+              src: url("./fonts/Faction_Outline.otf");
+              font-weight: 400;
+            }
           `,
             }}
           />

@@ -1,0 +1,166 @@
+.wrapper {
+  .topPart {
+    min-height: 200vw;
+    .background {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    .rect1 {
+      position: absolute;
+      width: 100vw;
+      height: 2.76vw;
+      left: 0px;
+      top: 17.24vw;
+      
+      background: #DB00FF;      
+    }
+
+    .rect2 {
+      position: absolute;
+      width: 100vw;
+      height: 2.76vw;
+      left: 0px;
+      top: 21.25vw;
+      
+      background: #00F0FF;
+    }
+
+    .triangle {
+      position: absolute;
+      width: 41.71vw;
+      height: 45.26vw;
+      left: 0px;
+      top: 0px;
+    }
+
+    .userPhoto {
+      position: absolute;
+      width: 21.5vw;
+      height: 21.5vw;
+      left: 3.9vw;
+      top: 11.8vw;
+    }
+
+    .claimUsername {
+      position: absolute;
+      width: 11.04vw;
+      height: 10vw;
+      right: 4.74vw;
+      top: 27vw;
+      mix-blend-mode: hard-light;
+    }
+
+    .designerName {
+      position: absolute;
+      width: 50vw;
+      height: 300px;
+      left: 35vw;
+      top: 24vw;
+      
+      font-family: Faction Personal;
+      font-size: 6.67vw;
+      line-height: 120.31%;
+      text-align: center;
+      background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .designerDescription {
+      position: absolute;
+      width: 38vw;
+      left: 60vw;
+      top: 40vw;
+      z-index: 3;
+      
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 2vw;
+      line-height: 130%;
+      
+      color: #FFFFFF;
+      
+      transform: rotate(23deg);
+      transform-origin: 0 0;
+    }
+
+    .arrowImg {
+      width: 12.4vw;
+      height: 10.05vw;
+      margin-left: 5vw;
+    }
+
+    .patternWrapper {
+      position: absolute;
+      left: 0;
+      top: 100vw;
+      width: 50vw;
+      height: 70vw;
+
+      img {
+        width: 10vw;
+        height: 10vw;
+      }
+
+      .pattern1 {
+        position: absolute;
+        left: 10vw;
+        top: 15vw;
+      }
+
+      .pattern2 {
+        position: absolute;
+        left: 25vw;
+        top: 5vw;
+      }
+
+      .pattern3 {
+        position: absolute;
+        left: 10vw;
+        top: 30vw;
+      }
+
+      .pattern4 {
+        position: absolute;
+        left: 25vw;
+        top: 20vw;
+      }
+
+      .pattern5 {
+        position: absolute;
+        left: 25vw;
+        top: 35vw;
+      }
+    }
+
+    .patternWrapper2 {
+      z-index: 2;
+      position: absolute;
+      top: 90vw;
+      right: 0vw;
+      width: 30vw;
+      height: 30vw;
+
+      .patternSample1 {
+        position: absolute;
+        top: 2vw;
+        right: 22vw;
+        width: 18.54vw;
+        height: 18.54vw;
+        z-index: 2;
+      }
+  
+      .patternSample2 {
+        position: absolute;
+        top: 0;
+        right: -5vw;
+        width: 31.15vw;
+        height: 31.15vw;
+        z-index: 1;
+      }
+    }
+  }
+}
