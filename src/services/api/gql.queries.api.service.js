@@ -184,3 +184,42 @@ export const getMaterialVS = gql`
     } 
   }
 `;
+
+export const getCollectionGroups = gql`
+  query digitalaxCollectionGroups {
+    digitalaxCollectionGroups(first: 100, skip: 2) {
+      id
+      auctions {
+        id
+        topBid
+        designer {
+          id
+          name
+          image
+        }
+        garment {
+          id
+          animation
+          image
+          name
+        }
+      }
+      collections {
+        id
+        rarity
+        garments(first: 1) {
+          id
+          animation
+          image
+          name
+        }
+        designer {
+          id
+          name
+          image
+        }
+        valueSold
+      }
+    }
+  }
+`;

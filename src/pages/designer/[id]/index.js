@@ -15,6 +15,7 @@ const DesignerPage = () => {
   const [data, setData] = useState(null)
   const designerCID = useSelector(getDesignerCIDById(id))
   const [materialList, setMaterialList] = useState([])
+  const [marketplaceItems, setMarketplaceItems] = useState([])
 
   async function getMaterials(designerInfo) {
     const thumbnails = await api.getAllThumbnails()
@@ -37,6 +38,39 @@ const DesignerPage = () => {
 
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
+
+    const { digitalaxCollectionGroups } = await APIService.getCollectionGroups()
+    console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
+    const auctionItems = []
+    digitalaxCollectionGroups.forEach(group => {
+      auctionItems.push(
+        ...group.auctions.filter(
+          auctionItem => {
+            return auctionItem.designer.name.toLowerCase() === designerInfo['Designer ID'].toLowerCase()
+          }
+        ).map(item => {
+          console.log('item: ', item)
+          return {
+            ...item.garment,
+            isAuction: 1
+          }
+        })
+      )
+
+      group.collections.filter(
+        collectionItem => {
+          return collectionItem.designer.name.toLowerCase() === designerInfo['Designer ID'].toLowerCase()
+        }
+      ).forEach(item => {
+        auctionItems.push(
+          ...item.garments.map(garment => { return {...garment, rarity: item.rarity, isAuction: 0}})
+        )
+      })
+    })
+
+    setMarketplaceItems(auctionItems)
+    console.log('auctionItems: ', auctionItems)
+
     const materials = []
     // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
     let noThumbnailData = []
@@ -99,6 +133,8 @@ const DesignerPage = () => {
         }
       }
     }
+
+  
   }
 
   useEffect(() => {
@@ -175,6 +211,31 @@ const DesignerPage = () => {
             <img className={styles.pattern4} src='/images/designer-page/pattern-selection.png' />
             <img className={styles.pattern5} src='/images/designer-page/pattern-selection.png' />
           </div>
+        </div>
+
+        <div className={styles.marketplaceItems}>
+          {
+            marketplaceItems.map((item, index) => {
+              return (
+                item.animation ?
+                <video autoPlay muted loop className={styles.clothesPhoto} key={item.animation}>
+                  <source
+                    src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
+                    type="video/mp4"
+                  />
+                </video>
+                :
+                <img 
+                  className={styles.clothesPhoto} 
+                  src={item.image}
+                  key={item.image}
+                  // style={{
+                  //   marginTop: `${index % 3 === 1 ? -10 : 0}vw`
+                  // }}
+                />
+              )
+            })
+          }
         </div>
 
 

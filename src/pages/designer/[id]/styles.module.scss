@@ -197,5 +197,15 @@
     }
 
 
+    .marketplaceItems {
+      display: flex;
+      flex-wrap: wrap;
+
+      .clothesPhoto {
+        width: 40vw;
+        height: 40vw;
+        object-fit: cover;
+      }
+    }
   }
 }

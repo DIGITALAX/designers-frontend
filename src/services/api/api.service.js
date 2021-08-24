@@ -11,7 +11,8 @@ import {
   getDesignersByIds,
   getAuctionsHistoryByIds,
   getAuctionContracts,
-  getMaterialVS
+  getMaterialVS,
+  getCollectionGroups
 } from '@services/api/gql.queries.api.service';
 
 class APIService {
@@ -67,6 +68,10 @@ class APIService {
 
   async getMaterialVS() {
     return request(MATIC_NETWORK_URL, getMaterialVS);
+  }
+
+  async getCollectionGroups() {
+    return request(MATIC_NETWORK_URL, getCollectionGroups);
   }
 }
 
