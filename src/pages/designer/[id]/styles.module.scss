@@ -1,6 +1,10 @@
 .wrapper {
   .topPart {
     min-height: 200vw;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 100%;
+
     .background {
       position: absolute;
       top: 0;
@@ -99,7 +103,7 @@
       margin-left: 10vw;
       position: relative;
       min-height: 150vw;
-      
+
       .patternWrapper {
         // position: absolute;
         // left: 0;
@@ -176,8 +180,9 @@
       position: absolute;
       top: 90vw;
       right: 0vw;
-      width: 30vw;
-      height: 30vw;
+      width: 50vw;
+      height: 40vw;
+      overflow: hidden;
 
       .patternSample1 {
         position: absolute;
