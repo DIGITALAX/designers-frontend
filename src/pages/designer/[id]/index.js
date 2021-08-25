@@ -91,9 +91,10 @@ const DesignerPage = () => {
         const res = await fetch(item.tokenUri)
         // console.log('--- item res: ', res)
         const rdata = await res.json()
-        // console.log('--- item rdata: ', rdata)
+        console.log('--- item rdata: ', rdata)
         if (!rdata['image_url'] || !rdata[idLabel]) continue
-        if (designerInfo['Designer ID'].toLowerCase() !== rdata[idLabel].toLowerCase()) continue
+        if (designerInfo['Designer ID'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
+        id.toLowerCase() !== rdata[idLabel].toLowerCase()) continue
         let designerId = rdata[idLabel]
         if (!designerId || designerId === undefined || designerId === '') continue
 
@@ -103,6 +104,7 @@ const DesignerPage = () => {
           }
 
           // console.log('--rdata: ', rdata)
+          if (materials.findIndex(item => item.image === rdata['image_url']) >= 0) continue
           materials.push({
             ...item,
             name:
@@ -151,6 +153,34 @@ const DesignerPage = () => {
         <div className={styles.designerName}>
           { data['Designer ID'].toUpperCase() }
           <img className={styles.arrowImg} src='/images/designer-page/arrow.png' />
+        </div>
+        
+        <div className={styles.socialIcons}>
+          <Link href=''>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/twitter.png' />
+            </a>
+          </Link>
+          <Link href=''>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/instagram.png' />
+            </a>
+          </Link>
+          <Link href=''>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/linkedin.png' />
+            </a>
+          </Link>
+          <Link href=''>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/tiktok.png' />
+            </a>
+          </Link>
+          <Link href=''>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/youtube.png' />
+            </a>
+          </Link>
         </div>
 
         <div className={styles.designerDescription}>

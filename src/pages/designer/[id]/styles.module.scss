@@ -55,6 +55,7 @@
       right: 4.74vw;
       top: 27vw;
       mix-blend-mode: hard-light;
+      display: none;
     }
 
     .designerName {
@@ -65,12 +66,42 @@
       top: 24vw;
       
       font-family: Faction Personal;
-      font-size: 6.67vw;
+      font-size: 5vw;
       line-height: 120.31%;
-      text-align: center;
+      text-align: left;
       background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .socialIcons {
+      position: absolute;
+      width: 25vw;
+      height: 12vw;
+      right: 0;
+      top: 27vw;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+
+      a {
+        width: 4.3vw;
+        height: 4.3vw;
+        margin-right: 2vw;
+        &:nth-of-type(3) {
+          margin-right: 4vw;
+        }
+
+        img { 
+          transition: 0.3s;
+          &:hover {
+            transform: scale(1.1)
+          }
+        }
+      }
+
+      
     }
 
     .designerDescription {
