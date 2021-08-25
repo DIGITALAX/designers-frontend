@@ -200,11 +200,23 @@
     .marketplaceItems {
       display: flex;
       flex-wrap: wrap;
+      margin-top: -60vw;
+      z-index: 4;
+
+      a {
+        z-index: 4;
+      }
 
       .clothesPhoto {
         width: 40vw;
         height: 40vw;
         object-fit: cover;
+        margin-left: 5vw;
+        margin-bottom: 5vw;
+
+        &.firstItem {
+          margin-left: 50vw;
+        }
       }
     }
   }

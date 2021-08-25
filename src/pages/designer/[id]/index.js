@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
+import Link from 'next/link'
+import LazyLoad from 'react-lazyload'
+
+import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants'
 
 import { getDesignerCIDById } from '@selectors/designer.selectors'
 
@@ -8,6 +12,12 @@ import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
 import styles from './styles.module.scss'
+
+const RARITIES = [
+  COMMON_RARITY, EXCLUSIVE_RARITY, SEMI_RARE_RARITY
+]
+
+const getRarityNumber = rarity => RARITIES.findIndex(item => item == rarity)
 
 const DesignerPage = () => {
   const router = useRouter()
@@ -63,7 +73,7 @@ const DesignerPage = () => {
         }
       ).forEach(item => {
         auctionItems.push(
-          ...item.garments.map(garment => { return {...garment, rarity: item.rarity, isAuction: 0}})
+          ...item.garments.map(garment => { return {...garment, rarity: getRarityNumber(item.rarity), isAuction: 0, id: item.id}})
         )
       })
     })
@@ -216,23 +226,37 @@ const DesignerPage = () => {
         <div className={styles.marketplaceItems}>
           {
             marketplaceItems.map((item, index) => {
+              console.log(`item.animation:'${item.animation}'`)
+              const itemLink = `https://skins.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
               return (
-                item.animation ?
-                <video autoPlay muted loop className={styles.clothesPhoto} key={item.animation}>
-                  <source
-                    src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
-                    type="video/mp4"
-                  />
-                </video>
+                item.animation && item.animation != '' ?
+                (
+                <Link href={itemLink} key={item.animation}>
+                  <a target='_blank'>
+                    <LazyLoad>
+                      <video autoPlay muted loop 
+                        className={[styles.clothesPhoto, index === 0 ? styles.firstItem : ''].join(' ')}
+                      >
+                        <source
+                          src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
+                          type="video/mp4"
+                        />
+                      </video>
+                    </LazyLoad>
+                  </a>
+                </Link>
+                )
                 :
-                <img 
-                  className={styles.clothesPhoto} 
-                  src={item.image}
-                  key={item.image}
-                  // style={{
-                  //   marginTop: `${index % 3 === 1 ? -10 : 0}vw`
-                  // }}
-                />
+                <Link href={itemLink} key={item.image}>
+                  <a target='_blank'>
+                    <LazyLoad>
+                      <img 
+                        className={[styles.clothesPhoto, index === 0 ? styles.firstItem : ''].join(' ')}
+                        src={item.image}
+                      />
+                    </LazyLoad>
+                  </a>
+                </Link>
               )
             })
           }
