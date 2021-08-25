@@ -103,7 +103,6 @@ const DesignerPage = () => {
           }
 
           // console.log('--rdata: ', rdata)
-
           materials.push({
             ...item,
             name:
@@ -114,32 +113,6 @@ const DesignerPage = () => {
           })
 
           setMaterialList([...materials])
-
-          // if (!data[designerId]) {
-          //   data[designerId] = []
-          // }
-          // if (data[designerId].findIndex(item => item.image === rdata['image_url']) >= 0) {
-          //   continue
-          // }
-
-          // if (!thumbnailObj[rdata['image_url']]) {
-          //   noThumbnailData.push({
-          //     designerId,
-          //     image_url: rdata['image_url'],
-          //     thumbnail: ''
-          //   })
-          // }
-
-          // data[designerId].push({
-          //   ...item,
-          //   name:
-          //     rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
-          //   image: rdata['image_url'],
-          //   thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
-          //   description: rdata['description'],
-            
-          // })
-          // setItems({...data})
         }
       }
     }
@@ -235,7 +208,7 @@ const DesignerPage = () => {
                   <a target='_blank'>
                     <LazyLoad>
                       <video autoPlay muted loop 
-                        className={[styles.clothesPhoto, index === 0 ? styles.firstItem : ''].join(' ')}
+                        className={[styles.clothesPhoto, index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
                       >
                         <source
                           src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
@@ -251,7 +224,7 @@ const DesignerPage = () => {
                   <a target='_blank'>
                     <LazyLoad>
                       <img 
-                        className={[styles.clothesPhoto, index === 0 ? styles.firstItem : ''].join(' ')}
+                        className={[styles.clothesPhoto, index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
                         src={item.image}
                       />
                     </LazyLoad>
