@@ -29,6 +29,7 @@ const EditProfile = ({ history }) => {
       wallet: profile.get('wallet'),
       email: profile.get('email'),
       username: profile.get('username'),
+      designerId: profile.get('designerId'),
       randomString: profile.get('randomString'),
       avatar: profile.get('avatar'),
       gameTags: profile.get('gameTags'),
@@ -134,6 +135,10 @@ const EditProfile = ({ history }) => {
           <div className={styles.inputSection}>
             <span>CHANGE EMAIL</span>
             <input value={user.email} onChange={(e) => onChange(e, 'email')} />
+          </div>
+          <div className={styles.inputSection}>
+            <span>CHANGE DESIGNER ID</span>
+            <input value={user.designerId} onChange={(e) => onChange(e, 'designerId')} />
           </div>
           <div className={styles.inputSection}>
             <span>GAME TAGS</span>

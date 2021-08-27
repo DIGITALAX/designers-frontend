@@ -218,57 +218,79 @@ const DesignerPage = () => {
             }
           </div>
           <div className={styles.patternWrapper}>
-            <img className={styles.pattern1} src='/images/designer-page/pattern-selection.png' />
-            <img className={styles.pattern2} src='/images/designer-page/pattern-selection.png' />
-            <img className={styles.pattern3} src='/images/designer-page/pattern-selection.png' />
-            <img className={styles.pattern4} src='/images/designer-page/pattern-selection.png' />
-            <img className={styles.pattern5} src='/images/designer-page/pattern-selection.png' />
+            <div className={styles.selectionGroup}>
+              <img src='/images/designer-page/pattern-selection.png' />
+              <img src='/images/designer-page/pattern-selection.png' />
+              <img src='/images/designer-page/pattern-selection.png' />
+              <img src='/images/designer-page/pattern-selection.png' />
+              <img src='/images/designer-page/pattern-selection.png' />
+            </div>
+            <div className={styles.gamePad}>
+              <img src='/images/designer-page/gamepad.png' />
+            </div>
+            
+          </div>
+          
+        </div>
+
+        <div className={styles.ownershipText}>
+          Fractional Garment Ownership.          
+        </div>
+        
+        <div className={styles.marketplaceSection}>
+          <h1>
+            On-Chain Fashion            
+          </h1>
+          <div className={styles.marketplaceItems}>
+            {
+              marketplaceItems.map((item, index) => {
+                console.log(`item.animation:'${item.animation}'`)
+                const itemLink = `https://skins.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
+                return (
+                  item.animation && item.animation != '' ?
+                  (
+                  <Link href={itemLink} key={item.animation}>
+                    <a target='_blank'>
+                      <div className={styles.clothesPhoto}>
+                        <img className={styles.frameBack} src='/images/designer-page/frame.png' />
+                        <LazyLoad>
+                          <video autoPlay muted loop 
+                            className={[index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
+                          >
+                            <source
+                              src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
+                              type="video/mp4"
+                            />
+                          </video>
+                        </LazyLoad>
+                      </div>
+                    </a>
+                  </Link>
+                  )
+                  :
+                  <Link href={itemLink} key={item.image}>
+                    <a target='_blank'>
+                      <div className={styles.clothesPhoto}>
+                        <img className={styles.frameBack} src='/images/designer-page/frame.png' />
+                        <LazyLoad>
+                          <img 
+                            className={[index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
+                            src={item.image}
+                          />
+                        </LazyLoad>
+                      </div>
+                    </a>
+                  </Link>
+                )
+              })
+            }
           </div>
         </div>
-
-        <div className={styles.marketplaceItems}>
-          {
-            marketplaceItems.map((item, index) => {
-              console.log(`item.animation:'${item.animation}'`)
-              const itemLink = `https://skins.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
-              return (
-                item.animation && item.animation != '' ?
-                (
-                <Link href={itemLink} key={item.animation}>
-                  <a target='_blank'>
-                    <LazyLoad>
-                      <video autoPlay muted loop 
-                        className={[styles.clothesPhoto, index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
-                      >
-                        <source
-                          src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
-                          type="video/mp4"
-                        />
-                      </video>
-                    </LazyLoad>
-                  </a>
-                </Link>
-                )
-                :
-                <Link href={itemLink} key={item.image}>
-                  <a target='_blank'>
-                    <LazyLoad>
-                      <img 
-                        className={[styles.clothesPhoto, index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
-                        src={item.image}
-                      />
-                    </LazyLoad>
-                  </a>
-                </Link>
-              )
-            })
-          }
-        </div>
-
 
         <div className={styles.patternWrapper2}>
           <img className={styles.patternSample1} src='/images/designer-page/pattern_sample1.png' />
           <img className={styles.patternSample2} src='/images/designer-page/pattern_sample2.png' />
+          <img className={styles.patternSample3} src='/images/designer-page/pattern_sample3.png' />
         </div>
 
       </div> 

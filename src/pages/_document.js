@@ -131,6 +131,11 @@ class MyDocument extends Document {
               src: url("./fonts/Faction_Outline.otf");
               font-weight: 400;
             }
+            @font-face {
+              font-family: "THIS FONT IS EMPTY1";
+              src: url("./fonts/THIS FONT IS EMPTY1.ttf");
+              font-weight: 400;
+            }
           `,
             }}
           />
