@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
 import Link from 'next/link'
 import LazyLoad from 'react-lazyload'
 
 import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants'
-
-import { getDesignerCIDById } from '@selectors/designer.selectors'
 
 import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
@@ -22,14 +19,19 @@ const getRarityNumber = rarity => RARITIES.findIndex(item => item == rarity)
 const DesignerPage = () => {
   const router = useRouter()
   const { id } = router.query
-  const [data, setData] = useState(null)
-  const designerCID = useSelector(getDesignerCIDById(id))
+  const [designerInfo, setDesignerInfo] = useState(null)
   const [materialList, setMaterialList] = useState([])
   const [marketplaceItems, setMarketplaceItems] = useState([])
 
-  async function getMaterials(designerInfo) {
+  async function loadData() {
+    const designers = await api.getAllDesigners() || []
     const thumbnails = await api.getAllThumbnails()
-    
+
+    const designer = designers.find(item => item.designerId.toLowerCase() === id.toLowerCase()
+    || (item.newDesignerID && item.newDesignerID.toLowerCase() === id.toLowerCase()))
+
+    setDesignerInfo(designer)
+      
     const thumbnailObj = {}
     const blockedList = []
     for (const thumbnail in thumbnails.data) {
@@ -40,7 +42,7 @@ const DesignerPage = () => {
       }
     }
 
-    console.log('thumbnailObj: ', designerInfo['Designer ID'].toLowerCase())
+    console.log('thumbnailObj: ', designer['designerId'].toLowerCase())
 
     // setThumbnailList(thumbnailObj)
 
@@ -56,7 +58,7 @@ const DesignerPage = () => {
       auctionItems.push(
         ...group.auctions.filter(
           auctionItem => {
-            return auctionItem.designer.name.toLowerCase() === designerInfo['Designer ID'].toLowerCase()
+            return auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
           }
         ).map(item => {
           console.log('item: ', item)
@@ -69,7 +71,7 @@ const DesignerPage = () => {
 
       group.collections.filter(
         collectionItem => {
-          return collectionItem.designer.name.toLowerCase() === designerInfo['Designer ID'].toLowerCase()
+          return collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
         }
       ).forEach(item => {
         auctionItems.push(
@@ -95,14 +97,14 @@ const DesignerPage = () => {
           const rdata = await res.json()
           // console.log('--- item rdata: ', rdata)
           if (!rdata['image_url'] || !rdata[idLabel]) continue
-          if (designerInfo['Designer ID'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
+          if (designer['designerId'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
           id.toLowerCase() !== rdata[idLabel].toLowerCase()) continue
           let designerId = rdata[idLabel]
           if (!designerId || designerId === undefined || designerId === '') continue
 
           if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
-            if (designerInfo['newDesignerID'] && designerInfo['newDesignerID'] !== undefined) {
-              designerId = designerInfo['newDesignerID']
+            if (designer['newDesignerID'] && designer['newDesignerID'] !== undefined) {
+              designerId = designer['newDesignerID']
             }
 
             // console.log('--rdata: ', rdata)
@@ -128,21 +130,14 @@ const DesignerPage = () => {
   }
 
   useEffect(() => {
-    fetch(`https://digitalax.mypinata.cloud/ipfs/${designerCID}`)
-      .then((response) => response.json())
-      .then(jsonData => {
-        setData(jsonData)
-        getMaterials(jsonData)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    loadData()
   }, [])
 
-  if (!data) {
-    return null;
+  if (!designerInfo) {
+    return null
   }
 
+  console.log('designerInfo: ', designerInfo)
   console.log('materialList: ', materialList)
 
   return (
@@ -152,11 +147,11 @@ const DesignerPage = () => {
         <div className={styles.rect1}></div>
         <div className={styles.rect2}></div>
         <img className={styles.triangle} src='/images/designer-page/triangle.png' />
-        <img className={styles.userPhoto} src={data['image_url']} />
+        <img className={styles.userPhoto} src={designerInfo['image_url']} />
         <img className={styles.claimUsername} src='/images/designer-page/claim-username.png' />
 
         <div className={styles.designerName}>
-          { data['Designer ID'].toUpperCase() }
+          { designerInfo['designerId'].toUpperCase() }
           <img className={styles.arrowImg} src='/images/designer-page/arrow.png' />
         </div>
         
@@ -189,7 +184,7 @@ const DesignerPage = () => {
         </div>
 
         <div className={styles.designerDescription}>
-          { data['description'] }
+          { designerInfo['description'] }
         </div>
         <div className={styles.patternSection}>
           <div className={styles.patternWrapper3}>
