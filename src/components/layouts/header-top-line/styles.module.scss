@@ -12,13 +12,12 @@
   background-color: #000;
   transition: 0.2s;
   z-index: 99;
-  @media (max-width: 707px) {
+
+  @media (max-width: 710px) {
     height: fit-content;
     display: block;
   }
 
-  @media screen and (max-width: 1320px) {
-  }
   @media screen and (max-width: 1200px) {
     align-items: baseline;
   }
@@ -27,147 +26,90 @@
     padding: 20px 20px;
     flex-direction: column;
   }
-}
 
-
-.collapseIcon{
-  display: none;
-}
-
-.floatingNav {
-  // border-radius: 2px;
-  // box-shadow: 0px 1px 10px #999;
-}
-
-.leftBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  float: left;
-  @media (max-width: 707px) {
-    justify-content: flex-start;
+  .leftBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    float: left;
+    @media (max-width: 710px) {
+      justify-content: flex-start;
+    }
   }
-}
 
-.goToMaticButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0px 20px;
-  height: 32px;
-  background: #6eb2f1;
-  border: 1px solid #767676;
-  box-sizing: border-box;
-  border-radius: 10px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-left: 40px;
-  margin-top: -20px;
-  white-space: nowrap;
+  .rightBox {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    width: fit-content;
+    float: right;
+    @media (max-width: 710px) {
+      width: 100%;
+    }
 
-  &:hover {
-    color: white;
-    background: #95c6f3;
-  }
-}
+    .links {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+    
+      @media screen and (max-width: 710px) {
+        display: none;
+        padding: 20px 0;
+      }
+    
+      .link {
+        @include active();
+        font-weight: 600;
+        font-size: 0.875rem;
+        line-height: 17px;
+        color: #FF77F1;
+        text-transform: uppercase;
+        margin-right: 26px;
+      
+        &:focus {
+          outline: none;
+        }
+        &:hover {
+          color: #FF77F1;
+        }
+      
+        @media screen and (max-width: 710px) {
+          text-align: center;
+          font-size: 18px;
+          line-height: 30px;
+          width: 100%;
+      
+        }
+      }
+    }
 
-@keyframes scale {
-  0% {transform: scale(0.8)}
-  100% {transform: scale(1.0)}
-}
-
-.arrow {
-  margin-left: 4px;
-  @media screen and (max-width: 640px) {
-    margin-left: -130px;
-    margin-top: 50px;
-  }
-  margin-top: 30px;
-  position: relative;
-  width: 60px;
-  height: 43px;
-  animation: scale 1s ease-in-out infinite alternate;
-}
-
-.arrowDesc {
-  width: 155px;
-  font-weight: 800;
-  font-size: 0.9375rem;
-  color: #843BFA;
-  border: 0.3px solid #FFFFFF;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  top: 12px;
-  left: 54px;
-}
-
-.links {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
-
-  @media screen and (min-width: 1200px) {
-    justify-content: flex-end;
-  }
-  @media screen and (max-width: 640px) {
-    flex-direction: row;
-    justify-content: flex-end;
-    // margin: 0;
-    a {
+    .collapseIcon{
       display: none;
+    
+      @media (max-width: 710px) {
+        position: absolute;
+        display: block;
+        top: 21px;
+        right: 24px;
+      }
     }
   }
-  @media screen and (max-width: 710px){
-   .collapseIcon {
-      position: absolute;
-      display: block;
-      top: 21px;
-      right: 24px;
-    }
-  }  
 }
 
-.rightBox {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  width: fit-content;
-  float: right;
-  @media (max-width: 707px) {
-    width: 100%;
-  }
-}
-
-.link {
-  @include active();
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 17px;
-  color: #FF77F1;
-  text-transform: uppercase;
-  margin-right: 26px;
-
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    color: #FF77F1;
-  }
-
-  @media screen and (max-width: 640px) {
-    text-align: center;
-    line-height: 30px;
-  }
-}
 .signButton{
   @media screen and (max-width:640px){
     display: none;
   }
+
+  .buttonWrapper {
+    position: relative;
+  }
+  
 }
+
 .signBtn{
   @media screen and (max-width: 640px) {
       margin-right: 20px;
@@ -180,11 +122,6 @@
         padding-top: 7px;
       }
   }
-}
-
-
-.buttonWrapper {
-  position: relative;
 }
 
 .menuWrapper {
@@ -226,7 +163,13 @@
 
 .expandedMenu{
   display: block;
-  margin-top: 30px;
+  position: absolute;
+  // width: 100%;
+  left: -20px;
+  right: 0px;
+  top: 70px;
+  background-color:rgba(0, 0, 0, 1);
+  // margin-top: 30px;
   a {
     float: none;
     display: block;
