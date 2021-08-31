@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import LazyLoad from 'react-lazyload'
 
 import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants'
 
 import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
+import CollectionCard from '@components/collection-card'
 
 import styles from './styles.module.scss'
 
@@ -42,7 +42,7 @@ const DesignerPage = () => {
       }
     }
 
-    console.log('thumbnailObj: ', designer['designerId'].toLowerCase())
+    // console.log('thumbnailObj: ', designer['designerId'].toLowerCase())
 
     // setThumbnailList(thumbnailObj)
 
@@ -52,7 +52,7 @@ const DesignerPage = () => {
     const { digitalaxMaterialV2S } = result
 
     const { digitalaxCollectionGroups } = await APIService.getCollectionGroups()
-    console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
+    // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
     const auctionItems = []
     digitalaxCollectionGroups.forEach(group => {
       auctionItems.push(
@@ -61,7 +61,7 @@ const DesignerPage = () => {
             return auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
           }
         ).map(item => {
-          console.log('item: ', item)
+          // console.log('item: ', item)
           return {
             ...item.garment,
             isAuction: 1
@@ -137,7 +137,7 @@ const DesignerPage = () => {
     return null
   }
 
-  console.log('designerInfo: ', designerInfo)
+  // console.log('designerInfo: ', designerInfo)
   console.log('materialList: ', materialList)
 
   return (
@@ -187,7 +187,7 @@ const DesignerPage = () => {
           { designerInfo['description'] }
         </div>
         <div className={styles.patternSection}>
-          <div className={styles.patternWrapper3}>
+          <div className={[styles.patternWrapper3, materialList.length <= 5 ? styles.smallPattern : ''].join(' ')}>
             {
               materialList.slice(0, 5).map((item, index) => {
                 return (
@@ -243,46 +243,12 @@ const DesignerPage = () => {
           </h1>
           <div className={styles.marketplaceItems}>
             {
-              marketplaceItems.map((item, index) => {
-                console.log(`item.animation:'${item.animation}'`)
-                const itemLink = `https://skins.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
-                return (
-                  item.animation && item.animation != '' ?
-                  (
-                  <Link href={itemLink} key={item.animation}>
-                    <a target='_blank'>
-                      <div className={styles.clothesPhoto}>
-                        <img className={styles.frameBack} src='/images/designer-page/frame.png' />
-                        <LazyLoad>
-                          <video autoPlay muted loop 
-                            className={[index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
-                          >
-                            <source
-                              src={item.animation.replace('gateway.pinata', 'digitalax.mypinata')}
-                              type="video/mp4"
-                            />
-                          </video>
-                        </LazyLoad>
-                      </div>
-                    </a>
-                  </Link>
-                  )
-                  :
-                  <Link href={itemLink} key={item.image}>
-                    <a target='_blank'>
-                      <div className={styles.clothesPhoto}>
-                        <img className={styles.frameBack} src='/images/designer-page/frame.png' />
-                        <LazyLoad>
-                          <img 
-                            className={[index === 0 && materialList.length > 5 ? styles.firstItem : ''].join(' ')}
-                            src={item.image}
-                          />
-                        </LazyLoad>
-                      </div>
-                    </a>
-                  </Link>
-                )
-              })
+              marketplaceItems.map((item, index) => 
+                <CollectionCard 
+                  item={item}
+                  key={item.animation && item.animation != '' ? item.animation : item.image}
+                />
+              )
             }
           </div>
         </div>
