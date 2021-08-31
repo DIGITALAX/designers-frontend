@@ -151,6 +151,15 @@ class EspaApiService {
       return null;
     }
   }
+
+  async getAllDesigners() {
+    try {
+      const designers = await get('/get-all-designers');
+      return designers ? designers.data : [];
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 export default new EspaApiService();

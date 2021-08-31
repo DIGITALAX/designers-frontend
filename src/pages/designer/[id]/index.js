@@ -40,7 +40,7 @@ const DesignerPage = () => {
       }
     }
 
-    console.log('thumbnailObj: ', thumbnailObj)
+    console.log('thumbnailObj: ', designerInfo['Designer ID'].toLowerCase())
 
     // setThumbnailList(thumbnailObj)
 
@@ -79,42 +79,47 @@ const DesignerPage = () => {
     })
 
     setMarketplaceItems(auctionItems)
-    console.log('auctionItems: ', auctionItems)
+    // console.log('auctionItems: ', auctionItems)
 
     const materials = []
     // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
     let noThumbnailData = []
-    console.log('designer id: ', designerInfo['Designer ID'])
+    // console.log('designer id: ', designerInfo['Designer ID'])
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
-        // console.log('--- item: ', item)
-        const res = await fetch(item.tokenUri)
-        // console.log('--- item res: ', res)
-        const rdata = await res.json()
-        console.log('--- item rdata: ', rdata)
-        if (!rdata['image_url'] || !rdata[idLabel]) continue
-        if (designerInfo['Designer ID'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
-        id.toLowerCase() !== rdata[idLabel].toLowerCase()) continue
-        let designerId = rdata[idLabel]
-        if (!designerId || designerId === undefined || designerId === '') continue
+        
+        if (item.attributes.length <= 0) continue
+        try {
+          const res = await fetch(item.tokenUri)
+          // console.log('--- item res: ', res)
+          const rdata = await res.json()
+          // console.log('--- item rdata: ', rdata)
+          if (!rdata['image_url'] || !rdata[idLabel]) continue
+          if (designerInfo['Designer ID'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
+          id.toLowerCase() !== rdata[idLabel].toLowerCase()) continue
+          let designerId = rdata[idLabel]
+          if (!designerId || designerId === undefined || designerId === '') continue
 
-        if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
-          if (designerInfo['newDesignerID'] && designerInfo['newDesignerID'] !== undefined) {
-            designerId = designerInfo['newDesignerID']
+          if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
+            if (designerInfo['newDesignerID'] && designerInfo['newDesignerID'] !== undefined) {
+              designerId = designerInfo['newDesignerID']
+            }
+
+            // console.log('--rdata: ', rdata)
+            if (materials.findIndex(item => item.image === rdata['image_url']) >= 0) continue
+            materials.push({
+              ...item,
+              name:
+                rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
+              image: rdata['image_url'],
+              thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
+              description: rdata['description']
+            })
+
+            setMaterialList([...materials])
           }
-
-          // console.log('--rdata: ', rdata)
-          if (materials.findIndex(item => item.image === rdata['image_url']) >= 0) continue
-          materials.push({
-            ...item,
-            name:
-              rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
-            image: rdata['image_url'],
-            thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
-            description: rdata['description']
-          })
-
-          setMaterialList([...materials])
+        } catch (exception) {
+          console.log('exception: ', exception)
         }
       }
     }
