@@ -1,6 +1,6 @@
-import React, { memo } from 'react';
-import DesignerList from '@containers/designer-list';
+import React, { memo } from 'react'
+import DesignerList from '@containers/designer-list'
 
-const Index = () => <DesignerList />;
+const Index = () => <DesignerList />
 
-export default memo(Index);
+export default memo(Index)

@@ -212,23 +212,6 @@ export const onAuctionsHistoryByIds = `
   }
 `;
 
-export const onResultedAuctionsByEndTimeGtAndIds = `
-  subscription getAuctionsHistoryByTimestampGt($ids: [ID!], $endTime: BigInt!) {
-    digitalaxGarmentAuctions(where: {id_in: $ids, resulted_not_in:[false], endTime_gt: $endTime }) {
-      id
-      reservePrice
-      endTime
-      startTime
-      resulted
-      topBidder {
-        id
-      }
-      topBid
-      lastBidTime
-    }
-  }
-`;
-
 export const onDigitalaxGarmentsCollectionChange = `
   subscription onDigitalaxGarmentsCollectionChange($garmentAuctionNFTId: BigInt!)
   {

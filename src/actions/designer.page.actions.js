@@ -1,7 +1,6 @@
 import BaseActions from '@actions/base-actions';
 import garmentActions from '@actions/garment.actions';
 import designerActions from '@actions/designer.actions';
-import auctionActions from '@actions/auction.actions';
 import api from '@services/api/api.service';
 import reducer from '../reducers/designer.reducer';
 
@@ -30,7 +29,6 @@ class DesignerPageActions extends BaseActions {
     return async (dispatch) => {
       dispatch(designerActions.clear());
       dispatch(garmentActions.clear());
-      dispatch(auctionActions.clear());
     };
   }
 

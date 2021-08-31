@@ -1,6 +1,5 @@
 import kebabCase from 'lodash.kebabcase'
 
-export const getAllDesignersById = (state) => state.designer.get('designersById')
 export const getDesignerById = (id) => (state) =>
   state.designer.getIn(['designersById', id]) || null
 export const getDesignerGarmentIds = () => (state) => state.designer.get('designerGarmentIds')
@@ -13,7 +12,6 @@ export const getDesignerCIDById = id => state => {
   if (!designerInfo) return null
   return designerInfo['CID'] || null
 }
-export const getAllDesignerIDs = () => (state) => state.designer.get('designerIDs')
 export const getDesignerInfoByName = (name, isEqualCheck = false) => (state) =>
   state.designer
     .get('infoByDesignerId')
