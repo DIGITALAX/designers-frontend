@@ -7,10 +7,11 @@ import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
 import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
+import Loader from '@components/loader'
 import { getAccount } from '@selectors/user.selectors'
 
 import designerActions from '@actions/designer.actions'
-import { getCurrentDesignerInfo } from '@selectors/designer.selectors'
+import { getCurrentDesignerInfo, getIsLoading } from '@selectors/designer.selectors'
 import styles from './styles.module.scss'
 
 
@@ -24,6 +25,7 @@ const EditDesignerProfile = () => {
   const dispatch = useDispatch()
   const account = useSelector(getAccount)
   const designerInfo = useSelector(getCurrentDesignerInfo())
+  const isLoading = useSelector(getIsLoading())
 
   const [materialList, setMaterialList] = useState([])
   const [marketplaceItems, setMarketplaceItems] = useState([])
@@ -141,10 +143,12 @@ const EditDesignerProfile = () => {
     return null
   }
 
-  console.log('materialList: ', materialList)
+  console.log('isLoading: ', isLoading)
+  // console.log('materialList: ', materialList)
 
   return (
     <div className={styles.wrapper}>
+      {isLoading && <Loader white size='large' className={styles.loader} />}
       <DesignerProfileTopPart 
         isEdit={true}
         designerInfo={designerInfo}

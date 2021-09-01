@@ -34,7 +34,7 @@ const Profile = ({ history }) => {
   }
 
   if (!user || !nfts) {
-    return <Loader size='large' className={styles.loader} />
+    return <Loader size='large' white className={styles.loader} />
   }
 
   const onCopyWalletAddress = () => {

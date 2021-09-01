@@ -91,6 +91,7 @@
     height: 3vw;
     left: 35vw;
     top: 37vw;
+    display: none;
   }
 
   .claimUsername {
@@ -165,7 +166,56 @@
     
     transform: rotate(23deg);
     transform-origin: 0 0;
+
+    &.editing {
+      left: 50vw;
+    }
   }
+
+  .editDescription {
+    position: absolute;
+    width: 38vw;
+    height: 38vw;
+    left: 40vw;
+    top: 40vw;
+    z-index: 3;
+    
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.8vw;
+    line-height: 130%;
+    background: transparent;
+    border: none;
+    outline: 1px dotted white;
+    
+    color: #FFFFFF;    
+  }
+
+  .modDescriptionButton {
+    position: absolute;
+    width: 10vw;
+    height: 3vw;
+    left: 80vw;
+    top: 80vw;
+  }
+  
+  .modDescriptionButtonSave {
+    position: absolute;
+    width: 10vw;
+    height: 3vw;
+    left: 75vw;
+    top: 80vw;
+  }
+  
+  .modDescriptionButtonCancel {
+    position: absolute;
+    width: 10vw;
+    height: 3vw;
+    left: 86vw;
+    top: 80vw;
+  }
+
 
   .arrowImg {
     width: 12.4vw;

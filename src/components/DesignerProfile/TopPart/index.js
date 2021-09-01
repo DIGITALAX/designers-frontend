@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
-
-import api from '@services/api/espa/api.service'
 import Button from '@components/Button'
 import CollectionCard from '@components/collection-card'
 import designerActions from '@actions/designer.actions'
@@ -14,6 +12,8 @@ const DesignerProfileTopPart = props => {
 
   const [avatarUrl, setAvatarUrl] = useState('')
   const [isEditingAvatar, setIsEditingAvatar] = useState(false)
+  const [isEditingDescription, setIsEditingDescription] = useState(false)
+  const [descriptionDraft, setDescriptionDraft] = useState('')
 
   const dispatch = useDispatch()
 
@@ -22,6 +22,7 @@ const DesignerProfileTopPart = props => {
     setAvatarUrl(designerInfo['image_url'])
   }, [designerInfo['image_url']])
 
+  // Mod Avatar
   const showBrowserForAvatar = () => {
     document.getElementById('avatar-upload').click()
   }
@@ -52,6 +53,26 @@ const DesignerProfileTopPart = props => {
 
     setAvatarUrl(URL.createObjectURL(files[0]))
     setIsEditingAvatar(true)
+  }
+
+  // Mod Description
+  const showEditDescription = () => {
+    setDescriptionDraft(designerInfo['description'])
+    setIsEditingDescription(true)
+  }
+  
+  const saveModDescription = () => {
+    designerInfo['description'] = descriptionDraft
+    dispatch(designerActions.updateProfile(designerInfo))
+    setIsEditingDescription(false)
+  }
+  
+  const cancelModDescription = () => {
+    setIsEditingDescription(false)
+  }
+
+  const onChangeDescription = (e) => {
+    setDescriptionDraft(e.target.value)
   }
 
 
@@ -136,9 +157,46 @@ const DesignerProfileTopPart = props => {
       </div>
       }
 
-      <div className={styles.designerDescription}>
-        { designerInfo['description'] }
-      </div>
+      { 
+        !isEditingDescription && <div className={[styles.designerDescription, isEdit ? styles.editing : ''].join(' ')}>
+          { designerInfo['description'] }
+        </div>
+      }
+      {
+        isEdit && isEditingDescription && <textarea
+          className={styles.editDescription}
+          onChange={onChangeDescription}
+          value={descriptionDraft}
+        />
+      }
+      {
+        isEdit && !isEditingDescription && 
+        <Button
+          className={[styles.modDescriptionButton, styles.blueButton].join(' ')}
+          onClick={() => showEditDescription()}
+        >
+          MOD
+        </Button>
+      }
+      {
+        isEdit && isEditingDescription &&
+        <Button
+          className={[styles.modDescriptionButtonSave, styles.blueButton].join(' ')}
+          onClick={() => saveModDescription()}
+        >
+          SAVE
+        </Button>
+      }
+      {
+        isEdit && isEditingDescription &&
+        <Button
+          className={[styles.modDescriptionButtonCancel, styles.blueButton].join(' ')}
+          onClick={() => cancelModDescription()}
+        >
+          CANCEL
+        </Button>
+      }
+
       {!isEdit && 
       <div className={styles.patternSection}>
         <div className={[styles.patternWrapper3, materialList.length <= 5 ? styles.smallPattern : ''].join(' ')}>
