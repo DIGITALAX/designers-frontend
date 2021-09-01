@@ -1,58 +1,58 @@
-import React from 'react';
-import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
-import Router from 'next/router';
-import copy from 'copy-to-clipboard';
-import NFTProduct from '@components/nft-product';
-import Button from '@components/buttons/button';
-import { getUser, getAccount } from '@selectors/user.selectors';
-import { useProfile, useNFTs } from '@hooks/espa/user.hooks';
-import accountActions from '@actions/user.actions';
-import Loader from '@components/loader';
-import styles from './styles.module.scss';
-import { toast } from 'react-toastify';
+import React from 'react'
+import cn from 'classnames'
+import { useSelector, useDispatch } from 'react-redux'
+import Router from 'next/router'
+import copy from 'copy-to-clipboard'
+import { toast } from 'react-toastify'
+import NFTProduct from '@components/nft-product'
+import Button from '@components/buttons/button'
+import Loader from '@components/loader'
+import { getUser, getAccount } from '@selectors/user.selectors'
+import { useNFTs } from '@hooks/espa/user.hooks'
+import accountActions from '@actions/user.actions'
+import styles from './styles.module.scss'
 
 const Profile = ({ history }) => {
-  const user = useSelector(getUser);
-  const dispatch = useDispatch();
+  const user = useSelector(getUser)
+  const dispatch = useDispatch()
   if (!user) {
-    dispatch(accountActions.checkStorageAuth());
+    dispatch(accountActions.checkStorageAuth())
   }
-  const account = useSelector(getAccount);
+  const account = useSelector(getAccount)
   console.log('account: ', account)
-  const nfts = useNFTs(account);
+  const nfts = useNFTs(account)
   const getGameTags = (str) => {
     if (!str) {
-      return '';
+      return ''
     }
-    let tags = str.replace(', ', ',').split(',');
-    tags.sort();
+    let tags = str.replace(', ', ',').split(',')
+    tags.sort()
     return tags.reduce((total, cur) => {
-      let capitalize = cur.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()));
-      return `${total}#${capitalize} `;
-    }, '');
-  };
+      let capitalize = cur.replace(/\w\S*/g, (w) => w.replace(/^\w/, (c) => c.toUpperCase()))
+      return `${total}#${capitalize} `
+    }, '')
+  }
 
   if (!user || !nfts) {
-    return <Loader size="large" className={styles.loader} />;
+    return <Loader size='large' className={styles.loader} />
   }
 
   const onCopyWalletAddress = () => {
-    copy(account);
-    toast("Wallet Address is copied to the clipboard");
-  };
+    copy(account)
+    toast('Wallet Address is copied to the clipboard')
+  }
 
   return (
     <div className={styles.profileWrapper}>
       <div className={styles.leftSideWrapper}>
         <div className={styles.avatarIDSection}>
           <img src={user.get('avatar') ? user.get('avatar') : '../../../images/user-photo.svg'} />
-          <span className="text-white">{user.get('username')}</span>
+          <span className='text-white'>{user.get('username')}</span>
         </div>
         <span className={styles.email}>{user.get('email')}</span>
         <div className={styles.inputItemwrapper}>
           <span>Changing Room</span>
-          <p className="text-white">{nfts.length}</p>
+          <p className='text-white'>{nfts.length}</p>
         </div>
         <div className={styles.inputItemwrapper}>
           <span>Game Tags</span>
@@ -60,18 +60,18 @@ const Profile = ({ history }) => {
         </div>
         <div className={styles.inputItemwrapper}>
           <span>Whitelisted IP address</span>
-          <p className="text-white">{user.get('ipAddrs')}</p>
+          <p className='text-white'>{user.get('ipAddrs')}</p>
         </div>
         <div className={styles.walletAddress}>
           <span>Connected Wallet Address</span>
-          <p className="text-white">
+          <p className='text-white'>
             {account}
-            <img src="/images/clipboard.svg" onClick={onCopyWalletAddress} />
+            <img src='/images/clipboard.svg' onClick={onCopyWalletAddress} />
           </p>
         </div>
         <Button
           className={styles.modalButton}
-          background="black"
+          background='black'
           onClick={() => Router.push('/profile/edit')}
         >
           Edit Profile
@@ -87,7 +87,7 @@ const Profile = ({ history }) => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

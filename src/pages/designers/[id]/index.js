@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 
 import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants'
 
 import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
-import CollectionCard from '@components/collection-card'
+
+import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
 
 import styles from './styles.module.scss'
 
@@ -89,7 +89,6 @@ const DesignerPage = () => {
     // console.log('designer id: ', designerInfo['Designer ID'])
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
-        
         if (item.attributes.length <= 0) continue
         try {
           const res = await fetch(item.tokenUri)
@@ -98,7 +97,7 @@ const DesignerPage = () => {
           // console.log('--- item rdata: ', rdata)
           if (!rdata['image_url'] || !rdata[idLabel]) continue
           if (designer['designerId'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
-          id.toLowerCase() !== rdata[idLabel].toLowerCase()) continue
+            designer['newDesignerID'].toLowerCase() !== rdata[idLabel].toLowerCase()) continue
           let designerId = rdata[idLabel]
           if (!designerId || designerId === undefined || designerId === '') continue
 
@@ -125,8 +124,6 @@ const DesignerPage = () => {
         }
       }
     }
-
-  
   }
 
   useEffect(() => {
@@ -142,7 +139,13 @@ const DesignerPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.topPart}>
+      <DesignerProfileTopPart
+        isEdit={false}
+        designerInfo={designerInfo}
+        materialList={materialList}
+        marketplaceItems={marketplaceItems}
+      />
+      {/* <div className={styles.topPart}>
         <img className={styles.background} src='/images/designer-page/background.png' />
         <div className={styles.rect1}></div>
         <div className={styles.rect2}></div>
@@ -259,7 +262,7 @@ const DesignerPage = () => {
           <img className={styles.patternSample3} src='/images/designer-page/pattern_sample3.png' />
         </div>
 
-      </div> 
+      </div>  */}
       <div className={styles.bottomPart}></div> 
     </div>
   )

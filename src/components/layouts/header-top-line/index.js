@@ -6,11 +6,14 @@ import cn from 'classnames'
 import Link from 'next/link'
 import Button from '@components/buttons/button'
 import SmallPhotoWithText from '@components/small-photo-with-text'
-import { getUser } from '@selectors/user.selectors'
+import { getUser, getAccount } from '@selectors/user.selectors'
 import { openConnectMetamaskModal } from '@actions/modals.actions'
 import accountActions from '@actions/user.actions'
+import api from '@services/api/espa/api.service'
 import Logo from './logo'
 import styles from './styles.module.scss'
+
+
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -38,6 +41,7 @@ function useWindowDimensions() {
 const HeaderTopLine = ({ className, buttonText }) => {
   const [hasScrolled, setHasScrolled] = useState(false)
   const [isCollapse, setIsCollapse] = useState(false)
+  const [isDesigner, setIsDesigner] = useState(false)
 
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
@@ -46,11 +50,24 @@ const HeaderTopLine = ({ className, buttonText }) => {
     screenWidth > 472 ? setIsMobile(false) : setIsMobile(true)
   }, [screenWidth])
 
+  const checkIfDesigner = async (wallet) => {
+    const designers = await api.getDesignerByWallet(wallet) || []
+    if (designers.length > 0) {
+      setIsDesigner(true)
+    }
+  }
+
   const dispatch = useDispatch()
   const user = useSelector(getUser)
+  const account = useSelector(getAccount)
+
   if (!user) {
     dispatch(accountActions.checkStorageAuth())
   }
+
+  useEffect(() => {
+    checkIfDesigner(account)
+  }, [account])
 
   const handleClick = () => dispatch(openConnectMetamaskModal())
   const onIconHander = () => {
@@ -72,6 +89,11 @@ const HeaderTopLine = ({ className, buttonText }) => {
   const handleLogoutClick = () => {
     setIsShowMenu(false)
     dispatch(accountActions.logout())
+  }
+
+  const handleEditDesignerPageClick = () => {
+    setIsShowMenu(false)
+    Router.push('/edit-designer-profile')
   }
   // console.log('Show Menu => ', isCollapse)
     return (
@@ -132,6 +154,12 @@ const HeaderTopLine = ({ className, buttonText }) => {
                     <button onClick={() => handleProfileClick()} className={styles.menuButton}>
                       Profile
                     </button>
+                    {
+                    isDesigner && 
+                      <button onClick={() => handleEditDesignerPageClick()} className={styles.menuButton}>
+                        Edit Designer Page
+                      </button>
+                    }
                     <button onClick={() => handleLogoutClick()} className={styles.menuButton}>
                       Logout
                     </button>

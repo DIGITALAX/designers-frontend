@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import cn from 'classnames'
 import { useSelector } from 'react-redux'
-// import { getAllDesignerCIDs } from '@selectors/designer.selectors'
 import api from '@services/api/espa/api.service'
 
 import styles from './styles.module.scss'
@@ -32,7 +31,6 @@ function useWindowDimensions() {
 }
 
 const DesignerList = () => {
-  // const designerCIDs = useSelector(getAllDesignerCIDs())
   const [designerList, setDesignerList] = useState([])
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
