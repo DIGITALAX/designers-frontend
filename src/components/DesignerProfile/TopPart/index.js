@@ -75,6 +75,9 @@ const DesignerProfileTopPart = props => {
     setDescriptionDraft(e.target.value)
   }
 
+  const addMore = () => {
+    window.open('/minting', '_blank')
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -251,6 +254,15 @@ const DesignerProfileTopPart = props => {
       <div className={styles.ownershipText}>
         Fractional Garment Ownership.          
       </div>
+      {
+        isEdit && 
+        <Button
+          className={[styles.addMoreButton, styles.blueButton].join(' ')}
+          onClick={() => addMore()}
+        >
+          ADD MORE TO FGO
+        </Button>
+      }
       
       {!isEdit && 
       <div className={styles.marketplaceSection}>

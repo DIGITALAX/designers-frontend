@@ -354,6 +354,16 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .addMoreButton {
+    position: absolute;
+    width: 18vw;
+    height: 3vw;
+    left: 18vw;
+    top: 110vw;
+    transform: rotate(-90deg);
+    transform-origin: 0 0;
+  }
+
   .marketplaceSection {
     margin-top: -40vw;
     z-index: 4;

@@ -143,7 +143,6 @@ const EditDesignerProfile = () => {
     return null
   }
 
-  console.log('isLoading: ', isLoading)
   // console.log('materialList: ', materialList)
 
   return (
