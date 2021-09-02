@@ -98,7 +98,8 @@ const EditDesignerProfile = () => {
           if (!rdata['image_url'] || !rdata[idLabel]) continue
           if (
             designer['designerId'].toLowerCase() !== rdata[idLabel].toLowerCase()
-            && (!designer['newDesignerID'] || designer['newDesignerID'].toLowerCase() !== rdata[idLabel].toLowerCase())
+            && (!designer['newDesignerID'] || designer['newDesignerID'] === '' || 
+            designer['newDesignerID'].toLowerCase() !== rdata[idLabel].toLowerCase())
           ) continue
 
           let designerId = rdata[idLabel]

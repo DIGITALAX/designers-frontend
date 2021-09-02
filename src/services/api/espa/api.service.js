@@ -186,7 +186,12 @@ class EspaApiService {
     description,
     external_url,
     image_url,
-    newDesignerID
+    newDesignerID,
+    twitter,
+    instagram,
+    linkedin,
+    tiktok,
+    youtube
   }) {
     try {
       const message = await post('/register-designer', {
@@ -197,6 +202,11 @@ class EspaApiService {
         external_url,
         image_url,
         newDesignerID,
+        twitter,
+        instagram,
+        linkedin,
+        tiktok,
+        youtube
       })
       return message
     } catch (e) {

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import Link from 'next/link'
 import Button from '@components/Button'
 import CollectionCard from '@components/collection-card'
+import OnChainFashionSubmitForm from '../OnChainFashionSubmitForm'
 import designerActions from '@actions/designer.actions'
 import styles from './styles.module.scss'
 
@@ -14,6 +15,11 @@ const DesignerProfileTopPart = props => {
   const [isEditingAvatar, setIsEditingAvatar] = useState(false)
   const [isEditingDescription, setIsEditingDescription] = useState(false)
   const [descriptionDraft, setDescriptionDraft] = useState('')
+  const [twitterDraft, setTwitterDraft] = useState('')
+  const [instagramDraft, setInstagramDraft] = useState('')
+  const [tiktokDraft, setTiktokDraft] = useState('')
+  const [youtubeDraft, setYoutubeDraft] = useState('')
+  const [linkedinDraft, setLinkedinDraft] = useState('')
 
   const dispatch = useDispatch()
 
@@ -21,6 +27,27 @@ const DesignerProfileTopPart = props => {
     console.log('--here')
     setAvatarUrl(designerInfo['image_url'])
   }, [designerInfo['image_url']])
+
+  useEffect(() => {
+    setTwitterDraft(designerInfo['twitter'])
+    console.log('twitter: ', designerInfo['twitter'])
+  }, [designerInfo['twitter']])
+
+  useEffect(() => {
+    setInstagramDraft(designerInfo['instagram'])
+  }, [designerInfo['instagram']])
+
+  useEffect(() => {
+    setLinkedinDraft(designerInfo['linkedin'])
+  }, [designerInfo['linkedin']])
+
+  useEffect(() => {
+    setYoutubeDraft(designerInfo['youtube'])
+  }, [designerInfo['youtube']])
+
+  useEffect(() => {
+    setTiktokDraft(designerInfo['tiktok'])
+  }, [designerInfo['tiktok']])
 
   // Mod Avatar
   const showBrowserForAvatar = () => {
@@ -75,8 +102,20 @@ const DesignerProfileTopPart = props => {
     setDescriptionDraft(e.target.value)
   }
 
+  // Add more
   const addMore = () => {
     window.open('/minting', '_blank')
+  }
+
+  // Social
+  const saveSocialLinks = () => {
+    designerInfo['twitter'] = twitterDraft
+    designerInfo['instagram'] = instagramDraft
+    designerInfo['linkedin'] = linkedinDraft
+    designerInfo['youtube'] = youtubeDraft
+    designerInfo['tiktok'] = tiktokDraft
+
+    dispatch(designerActions.updateProfile(designerInfo))
   }
 
   return (
@@ -132,31 +171,76 @@ const DesignerProfileTopPart = props => {
       }
       
       {!isEdit && <div className={styles.socialIcons}>
-        <Link href=''>
-          <a target='_blank'>
-            <img src='/images/social-button-circle/twitter.png' />
-          </a>
-        </Link>
-        <Link href=''>
-          <a target='_blank'>
-            <img src='/images/social-button-circle/instagram.png' />
-          </a>
-        </Link>
-        <Link href=''>
-          <a target='_blank'>
-            <img src='/images/social-button-circle/linkedin.png' />
-          </a>
-        </Link>
-        <Link href=''>
-          <a target='_blank'>
-            <img src='/images/social-button-circle/tiktok.png' />
-          </a>
-        </Link>
-        <Link href=''>
-          <a target='_blank'>
-            <img src='/images/social-button-circle/youtube.png' />
-          </a>
-        </Link>
+        {
+          designerInfo['twitter'] && designerInfo['twitter'] !== '' &&
+          <Link href={designerInfo['twitter']}>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/twitter.png' />
+            </a>
+          </Link>
+        }
+        {
+          designerInfo['instagram'] && designerInfo['instagram'] !== '' &&
+          <Link href={designerInfo['instagram']}>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/instagram.png' />
+            </a>
+          </Link>
+        }
+        {
+          designerInfo['linkedin'] && designerInfo['linkedin'] !== '' &&
+          <Link href={designerInfo['linkedin']}>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/linkedin.png' />
+            </a>
+          </Link>
+        }
+        {
+          designerInfo['tiktok'] && designerInfo['tiktok'] !== '' &&
+          <Link href={designerInfo['tiktok']}>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/tiktok.png' />
+            </a>
+          </Link>
+        }
+        {
+          designerInfo['youtube'] && designerInfo['youtube'] !== '' &&
+          <Link href={designerInfo['youtube']}>
+            <a target='_blank'>
+              <img src='/images/social-button-circle/youtube.png' />
+            </a>
+          </Link>
+        }
+      </div>
+      }
+
+      {isEdit && <div className={styles.inputSocialIcons}>
+        <div className={styles.inputRow}>
+          <img src='/images/social-button-circle/twitter.png' />
+          <input type='text' value={twitterDraft} onChange={e => setTwitterDraft(e.target.value)} />
+        </div>
+        <div className={styles.inputRow}>
+          <img src='/images/social-button-circle/instagram.png' />
+          <input type='text' value={instagramDraft} onChange={e => setInstagramDraft(e.target.value)} />
+        </div>
+        <div className={styles.inputRow}>
+          <img src='/images/social-button-circle/tiktok.png' />
+          <input type='text' value={tiktokDraft} onChange={e => setTiktokDraft(e.target.value)}/>
+        </div>
+        <div className={styles.inputRow}>
+          <img src='/images/social-button-circle/youtube.png' />
+          <input type='text' value={youtubeDraft} onChange={e => setYoutubeDraft(e.target.value)} />
+        </div>
+        <div className={styles.inputRow}>
+          <img src='/images/social-button-circle/linkedin.png' />
+          <input type='text' value={linkedinDraft} onChange={e => setLinkedinDraft(e.target.value)} />
+        </div>
+        <Button
+          className={[styles.modSocialSave, styles.blueButton].join(' ')}
+          onClick={() => saveSocialLinks()}
+        >
+          SAVE
+        </Button>
       </div>
       }
 
@@ -286,7 +370,15 @@ const DesignerProfileTopPart = props => {
         <img className={styles.patternSample1} src='/images/designer-page/pattern_sample1.png' />
         <img className={styles.patternSample2} src='/images/designer-page/pattern_sample2.png' />
         <img className={styles.patternSample3} src='/images/designer-page/pattern_sample3.png' />
-      </div>      
+      </div>
+
+      {
+        isEdit &&
+        <div className={styles.submitFormWrapper}>
+          <OnChainFashionSubmitForm 
+          />
+        </div>
+      }
     </div>
   )
 }

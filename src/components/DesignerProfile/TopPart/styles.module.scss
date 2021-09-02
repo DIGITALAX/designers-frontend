@@ -149,6 +149,45 @@
     }
   }
 
+  .inputSocialIcons {
+    position: absolute;
+    width: 25vw;
+    height: 50vw;
+    right: 2vw;
+    top: 27vw;
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    .inputRow {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 1vw;
+
+      img {
+        width: 4.3vw;
+        height: 4.3vw;
+        margin-right: 1vw;
+      }
+
+      input {
+        height: 30px;
+        background: black;
+        color: white;
+        border: 2px solid #2B67F1;
+        outline: none;
+        padding-left: 4px;
+      }
+    }
+
+    .modSocialSave {
+      width: 10vw;
+      height: 3vw;
+    }
+  }
+
   .designerDescription {
     position: absolute;
     width: 38vw;
@@ -215,7 +254,6 @@
     left: 86vw;
     top: 80vw;
   }
-
 
   .arrowImg {
     width: 12.4vw;
@@ -388,5 +426,13 @@
         z-index: 4;
       }
     }
-  }  
+  }
+  
+  .submitFormWrapper {
+    // position: absolute;
+    width: 95%;
+    margin-left: 5%;
+    margin-top: 120vw;
+    z-index: 10;
+  }
 }

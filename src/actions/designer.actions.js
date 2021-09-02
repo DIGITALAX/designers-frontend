@@ -30,8 +30,6 @@ class DesignerActions extends BaseActions {
           wallet: user.wallet,
           randomString: user.randomString
         }
-        // newDesigner['wallet'] = user.wallet
-        // newDesigner['randomString'] = user.randomString
 
         dispatch(this.setValue('isLoading', true))
         const data = await api.registerDesigner(newDesigner)
