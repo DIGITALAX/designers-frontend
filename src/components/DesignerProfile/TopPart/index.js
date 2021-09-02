@@ -375,6 +375,9 @@ const DesignerProfileTopPart = props => {
       {
         isEdit &&
         <div className={styles.submitFormWrapper}>
+          <h1>
+            On-Chain Fashion
+          </h1>
           <OnChainFashionSubmitForm 
             designerId={designerInfo['designerId']}
           />

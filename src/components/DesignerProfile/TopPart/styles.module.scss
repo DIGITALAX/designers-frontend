@@ -434,5 +434,18 @@
     margin-left: 5%;
     margin-top: 120vw;
     z-index: 10;
+
+    h1 {
+      background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 900;
+      font-size: 5.2vw;
+      line-height: 121%;
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
   }
 }
