@@ -34,6 +34,16 @@
           text-transform: uppercase;
           word-wrap: break-word;
           z-index: 10;
+
+          &.selected {
+            background: #2B67F1;
+            color: white;
+          }
+
+          &:hover {
+            background: #4276f1;
+            color: #ccc;
+          }
         }
       }
     }
@@ -64,6 +74,8 @@
       color: #868686;
       margin-left: 20px;
       margin-top: 10px;
+      word-wrap: break-word;
+      width: 150px;
     }
 
     .renderRow {

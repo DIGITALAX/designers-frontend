@@ -213,6 +213,41 @@ class EspaApiService {
       return null
     }
   }
+  
+  async registerOnChainFashionItem({
+    wallet,
+    randomString, 
+    designerId,
+    itemName,
+    description,
+    rarity,
+    editionNo,
+    price,
+    type,
+    sourceFile,
+    renderFiles,
+    attachFGO
+  }) {
+    try {
+      const message = await post('/register-on-chain-fashion-item', {
+        wallet,
+        randomString,
+        designerId,
+        itemName,
+        description,
+        rarity,
+        editionNo,
+        price,
+        type,
+        sourceFile,
+        renderFiles,
+        attachFGO
+      })
+      return message
+    } catch (e) {
+      return null
+    }
+  }
 }
 
 export default new EspaApiService()

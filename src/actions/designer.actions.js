@@ -68,6 +68,11 @@ class DesignerActions extends BaseActions {
     }
   }
 
+  setIsloading(loading) {
+    return async (dispatch) => {
+      dispatch(this.setValue('isLoading', loading))
+    }
+  }
 }
 
 export default new DesignerActions(reducer)

@@ -136,10 +136,10 @@ const EditProfile = ({ history }) => {
             <span>CHANGE EMAIL</span>
             <input value={user.email} onChange={(e) => onChange(e, 'email')} />
           </div>
-          <div className={styles.inputSection}>
+          {/* <div className={styles.inputSection}>
             <span>CHANGE DESIGNER ID</span>
             <input value={user.designerId} onChange={(e) => onChange(e, 'designerId')} />
-          </div>
+          </div> */}
           <div className={styles.inputSection}>
             <span>GAME TAGS</span>
             <p>LIST YOUR FAVOURITE GAMES. SEPARATE BY COMMAS.</p>
