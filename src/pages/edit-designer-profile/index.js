@@ -35,7 +35,10 @@ const EditDesignerProfile = () => {
     const thumbnails = await api.getAllThumbnails()
 
     const designer = designers && designers.length > 0 ? designers[0] : null
+    
     dispatch(designerActions.setCurrentDesignerInfo(designer))
+
+    if (!designer) return
       
     const thumbnailObj = {}
     const blockedList = []
@@ -55,30 +58,32 @@ const EditDesignerProfile = () => {
     const { digitalaxCollectionGroups } = await APIService.getCollectionGroups()
 
     const auctionItems = []
-    digitalaxCollectionGroups.forEach(group => {
-      auctionItems.push(
-        ...group.auctions.filter(
-          auctionItem => {
-            return auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
-          }
-        ).map(item => {
-          return {
-            ...item.garment,
-            isAuction: 1
-          }
-        })
-      )
-
-      group.collections.filter(
-        collectionItem => {
-          return collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
-        }
-      ).forEach(item => {
+    if (designer && designer['designerId']) {
+      digitalaxCollectionGroups.forEach(group => {
         auctionItems.push(
-          ...item.garments.map(garment => { return {...garment, rarity: getRarityNumber(item.rarity), isAuction: 0, id: item.id}})
+          ...group.auctions.filter(
+            auctionItem => {
+              return auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+            }
+          ).map(item => {
+            return {
+              ...item.garment,
+              isAuction: 1
+            }
+          })
         )
+  
+        group.collections.filter(
+          collectionItem => {
+            return collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+          }
+        ).forEach(item => {
+          auctionItems.push(
+            ...item.garments.map(garment => { return {...garment, rarity: getRarityNumber(item.rarity), isAuction: 0, id: item.id}})
+          )
+        })
       })
-    })
+    }
 
     setMarketplaceItems(auctionItems)
     // console.log('auctionItems: ', auctionItems)
@@ -87,7 +92,7 @@ const EditDesignerProfile = () => {
     // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
     let noThumbnailData = []
     // console.log('designer id: ', designerInfo['Designer ID'])
-    if (digitalaxMaterialV2S) {
+    if (digitalaxMaterialV2S && designer && designer['deisngerId']) {
       for (const item of digitalaxMaterialV2S) {
         if (item.attributes.length <= 0) continue
         try {
