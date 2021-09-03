@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 25%;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   align-items: center;
   margin-bottom: 70px;
@@ -32,6 +32,10 @@
     font-size: 1.5rem;
     line-height: 30px;
     font-family: Inter;
+    width: 256px;
+
+    transition: 0.3s all;
+    word-wrap: break-word;
     color: white;
   }
 
@@ -59,5 +63,27 @@
 
   .social {
     margin-top: 5px;
+  }
+
+
+  transition: 0.3s all;
+  
+
+  &:hover {
+    transition: 0.3s all;
+    transform: scale(1.1);
+
+    .name {
+      transition: 0.3s all;
+      transform: scale(1.2) translateY(-120px);
+      color: white;
+      text-shadow: 2px 2px 5px black;
+    }
+
+    .photo {
+      -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+      filter: blur(5px);
+      
+    }
   }
 }
