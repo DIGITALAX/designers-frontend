@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import Link from 'next/link'
+
 import Button from '@components/Button'
 import CollectionCard from '@components/collection-card'
 import OnChainFashionSubmitForm from '../OnChainFashionSubmitForm'
+import PatternCircle from '@components/DesignerProfile/PatternCircle'
 import designerActions from '@actions/designer.actions'
 import styles from './styles.module.scss'
+
 
 
 const DesignerProfileTopPart = props => {
@@ -161,7 +164,7 @@ const DesignerProfileTopPart = props => {
       }
       <img className={styles.claimUsername} src='/images/designer-page/claim-username.png' />
 
-      <div className={styles.designerName}>
+      <div className={[styles.designerName, isEdit ? styles.editing : ''].join(' ')}>
         { designerInfo['designerId'].toUpperCase() }
         <img className={styles.arrowImg} src='/images/designer-page/arrow.png' />
       </div>
@@ -290,13 +293,7 @@ const DesignerProfileTopPart = props => {
           {
             materialList.slice(0, 5).map((item, index) => {
               return (
-                <img 
-                  className={styles.patternCircle} src={item.thumbnail ? item.thumbnail : item.image}
-                  key={index}
-                  style={{
-                    marginLeft: `${index % 2 * 30}%`
-                  }}
-                />
+                <PatternCircle key={index} item={item} index={index} />
               )
             })
           }
@@ -306,13 +303,27 @@ const DesignerProfileTopPart = props => {
           {
             materialList.slice(6, materialList.length).map((item, index) => {
               return (
-                <img 
-                  className={styles.patternCircle} src={item.thumbnail ? item.thumbnail : item.image}
-                  key={index}
-                  style={{
-                    marginTop: `${index % 3 === 1 ? -10 : 0}vw`
-                  }}
-                />
+                <PatternCircle key={index} item={item} index={index} secondPart direction={index % 3 === 2 ? 'Left' : 'Right'}/>
+                // <div className={styles.patternCircle} >
+                //   <img 
+                //     src={item.thumbnail ? item.thumbnail : item.image}
+                //     key={index}
+                //     style={{
+                //       marginTop: `${index % 3 === 1 ? -10 : 0}vw`
+                //     }}
+                //   />
+                //   {/* <Paper
+                //     className={'circlemenu_imgViewer fadeOut' + direction}
+                //     elevation={3}
+                //     ref={imgViewer}
+                //     onMouseLeave={(e) => hleave(2, e)}
+                //   >
+                //     <div className='circlemenu_curImage' ref={curImage}>
+                //       <div className='circlemenu_imgTitle' ref={title} />
+                //       <div className='circlemenu_imgDescription' ref={description} />
+                //     </div>
+                //   </Paper> */}
+                // </div>
               )
             })
           }

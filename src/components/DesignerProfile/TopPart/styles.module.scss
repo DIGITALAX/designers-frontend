@@ -118,6 +118,10 @@
     background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    &.editing {
+      left: 30vw;
+    }
   }
 
   .socialIcons {
@@ -191,7 +195,7 @@
   .designerDescription {
     position: absolute;
     width: 38vw;
-    left: 60vw;
+    left: 55vw;
     top: 40vw;
     z-index: 3;
     
@@ -207,7 +211,7 @@
     transform-origin: 0 0;
 
     &.editing {
-      left: 50vw;
+      left: 45vw;
     }
   }
 
@@ -215,7 +219,7 @@
     position: absolute;
     width: 38vw;
     height: 38vw;
-    left: 40vw;
+    left: 30vw;
     top: 40vw;
     z-index: 3;
     
@@ -258,7 +262,7 @@
   .arrowImg {
     width: 12.4vw;
     height: 10.05vw;
-    margin-left: 5vw;
+    margin-left: 2vw;
     mix-blend-mode: screen;
   }
 
@@ -267,6 +271,7 @@
     margin-left: 10vw;
     position: relative;
     min-height: 150vw;
+    z-index: 3;
 
     .patternWrapper {
       margin-left: -10vw;
@@ -304,12 +309,6 @@
       &.smallPattern {
         min-height: 90vw;
       }
-      
-      .patternCircle {
-        width: 18.5vw;
-        height: 18.5vw;
-        border-radius: 50%;
-      }
     }
 
     .patternWrapper4 {
@@ -318,14 +317,6 @@
       flex-wrap: wrap;
       margin-top: 10vw;
       align-content: baseline;
-
-      .patternCircle {
-        width: 18.5vw;
-        height: 18.5vw;
-        margin-right: 10vw;
-        border-radius: 50%;
-        margin-bottom: 10vw;
-      }
     }
 
   }

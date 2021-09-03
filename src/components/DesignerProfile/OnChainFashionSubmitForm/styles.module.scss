@@ -92,6 +92,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      margin-bottom: 100px;
 
       input {
         width: 60%;
@@ -230,8 +231,10 @@
   align-items: flex-end;
   border: none;
   width: 230px;
+  height: 30px;
   margin-top: -20px;
   margin-bottom: 20px;
+  color: #FFFFFF;
 
   .questionCircle {
     border: 1px solid #2B67F1;
@@ -245,9 +248,10 @@
     line-height: 16px;
     text-align: center;
 
-    color: #FFFFFF;
     margin-right: 5px;
+    cursor: pointer;
   }
+
 
   .questionText {
     font-family: Inter;
@@ -257,7 +261,7 @@
     height: 30px;
     
     
-    display: flex;
+    display: none;
     align-items: center;
     text-align: center;
     justify-content: center;
@@ -265,5 +269,11 @@
     color: #2B67F1;
     background: #000000;
     border: 2px solid #2B67F1;
+  }
+
+  &:hover {
+    .questionText {
+      display: flex;
+    }
   }
 }
