@@ -359,7 +359,7 @@ const DesignerProfileTopPart = props => {
         </Button>
       }
       
-      {!isEdit && 
+      {!isEdit && marketplaceItems.length > 0 && 
       <div className={styles.marketplaceSection}>
         <h1>
           On-Chain Fashion            
