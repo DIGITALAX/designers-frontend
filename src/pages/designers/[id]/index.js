@@ -136,7 +136,11 @@ const DesignerPage = () => {
   }, [])
 
   if (!designerInfo) {
-    return null
+    return (
+      <div className={styles.beforeLoading}>
+        <div className={styles.ldsEllipsis}><div></div><div></div><div></div><div></div></div>
+      </div>
+    )
   }
 
   // console.log('designerInfo: ', designerInfo)

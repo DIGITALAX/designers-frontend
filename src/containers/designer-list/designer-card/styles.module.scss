@@ -24,6 +24,7 @@
     object-position: center center;
     border-radius: 256px;
     text-align: center;
+    transition: 0.3s all;
   }
 
   .name {
@@ -81,6 +82,7 @@
     }
 
     .photo {
+      transition: 0.3s all;
       -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
       filter: blur(5px);
       
