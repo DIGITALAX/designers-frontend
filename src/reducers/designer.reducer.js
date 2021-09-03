@@ -7,6 +7,7 @@ import designerList from '@data/designers.json'
 
 const DEFAULT_FIELDS = Map({
   designersById: Map({}),
+  designerInfo: Map({}),
   designerGarmentIds: List([]),
   infoByDesignerId: List([
     {

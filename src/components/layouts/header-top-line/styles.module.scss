@@ -12,13 +12,16 @@
   background-color: #000;
   transition: 0.2s;
   z-index: 99;
+
   @media (max-width: 707px) {
     height: fit-content;
     display: block;
   }
 
   @media screen and (max-width: 1320px) {
+
   }
+
   @media screen and (max-width: 1200px) {
     align-items: baseline;
   }
@@ -26,6 +29,10 @@
   @media (max-width: $sm-width) {
     padding: 20px 20px;
     flex-direction: column;
+  }
+
+  &.transparentBackground {
+    background: transparent;
   }
 }
 
@@ -35,8 +42,7 @@
 }
 
 .floatingNav {
-  // border-radius: 2px;
-  // box-shadow: 0px 1px 10px #999;
+  
 }
 
 .leftBox {
@@ -45,6 +51,7 @@
   justify-content: center;
   width: fit-content;
   float: left;
+
   @media (max-width: 707px) {
     justify-content: flex-start;
   }
@@ -200,8 +207,8 @@
   border-radius: 0;
   color: #FF77F1;
   box-shadow: none;
-  padding: 10px 16px;
-  width: 100%;
+  padding: 10px 10px;
+  width: 120%;
   top: 100%;
 }
 

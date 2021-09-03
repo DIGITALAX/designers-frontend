@@ -1,95 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Modal from '../../components/modal/popup';
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
-import { getAccount, getUser } from '@selectors/user.selectors';
-import accountActions from '@actions/user.actions';
+import Modal from '../../components/modal/popup'
 
-import { useRouter } from 'next/router';
-import { getChainId } from '@selectors/global.selectors';
-import userActions from '@actions/user.actions';
-import { getEnabledNetworkByChainId } from '@services/network.service';
+import { getAccount, getUser } from '@selectors/user.selectors'
+import { getChainId } from '@selectors/global.selectors'
+
+import userActions from '@actions/user.actions'
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  const { innerWidth: width, innerHeight: height } = window
   return {
     width,
-    height,
-  };
+    height
+  }
 }
 
 function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions());
+      setWindowDimensions(getWindowDimensions())
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-  return windowDimensions;
+  return windowDimensions
 }
 
 function Home(props) {
-  const dispatch = useDispatch();
-  const user = useSelector(getUser);
-  const account = useSelector(getAccount);
+  const dispatch = useDispatch()
+  const user = useSelector(getUser)
+  const account = useSelector(getAccount)
   if (!user) {
-    dispatch(accountActions.checkStorageAuth());
+    dispatch(userActions.checkStorageAuth())
   }
 
-  const router = useRouter();
-  const chainId = useSelector(getChainId);
+  const router = useRouter()
+  const chainId = useSelector(getChainId)
 
-  const [comingModalOpen, setComingModalOpen] = useState(false);
-  const [switchModalOpen, setSwitchModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
-  const [whitelisted, setWhitelisted] = useState(false);
-  const screenWidth = useWindowDimensions().width;
-  const [isMobile, setIsMobile] = useState(false);
+  const [comingModalOpen, setComingModalOpen] = useState(false)
+  const [switchModalOpen, setSwitchModalOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [open1, setOpen1] = useState(false)
+  const [whitelisted, setWhitelisted] = useState(false)
+  const screenWidth = useWindowDimensions().width
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    screenWidth > 376 ? setIsMobile(false) : setIsMobile(true);
-  }, [screenWidth]);
+    screenWidth > 376 ? setIsMobile(false) : setIsMobile(true)
+  }, [screenWidth])
 
   const handleClose1 = () => {
-    setOpen1(false);
-  };
+    setOpen1(false)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   useEffect(() => {
     const fetchWhiteListed = async () => {
-      const resp = await userActions.checkWhitelisted(account);
-      if (resp !== whitelisted) setWhitelisted(resp);
-    };
+      const resp = await userActions.checkWhitelisted(account)
+      if (resp !== whitelisted) setWhitelisted(resp)
+    }
 
     if (account) {
-      fetchWhiteListed();
+      fetchWhiteListed()
     }
-  }, [account]);
+  }, [account])
 
   const onContribute = () => {
     if (!user) {
-      setOpen(true);
-      return;
+      setOpen(true)
+      return
     }
     if (!whitelisted) {
-      setOpen1(true);
-      return;
+      setOpen1(true)
+      return
     }
     if (Number(chainId) === 137 || Number(chainId) === 80001) {
-      router.push('/minting');
-      return;
+      router.push('/minting')
+      return
     }
-    setSwitchModalOpen(true);
-  };
+    setSwitchModalOpen(true)
+  }
 
   return (
     <div className="block" style={{height: 'fit-content'}}>
@@ -250,7 +249,7 @@ function Home(props) {
         </p>
       </Modal>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { Grid } from '@material-ui/core'
 import CircleMenu from '@components/circle-menu'
-import { getAllDesignerIDs } from '@selectors/designer.selectors'
 import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
@@ -34,12 +32,7 @@ function useWindowDimensions() {
 }
 
 function Libraries(props) {
-  const [open, setOpen] = useState(true)
-  const handleClose = () => setOpen(false)
-
-  const [items, setItems] = useState({})
-  const [thumbnailList, setThumbnailList] = useState([])
-  
+  const [items, setItems] = useState({})  
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
 
@@ -48,12 +41,9 @@ function Libraries(props) {
     screenWidth > 796 ? setIsMobile(false) : setIsMobile(true)
   }, [screenWidth])
 
-
-  // https://digitalax.mypinata.cloud/ipfs/${cid}
-  const designerIDs = useSelector(getAllDesignerIDs())
-
   async function getData() {
-    const thumbnails = await api.getAllThumbnails()
+    const designers = await api.getAllDesigners() || []
+    const thumbnails = await api.getAllThumbnails() || []
     
     const thumbnailObj = {}
     const blockedList = []
@@ -65,12 +55,9 @@ function Libraries(props) {
       }
     }
 
-    setThumbnailList(thumbnailObj)
+    // setThumbnailList(thumbnailObj)
 
     const idLabel = 'Designer ID'
-    const ids = designerIDs.map(item => item.designerID)
-
-    // console.log('ids: ', ids)
 
     const result = await APIService.getMaterialVS()
     const { digitalaxMaterialV2S } = result
@@ -80,17 +67,23 @@ function Libraries(props) {
     
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
+        if (item.attributes.length <= 0) continue
         // console.log('--- item: ', item)
         const res = await fetch(item.tokenUri)
         // console.log('--- item res: ', res)
         const rdata = await res.json()
         // console.log('--- item rdata: ', rdata)
         if (!rdata['image_url'] || !rdata[idLabel]) continue
-        let designerId = ids.find(designerItem => designerItem.toLowerCase() === rdata[idLabel].toLowerCase())
-        if (!designerId || designerId === undefined || designerId === '') continue
+        const designerObj = designers.find(
+          designerItem => 
+            (designerItem.designerId && designerItem.designerId.toLowerCase() === rdata[idLabel].toLowerCase())
+            || (designerItem.newDesignerID && designerItem.newDesignerID.toLowerCase() === rdata[idLabel].toLowerCase())
+        )
+        if (!designerObj || designerObj === undefined || designerObj === '') continue
+        const designerId = designerObj.designerId
 
         if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
-          const designerItem = designerIDs.find(item => item.designerID.toLowerCase() === designerId.toLowerCase())
+          const designerItem = designers.find(item => item.designerId.toLowerCase() === designerId.toLowerCase())
           // console.log('designerItem: ', designerItem)
           if (designerItem['newDesignerID'] && designerItem['newDesignerID'] !== undefined) {
             designerId = designerItem['newDesignerID']

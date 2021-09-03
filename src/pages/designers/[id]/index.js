@@ -1,106 +1,158 @@
-import React, { memo, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
-import kebabCase from 'lodash.kebabcase';
-import PageDesignerDescription from '@containers/page-designer-description';
-import { getChainId } from '@selectors/global.selectors';
-import auctionPageActions from '@actions/auction.page.actions';
-import { getDesignerGarmentIds, getDesignerInfoByName } from '@selectors/designer.selectors';
-import wsApi from '@services/api/ws.service';
-import designerPageActions from '@actions/designer.page.actions';
-import historyActions from '@actions/history.actions';
-import collectionActions from '@actions/collection.actions';
-import auctionActions from '@actions/auction.actions';
-import { useSubscription } from '@hooks/subscription.hooks';
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-const Designers = () => {
-  const router = useRouter();
-  const { id } = router.query;
+import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants'
 
-  const dispatch = useDispatch();
-  const chainId = useSelector(getChainId);
-  const currentDesigner = useSelector(getDesignerInfoByName(kebabCase(id)));
-  const designerGarmentIds = useSelector(getDesignerGarmentIds(currentDesigner.id));
-  const ids = designerGarmentIds.toJS();
+import APIService from '@services/api/api.service'
+import api from '@services/api/espa/api.service'
 
-  useSubscription(
-    {
-      request: wsApi.onDesignerByIds([currentDesigner.id.toLowerCase()]),
-      next: (data) => dispatch(designerPageActions.update(data.digitalaxGarmentDesigners)),
-    },
-    [chainId]
-  );
+import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
 
-  useSubscription(
-    {
-      request: wsApi.onAllAuctionsChange(),
-      next: (data) => {
-        dispatch(auctionPageActions.updateAuctions(data.digitalaxGarmentAuctions));
-      },
-    },
-    [chainId]
-  );
+import styles from './styles.module.scss'
 
-  useSubscription(
-    {
-      request: wsApi.onAuctionsHistoryByIds(ids),
-      next: (data) => dispatch(historyActions.mapData(data.digitalaxGarmentAuctionHistories)),
-    },
-    [chainId, ids]
-  );
+const RARITIES = [
+  COMMON_RARITY, EXCLUSIVE_RARITY, SEMI_RARE_RARITY
+]
 
-  useSubscription(
-    {
-      request: wsApi.getAllDigitalaxMarketplaceOffers(),
-      next: (data) => {
-        dispatch(collectionActions.updateMarketplaceOffers(data.digitalaxMarketplaceOffers));
-      },
-    },
-    [chainId]
-  );
+const getRarityNumber = rarity => RARITIES.findIndex(item => item == rarity)
 
-  useSubscription(
-    {
-      request: wsApi.onDigitalaxGarmentsCollectionChangeByIds(ids),
-      next: (data) => dispatch(collectionActions.mapData(data.digitalaxGarmentCollections)),
-    },
-    [chainId, ids]
-  );
+const DesignerPage = () => {
+  const router = useRouter()
+  const { id } = router.query
+  const [designerInfo, setDesignerInfo] = useState(null)
+  const [materialList, setMaterialList] = useState([])
+  const [marketplaceItems, setMarketplaceItems] = useState([])
 
-  useSubscription(
-    {
-      request: wsApi.onMarketplaceHistoryByIds(ids),
-      next: (data) => {
-        dispatch(
-          historyActions.updateMarketplaceHistories(data.digitalaxMarketplacePurchaseHistories)
-        );
-      },
-    },
-    [chainId, ids]
-  );
+  async function loadData() {
+    const designers = await api.getAllDesigners() || []
+    const thumbnails = await api.getAllThumbnails()
 
-  const dateMonth = new Date();
-  dateMonth.setDate(dateMonth.getDate() - 30); // now - 30 days
+    const designer = designers.find(item => item.designerId.toLowerCase() === id.toLowerCase()
+    || (item.newDesignerID && item.newDesignerID.toLowerCase() === id.toLowerCase()))
 
-  useSubscription(
-    {
-      request: wsApi.onResultedAuctionsByEndTimeGtAndIds(ids, parseInt(dateMonth / 1000, 10)),
-      next: (data) =>
-        dispatch(
-          auctionActions.setValue('monthDesignerResultedAuctions', data.digitalaxGarmentAuctions)
-        ),
-    },
-    [chainId, JSON.stringify(designerGarmentIds)]
-  );
+    setDesignerInfo(designer)
+      
+    const thumbnailObj = {}
+    const blockedList = []
+    for (const thumbnail in thumbnails.data) {
+      const thumbItem = thumbnails.data[thumbnail]
+      thumbnailObj[thumbItem.image_url] = thumbItem.thumbnail_url
+      if (thumbItem.blocked) {
+        blockedList.push(thumbItem.image_url)
+      }
+    }
 
-  useEffect(
-    () => () => {
-      dispatch(designerPageActions.reset());
-    },
-    []
-  );
+    // console.log('thumbnailObj: ', designer['designerId'].toLowerCase())
 
-  return <PageDesignerDescription designerName={id} clothesIds={ids} />;
-};
+    // setThumbnailList(thumbnailObj)
 
-export default memo(Designers);
+    const idLabel = 'Designer ID'
+
+    const result = await APIService.getMaterialVS()
+    const { digitalaxMaterialV2S } = result
+
+    const { digitalaxCollectionGroups } = await APIService.getCollectionGroups()
+    // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
+    const auctionItems = []
+    digitalaxCollectionGroups.forEach(group => {
+      auctionItems.push(
+        ...group.auctions.filter(
+          auctionItem => {
+            return auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+          }
+        ).map(item => {
+          // console.log('item: ', item)
+          return {
+            ...item.garment,
+            isAuction: 1
+          }
+        })
+      )
+
+      group.collections.filter(
+        collectionItem => {
+          return collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+        }
+      ).forEach(item => {
+        auctionItems.push(
+          ...item.garments.map(garment => { return {...garment, rarity: getRarityNumber(item.rarity), isAuction: 0, id: item.id}})
+        )
+      })
+    })
+
+    setMarketplaceItems(auctionItems)
+    // console.log('auctionItems: ', auctionItems)
+
+    const materials = []
+    // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
+    let noThumbnailData = []
+    // console.log('designer id: ', designerInfo['Designer ID'])
+    if (digitalaxMaterialV2S) {
+      for (const item of digitalaxMaterialV2S) {
+        if (item.attributes.length <= 0) continue
+        try {
+          const res = await fetch(item.tokenUri)
+          // console.log('--- item res: ', res)
+          const rdata = await res.json()
+          // console.log('--- item rdata: ', rdata)
+          if (!rdata['image_url'] || !rdata[idLabel]) continue
+          if (designer['designerId'].toLowerCase() !== rdata[idLabel].toLowerCase() &&
+                (
+                  !designer['newDesignerID'] || 
+                  designer['newDesignerID'] === '' || 
+                  designer['newDesignerID'].toLowerCase() !== rdata[idLabel].toLowerCase()
+                )
+              ) continue
+          let designerId = rdata[idLabel]
+          if (!designerId || designerId === undefined || designerId === '') continue
+
+          if (blockedList.findIndex(item => item === rdata['image_url']) < 0) {
+            if (designer['newDesignerID'] && designer['newDesignerID'] !== undefined) {
+              designerId = designer['newDesignerID']
+            }
+
+            // console.log('--rdata: ', rdata)
+            if (materials.findIndex(item => item.image === rdata['image_url']) >= 0) continue
+            materials.push({
+              ...item,
+              name:
+                rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
+              image: rdata['image_url'],
+              thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
+              description: rdata['description']
+            })
+
+            setMaterialList([...materials])
+          }
+        } catch (exception) {
+          console.log('exception: ', exception)
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  if (!designerInfo) {
+    return null
+  }
+
+  // console.log('designerInfo: ', designerInfo)
+  console.log('materialList: ', materialList)
+
+  return (
+    <div className={styles.wrapper}>
+      <DesignerProfileTopPart
+        isEdit={false}
+        designerInfo={designerInfo}
+        materialList={materialList}
+        marketplaceItems={marketplaceItems}
+      />
+      <div className={styles.bottomPart}></div> 
+    </div>
+  )
+}
+
+export default DesignerPage

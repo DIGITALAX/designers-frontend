@@ -72,6 +72,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
   
   useEffect(() => {
     setTimeout(() => {
+      if (!menu) return
       menu.current.classList.toggle('active');
       menu.current.style.transition = 'transform .25s ease-out, opacity .25s ease-in';
     }, 1000);

@@ -1,8 +1,4 @@
-import { gql } from 'graphql-request';
-import {
-  HISTORY_BID_PLACED_EVENT,
-  HISTORY_BID_WITHDRAWN_EVENT,
-} from '@constants/history.constants';
+import { gql } from 'graphql-request'
 
 export const getLiveAuctions = gql`
   {
@@ -19,7 +15,7 @@ export const getLiveAuctions = gql`
       lastBidTime
     }
   }
-`;
+`
 
 export const getAuctionsByIds = gql`
   query getAuctionsByIds($ids: [ID!]) {
@@ -36,7 +32,7 @@ export const getAuctionsByIds = gql`
       lastBidTime
     }
   }
-`;
+`
 
 export const getGarmentsByIds = gql`
   query getGarmentsByIds($ids: [ID!]) {
@@ -53,7 +49,7 @@ export const getGarmentsByIds = gql`
       }
     }
   }
-`;
+`
 
 export const getDesignersByIds = gql`
   query getDesignersByIds($ids: [ID!]) {
@@ -76,7 +72,7 @@ export const getDesignersByIds = gql`
       }
     }
   }
-`;
+`
 
 export const getGarmentsByDesignerId = gql`
   query getGarmentsByDesignerId($ids: [Bytes!]) {
@@ -93,7 +89,7 @@ export const getGarmentsByDesignerId = gql`
       }
     }
   }
-`;
+`
 
 export const getAuctionsHistoryByIds = gql`
   query getAuctionsHistoryByIds($ids: [ID!]) {
@@ -119,21 +115,8 @@ export const getAuctionsHistoryByIds = gql`
       }
     }
   }
-`;
+`
 
-export const getAuctionsHistoryByTimestampGt = gql`
-  query getAuctionsHistoryByTimestampGt($timestamp: BigInt!) {
-    digitalaxGarmentAuctionHistories(first: 1000, where: {
-      eventName_in: ["${HISTORY_BID_PLACED_EVENT}",
-       "${HISTORY_BID_WITHDRAWN_EVENT}"], 
-       timestamp_gt: $timestamp}) {
-      id
-      eventName
-      timestamp
-      value
-    }
-  }
-`;
 
 export const getAuctionContracts = gql`
   {
@@ -146,27 +129,7 @@ export const getAuctionContracts = gql`
       totalSales
     }
   }
-`;
-
-export const getResultedAuctionsByEndTimeGt = gql`
-  query getAuctionsHistoryByTimestampGt($endTime: BigInt!) {
-    digitalaxGarmentAuctions(
-      first: 1000
-      where: { resulted_not_in: [false], endTime_gt: $endTime }
-    ) {
-      id
-      reservePrice
-      endTime
-      startTime
-      resulted
-      topBidder {
-        id
-      }
-      topBid
-      lastBidTime
-    }
-  }
-`;
+`
 
 export const getMaterialVS = gql`
   {
@@ -183,4 +146,43 @@ export const getMaterialVS = gql`
       } 
     } 
   }
-`;
+`
+
+export const getCollectionGroups = gql`
+  query digitalaxCollectionGroups {
+    digitalaxCollectionGroups(first: 100, skip: 2) {
+      id
+      auctions {
+        id
+        topBid
+        designer {
+          id
+          name
+          image
+        }
+        garment {
+          id
+          animation
+          image
+          name
+        }
+      }
+      collections {
+        id
+        rarity
+        garments(first: 1) {
+          id
+          animation
+          image
+          name
+        }
+        designer {
+          id
+          name
+          image
+        }
+        valueSold
+      }
+    }
+  }
+`
