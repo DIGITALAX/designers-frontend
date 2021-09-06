@@ -40,8 +40,13 @@ const BottomPart = props => {
   })
 
   useEffect(() => {
-    setWeb3FashionItems(JSON.parse(designerInfo['web3FashionItems']))
-    handleResize()
+    try {
+      const web3Items = JSON.parse(designerInfo['web3FashionItems'])
+      setWeb3FashionItems(web3Items)
+      handleResize()
+    } catch (e) {
+
+    }
   }, [designerInfo['web3FashionItems']])
 
   const Removable = {
@@ -313,9 +318,12 @@ const BottomPart = props => {
 
   return (
     <div className={styles.wrapper}>
-      <h1>
-        Web3 Fashion 101
-      </h1>
+      {
+        (isEditable || web3FashionItems.length > 0) && 
+        <h1>
+          Web3 Fashion 101
+        </h1>
+      }
       {isEditable && <div className={styles.toolbar}>
         <div className={styles.leftPart}>
           <Button
