@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import Moveable, { MoveableManagerInterface, Renderer } from 'react-moveable'
+import Moveable from 'react-moveable'
 import { toast } from 'react-toastify'
 
 import api from '@services/api/espa/api.service'
@@ -8,8 +8,6 @@ import designerActions from '@actions/designer.actions'
 
 import Button from '@components/Button'
 import styles from './styles.module.scss'
-
-
 
 const BottomPart = props => {
   const { designerInfo, isEditable } = props
@@ -24,16 +22,18 @@ const BottomPart = props => {
   const [videoFileName, setVideoFileName] = useState('')
   const [addTextDraft, setAddTextDraft] = useState('')
   const [isTextEdit, setIsTextEdit] = useState(false)
+  const [scale, setScale] = useState(1)
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    function handleResize() {
-      setSelectedTarget(null)
-    }
+  function handleResize() {
+    setSelectedTarget(null)
+    setScale(window.innerWidth / 1920)
+    console.log('window width: ', window.innerWidth)
+  }
 
+  useEffect(() => {  
     window.addEventListener('resize', handleResize)
-
     return _ => {
       window.removeEventListener('resize', handleResize)
     }
@@ -41,6 +41,7 @@ const BottomPart = props => {
 
   useEffect(() => {
     setWeb3FashionItems(JSON.parse(designerInfo['web3FashionItems']))
+    handleResize()
   }, [designerInfo['web3FashionItems']])
 
   const Removable = {
@@ -143,19 +144,22 @@ const BottomPart = props => {
   const onClickImage = () => {
     setIsShowImageAdd(true)
     setIsShowVideoAdd(false)
-    setIsShowTextAdd(false)    
+    setIsShowTextAdd(false)
+    setSelectedTarget(null)
   }
 
   const onClickVideo = () => {
     setIsShowImageAdd(false)
     setIsShowVideoAdd(true)
     setIsShowTextAdd(false)
+    setSelectedTarget(null)
   }
 
   const onClickText = () => {
     setIsShowImageAdd(false)
     setIsShowVideoAdd(false)
     setIsShowTextAdd(true)
+    setSelectedTarget(null)
   }
 
   const uploadFile = async file => {
@@ -406,7 +410,13 @@ const BottomPart = props => {
         }
       </div>
       }
-      <div className={styles.web3FashionView}>
+      <div className={styles.web3FashionView}
+        style={{         
+          width: 1920, 
+          transformOrigin: '0 0',
+          transform: `scale(${scale})`
+        }}
+      >
         {isEditable && <Moveable
           target={selectedTarget}
           container={null}
