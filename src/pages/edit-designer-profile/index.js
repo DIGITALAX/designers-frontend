@@ -7,6 +7,7 @@ import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
 import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
+import DesignerProfileBottomPart from '@components/DesignerProfile/BottomPart'
 import Loader from '@components/loader'
 import { getAccount } from '@selectors/user.selectors'
 
@@ -140,13 +141,20 @@ const EditDesignerProfile = () => {
     loadData()
   }, [account])
 
-
   if (!account) {
-    return null
+    return (
+      <div className={styles.beforeLoading}>
+        <div className={styles.ldsEllipsis}><div></div><div></div><div></div><div></div></div>
+      </div>
+    )
   }
 
   if (!designerInfo || Object.keys(designerInfo).length <= 0) {
-    return null
+    return (
+      <div className={styles.beforeLoading}>
+        <div className={styles.ldsEllipsis}><div></div><div></div><div></div><div></div></div>
+      </div>
+    )
   }
 
   // console.log('materialList: ', materialList)
@@ -159,6 +167,10 @@ const EditDesignerProfile = () => {
         designerInfo={designerInfo}
         materialList={materialList}
         marketplaceItems={marketplaceItems}
+      />
+      <DesignerProfileBottomPart 
+        designerInfo={designerInfo}
+        isEditable={true}
       />
     </div>
   )
