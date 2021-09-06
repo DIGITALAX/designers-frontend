@@ -12,7 +12,7 @@ import styles from './styles.module.scss'
 
 
 const BottomPart = props => {
-  const { designerInfo } = props
+  const { designerInfo, isEditable } = props
 
   const [selectedTarget, setSelectedTarget] = useState(null)
   const [selectedIndex, setSelectedIndex] = useState(-1)
@@ -27,9 +27,19 @@ const BottomPart = props => {
 
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    function handleResize() {
+      setSelectedTarget(null)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return _ => {
+      window.removeEventListener('resize', handleResize)
+    }
+  })
 
   useEffect(() => {
-    console.log('--here', JSON.parse(designerInfo['web3FashionItems']))
     setWeb3FashionItems(JSON.parse(designerInfo['web3FashionItems']))
   }, [designerInfo['web3FashionItems']])
 
@@ -204,7 +214,6 @@ const BottomPart = props => {
     
     uploadFile(imageUploadEl.files[0])
     .then (uploaded => {
-      console.log('uploaded: ', uploaded)
       if (!uploaded) {
         toast('Failed to upload the file. Please try again.')
         return
@@ -239,7 +248,6 @@ const BottomPart = props => {
     
     uploadFile(videoUploadEl.files[0])
     .then (uploaded => {
-      console.log('uploaded: ', uploaded)
       if (!uploaded) {
         toast('Failed to upload the file. Please try again.')
         return
@@ -264,13 +272,11 @@ const BottomPart = props => {
   }
 
   const onChangeImageFile = e => {
-    console.log('e: ', e)
     let files = e.target.files || e.dataTransfer.files
     if (files.length === 0) {
       return
     }
     const pathItems = e.target.value.split('\\')
-    console.log('pathItems: ', pathItems)
     setImageFileName(pathItems[pathItems.length - 1])
   }
 
@@ -291,29 +297,47 @@ const BottomPart = props => {
     document.getElementById('video-upload').click()
   }
 
+  const onClickReset = () => {
+    setWeb3FashionItems(JSON.parse(designerInfo['web3FashionItems']))
+  }
+
+  const onClickSave = () => {
+    designerInfo['web3FashionItems'] = JSON.stringify(web3FashionItems)
+    console.log('designerInfo: ', designerInfo)
+    dispatch(designerActions.updateProfile({...designerInfo}))
+  }
+
   return (
     <div className={styles.wrapper}>
       <h1>
         Web3 Fashion 101
       </h1>
-      <div className={styles.toolbar}>
-
-        <Button
-          onClick={onClickImage}
-        >
-          IMAGE
-        </Button>
-        <Button
-          onClick={onClickVideo}
-        >
-          VIDEO
-        </Button>
-        <Button
-          onClick={onClickText}
-        >
-          TEXT
-        </Button>
+      {isEditable && <div className={styles.toolbar}>
+        <div className={styles.leftPart}>
+          <Button
+            onClick={onClickImage}
+          >
+            IMAGE
+          </Button>
+          <Button
+            onClick={onClickVideo}
+          >
+            VIDEO
+          </Button>
+          <Button
+            onClick={onClickText}
+          >
+            TEXT
+          </Button>
+        </div>
+        <div className={styles.rightPart}>
+          <Button onClick={onClickSave}>Save</Button>
+          <Button onClick={onClickReset}>Reset</Button>
+        </div>
       </div>
+      }
+      {
+      isEditable && 
       <div className={styles.addItem}>
         {
           isShowTextAdd && (
@@ -381,8 +405,9 @@ const BottomPart = props => {
           )
         }
       </div>
+      }
       <div className={styles.web3FashionView}>
-        <Moveable
+        {isEditable && <Moveable
           target={selectedTarget}
           container={null}
           checkInput={isTextEdit}
@@ -394,7 +419,6 @@ const BottomPart = props => {
           origin={true}
           draggable={true}
           onDragStart={({ target, clientX, clientY }) => {
-              console.log('onDragStart', target.getClientRects());
           }}
           onDrag={({
             target,
@@ -405,38 +429,31 @@ const BottomPart = props => {
             transform,
             clientX, clientY,
           }) => {
-              // return
-              console.log('onDrag left, top', left, top);
-              // target!.style.left = `${left}px`;
-              // target!.style.top = `${top}px`;
-              console.log('onDrag translate', dist);
-              target.style.transform = transform;
+              target.style.transform = transform
           }}
           onDragEnd={({ target, isDrag, clientX, clientY }) => {
-            // console.log('target.style.transform: ', target.style)
             web3FashionItems[selectedIndex].style = {
               width: target.style.width,
               height: target.style.height,
               transform: target.style.transform
             }
-            setWeb3FashionItems(web3FashionItems)
-            console.log('onDragEnd', target, isDrag);
+
+            console.log('web3FashionItems: ', web3FashionItems)
+            setWeb3FashionItems([...web3FashionItems])
           }}
 
           resizable={true}
           throttleResize={0}
           onResizeStart={({ target , clientX, clientY}) => {
 
-              console.log('onResizeStart', target);
           }}
           onResize={({
               target, width, height,
               dist, delta, direction,
-              clientX, clientY,
+              clientX, clientY
           }) => {
-              console.log('onResize', target);
-              delta[0] && (target.style.width = `${width}px`);
-              delta[1] && (target.style.height = `${height}px`);
+            delta[0] && (target.style.width = `${width}px`)
+            delta[1] && (target.style.height = `${height}px`)
           }}
           onResizeEnd={({ target, isDrag, clientX, clientY }) => {
             web3FashionItems[selectedIndex].style = {
@@ -444,29 +461,52 @@ const BottomPart = props => {
               height: target.style.height,
               transform: target.style.transform
             }
-            setWeb3FashionItems(web3FashionItems)
-              console.log('onResizeEnd', target, isDrag);
+            setWeb3FashionItems([...web3FashionItems])
+          }}
+
+          rotatable={true}
+          throttleRotate={0}
+          onRotateStart={e => {
+            
+          }}
+          onRotate={({
+            target,
+            delta, dist,
+            transform,
+            clientX, clientY,
+          }) => {
+            target.style.transform = transform
+          }}
+          onRotateEnd={({ target, isDrag, clientX, clientY }) => {
+            web3FashionItems[selectedIndex].style = {
+              width: target.style.width,
+              height: target.style.height,
+              transform: target.style.transform
+            }
+            setWeb3FashionItems([...web3FashionItems])
+            console.log('onRotateEnd', target, isDrag)
           }}
 
         />
+        }
+
         {
           web3FashionItems.map((item, index) => {
-            console.log('item.style: ', item.style)
             if (item.type === 'text') {
               return (
-                <div className={[styles.target, styles.text, 'target'].join(' ')}
-                  key={index}
+                <div className={[styles.target, styles.text, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e, index)}
-                  contentEditable='true'
+                  contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >
                 </div>
               )
             } else if (item.type === 'image') {
               return (
-                <img className={[styles.target, styles.image, 'target'].join(' ')}
-                  key={index}
+                <img className={[styles.target, styles.image, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e, index)}
                   src={item.value} 
@@ -475,14 +515,13 @@ const BottomPart = props => {
             } else if (item.type === 'video') {
               return (
                 <video
-                  // width='100%'
                   autoPlay
                   muted
                   loop
                   playsInline
                   style={item.style || {}}
-                  className={[styles.target, styles.video, 'target'].join(' ')}
-                  key={index}
+                  className={[styles.target, styles.video, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  key={JSON.stringify(item)}
                   onClick={e => onClickTarget(e, index)}
                 >
                   <source src={item.value} type='video/mp4' />
@@ -491,21 +530,6 @@ const BottomPart = props => {
             }
           })
         }
-        {/* <div className={[styles.target, styles.text, 'target'].join(' ')}
-          onClick={onClickTarget}
-        >
-          Enter the information in the fillout boxes below to mint your 1155 NFT and contribute to our open sourced material, pattern, texture on-chain libraries. Your contribution can be used in master garments by other designers, artists, creators— it is open sourced. Open source doesn’t mean without monetisation. Our infrastructure is being built to eventually support automated fractional royalties for any designer as they contribute to open source libraries that can be leveraged in both the digital and physical dimensions. A decentralised commercial model. 
-          <br />
-          Although we can’t automatically enforce in smart contract code this fractional cross-chain, cross-realm royalty distribution as of yet, we still are continuing to prove out the model and hope that those that use these open source prints contribute a fractional portion of the sales back to the DIGITALAX, as we have done and plan to do for anyone contributing to our on-chain libraries going forward. Your NFT is minted on Matic Network for 99% more energy efficiency than the Ethereum or Bitcoin blockchains. Through our MultiToken bridge these NFTs can be bridged back to Ethereum for additional interoperability and functionalities.
-        </div>
-
-        <div className={[styles.target, styles.text, 'target'].join(' ')}
-          onClick={onClickTarget}
-        >
-          Enter the information in the fillout boxes below to mint your 1155 NFT and contribute to our open sourced material, pattern, texture on-chain libraries. Your contribution can be used in master garments by other designers, artists, creators— it is open sourced. Open source doesn’t mean without monetisation. Our infrastructure is being built to eventually support automated fractional royalties for any designer as they contribute to open source libraries that can be leveraged in both the digital and physical dimensions. A decentralised commercial model. 
-          <br />
-          Although we can’t automatically enforce in smart contract code this fractional cross-chain, cross-realm royalty distribution as of yet, we still are continuing to prove out the model and hope that those that use these open source prints contribute a fractional portion of the sales back to the DIGITALAX, as we have done and plan to do for anyone contributing to our on-chain libraries going forward. Your NFT is minted on Matic Network for 99% more energy efficiency than the Ethereum or Bitcoin blockchains. Through our MultiToken bridge these NFTs can be bridged back to Ethereum for additional interoperability and functionalities.
-        </div> */}
       </div>
     </div>
   )

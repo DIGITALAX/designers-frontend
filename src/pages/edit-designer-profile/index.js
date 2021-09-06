@@ -170,6 +170,7 @@ const EditDesignerProfile = () => {
       />
       <DesignerProfileBottomPart 
         designerInfo={designerInfo}
+        isEditable={true}
       />
     </div>
   )

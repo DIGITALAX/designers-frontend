@@ -7,6 +7,7 @@ import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
 import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
+import DesignerProfileBottomPart from '@components/DesignerProfile/BottomPart'
 
 import styles from './styles.module.scss'
 
@@ -154,7 +155,10 @@ const DesignerPage = () => {
         materialList={materialList}
         marketplaceItems={marketplaceItems}
       />
-      <div className={styles.bottomPart}></div> 
+      <DesignerProfileBottomPart 
+        designerInfo={designerInfo}
+        isEditable={false}
+      />
     </div>
   )
 }

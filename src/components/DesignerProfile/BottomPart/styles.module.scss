@@ -14,9 +14,12 @@
   }
 
   .web3FashionView {
-    background: gray;
+    // background: gray;
     .target {
-      border: 1px dotted white;
+      &.showBorder {
+        border: 1px dotted white;
+      }
+      
       &.text {
         color: white;
         background: transparent;
@@ -33,6 +36,7 @@
   .toolbar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     padding-top: 1vw;
     padding-bottom: 1vw;
     padding-left: 5vw;
@@ -49,6 +53,14 @@
         background: #4276f1;
         color: #ccc;
       }
+    }
+
+    .leftPart {
+      
+    }
+    
+    .rightPart {
+      margin-right: 5vw;
     }
   }
 

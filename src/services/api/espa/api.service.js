@@ -211,7 +211,8 @@ class EspaApiService {
     instagram,
     linkedin,
     tiktok,
-    youtube
+    youtube,
+    web3FashionItems
   }) {
     try {
       const message = await post('/register-designer', {
@@ -226,7 +227,8 @@ class EspaApiService {
         instagram,
         linkedin,
         tiktok,
-        youtube
+        youtube,
+        web3FashionItems
       })
       return message
     } catch (e) {
