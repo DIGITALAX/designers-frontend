@@ -29,7 +29,6 @@ const BottomPart = props => {
   function handleResize() {
     setSelectedTarget(null)
     setScale(window.innerWidth / 1920)
-    console.log('window width: ', window.innerWidth)
   }
 
   useEffect(() => {  
@@ -137,10 +136,9 @@ const BottomPart = props => {
     }
   }
 
-  const onClickTarget = (e, index) => {
-    console.log('e: ', e)
-    if (!e.target.classList || !e.target.classList.contains('target')) return
-    setSelectedTarget(e.target)
+  const onClickTarget = (target, index) => {
+    if (!target.classList || !target.classList.contains('target')) return
+    setSelectedTarget(target)
     setSelectedIndex(index)
     setIsTextEdit(false)
   }
@@ -455,9 +453,8 @@ const BottomPart = props => {
               height: target.style.height,
               transform: target.style.transform
             }
-
-            console.log('web3FashionItems: ', web3FashionItems)
             setWeb3FashionItems([...web3FashionItems])
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
           }}
 
           resizable={true}
@@ -480,6 +477,7 @@ const BottomPart = props => {
               transform: target.style.transform
             }
             setWeb3FashionItems([...web3FashionItems])
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
           }}
 
           rotatable={true}
@@ -502,7 +500,7 @@ const BottomPart = props => {
               transform: target.style.transform
             }
             setWeb3FashionItems([...web3FashionItems])
-            console.log('onRotateEnd', target, isDrag)
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
           }}
 
         />
@@ -513,9 +511,10 @@ const BottomPart = props => {
             if (item.type === 'text') {
               return (
                 <div className={[styles.target, styles.text, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  id={`web3-fashion-item-${index}`}
                   key={JSON.stringify(item)}
                   style={item.style || {}}
-                  onClick={e => onClickTarget(e, index)}
+                  onClick={e => onClickTarget(e.target, index)}
                   contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >
@@ -525,8 +524,9 @@ const BottomPart = props => {
               return (
                 <img className={[styles.target, styles.image, 'target', isEditable ? styles.showBorder : ''].join(' ')}
                   key={JSON.stringify(item)}
+                  id={`web3-fashion-item-${index}`}
                   style={item.style || {}}
-                  onClick={e => onClickTarget(e, index)}
+                  onClick={e => onClickTarget(e.target, index)}
                   src={item.value} 
                 />
               )
@@ -539,8 +539,9 @@ const BottomPart = props => {
                   playsInline
                   style={item.style || {}}
                   className={[styles.target, styles.video, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  id={`web3-fashion-item-${index}`}
                   key={JSON.stringify(item)}
-                  onClick={e => onClickTarget(e, index)}
+                  onClick={e => onClickTarget(e.target, index)}
                 >
                   <source src={item.value} type='video/mp4' />
                 </video>
