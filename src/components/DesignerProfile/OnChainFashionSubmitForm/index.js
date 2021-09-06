@@ -61,27 +61,32 @@ const OnChainFashionSubmitForm = props => {
   }
 
   const validateOnChainForm = () => {
-    if (!itemName || itemName.split(' ').length <= 0) {
+    if (!itemName || itemName.split(' ').findIndex(item => item !== '') === -1) {
+      setItemName('')
       document.getElementById('item-name').focus()
       toast('Please input item name.')
       return false
     }
-    if (!itemDescription || itemDescription.split(' ').length <= 0) {
+    if (!itemDescription || itemDescription.split(' ').findIndex(item => item !== '') === -1) {
+      setItemDescription('')
       document.getElementById('item-description').focus()
       toast('Please input description.')
       return false
     }
-    if (!itemEditionNo || itemEditionNo.split(' ').length <= 0) {
+    if (!itemEditionNo || itemEditionNo.split(' ').findIndex(item => item !== '') === -1) {
+      setItemEditionNo('')
       document.getElementById('item-edition-no').focus()
       toast('Please input edition no.')
       return false
     }
-    if (!itemPrice || itemPrice.split(' ').length <= 0) {
+    if (!itemPrice || itemPrice.split(' ').findIndex(item => item !== '') === -1) {
+      setItemPrice('')
       document.getElementById('item-price').focus()
       toast('Please input price(s).')
       return false
     }
-    if (!itemType || itemType.split(' ').length <= 0) {
+    if (!itemType || itemType.split(' ').findIndex(item => item !== '') === -1) {
+      setItemType('')
       document.getElementById('item-type').focus()
       toast('Please input type.')
       return false

@@ -7,6 +7,7 @@ import APIService from '@services/api/api.service'
 import api from '@services/api/espa/api.service'
 
 import DesignerProfileTopPart from '@components/DesignerProfile/TopPart'
+import DesignerProfileBottomPart from '@components/DesignerProfile/BottomPart'
 import Loader from '@components/loader'
 import { getAccount } from '@selectors/user.selectors'
 
@@ -160,6 +161,7 @@ const EditDesignerProfile = () => {
         materialList={materialList}
         marketplaceItems={marketplaceItems}
       />
+      <DesignerProfileBottomPart />
     </div>
   )
 }
