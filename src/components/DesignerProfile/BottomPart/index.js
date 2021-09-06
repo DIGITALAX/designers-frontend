@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import Moveable, { MoveableManagerInterface, Renderer } from 'react-moveable'
 import { toast } from 'react-toastify'
@@ -11,7 +11,9 @@ import styles from './styles.module.scss'
 
 
 
-const BottomPart = () => {
+const BottomPart = props => {
+  const { designerInfo } = props
+
   const [selectedTarget, setSelectedTarget] = useState(null)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [web3FashionItems, setWeb3FashionItems] = useState([])
@@ -25,6 +27,12 @@ const BottomPart = () => {
 
   const dispatch = useDispatch()
 
+
+  useEffect(() => {
+    console.log('--here', JSON.parse(designerInfo['web3FashionItems']))
+    setWeb3FashionItems(JSON.parse(designerInfo['web3FashionItems']))
+  }, [designerInfo['web3FashionItems']])
+
   const Removable = {
     name: 'removable',
     props: {},
@@ -33,8 +41,6 @@ const BottomPart = () => {
       const rect = moveable.getRect()
       const { pos2 } = moveable.state
 
-      
-  
       // use css for able
       const RemovableViewer = moveable.useCSS('div', `
       {
@@ -96,11 +102,9 @@ const BottomPart = () => {
       >
           <button className='removable-button'
             onClick={() => {
-              console.log('selectedIndex: ', selectedIndex)
               web3FashionItems.splice(selectedIndex, 1)
               setWeb3FashionItems(web3FashionItems)
               setSelectedTarget(null)
-              console.log('web3FashionItems: ', web3FashionItems)
             }}
           >
           </button>
@@ -409,6 +413,13 @@ const BottomPart = () => {
               target.style.transform = transform;
           }}
           onDragEnd={({ target, isDrag, clientX, clientY }) => {
+            // console.log('target.style.transform: ', target.style)
+            web3FashionItems[selectedIndex].style = {
+              width: target.style.width,
+              height: target.style.height,
+              transform: target.style.transform
+            }
+            setWeb3FashionItems(web3FashionItems)
             console.log('onDragEnd', target, isDrag);
           }}
 
@@ -428,16 +439,24 @@ const BottomPart = () => {
               delta[1] && (target.style.height = `${height}px`);
           }}
           onResizeEnd={({ target, isDrag, clientX, clientY }) => {
+            web3FashionItems[selectedIndex].style = {
+              width: target.style.width,
+              height: target.style.height,
+              transform: target.style.transform
+            }
+            setWeb3FashionItems(web3FashionItems)
               console.log('onResizeEnd', target, isDrag);
           }}
 
         />
         {
           web3FashionItems.map((item, index) => {
+            console.log('item.style: ', item.style)
             if (item.type === 'text') {
               return (
                 <div className={[styles.target, styles.text, 'target'].join(' ')}
                   key={index}
+                  style={item.style || {}}
                   onClick={e => onClickTarget(e, index)}
                   contentEditable='true'
                   dangerouslySetInnerHTML={{ __html: item.value }}
@@ -448,6 +467,7 @@ const BottomPart = () => {
               return (
                 <img className={[styles.target, styles.image, 'target'].join(' ')}
                   key={index}
+                  style={item.style || {}}
                   onClick={e => onClickTarget(e, index)}
                   src={item.value} 
                 />
@@ -460,6 +480,7 @@ const BottomPart = () => {
                   muted
                   loop
                   playsInline
+                  style={item.style || {}}
                   className={[styles.target, styles.video, 'target'].join(' ')}
                   key={index}
                   onClick={e => onClickTarget(e, index)}

@@ -168,7 +168,9 @@ const EditDesignerProfile = () => {
         materialList={materialList}
         marketplaceItems={marketplaceItems}
       />
-      <DesignerProfileBottomPart />
+      <DesignerProfileBottomPart 
+        designerInfo={designerInfo}
+      />
     </div>
   )
 }
