@@ -100,6 +100,26 @@ class EspaApiService {
       return null
     }
   }
+  
+  async getPresignedGeneralUrl(contentType) {
+    try {
+      const data = await get('/presigned-general-url', {
+        contentType
+      })
+      return data
+    } catch (e) {
+      return null
+    }
+  }
+
+  async getPresignedVideoUrl() {
+    try {
+      const data = await get('/presigned-video-url')
+      return data
+    } catch (e) {
+      return null
+    }
+  }
 
   async uploadImageToS3(url, file) {
     try {
@@ -113,7 +133,7 @@ class EspaApiService {
       return false
     }
   }
-
+  
   async getMyIP() {
     try {
       const url = 'https://api.ipify.org/?format=json'

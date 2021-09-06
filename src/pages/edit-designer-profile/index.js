@@ -141,13 +141,20 @@ const EditDesignerProfile = () => {
     loadData()
   }, [account])
 
-
   if (!account) {
-    return null
+    return (
+      <div className={styles.beforeLoading}>
+        <div className={styles.ldsEllipsis}><div></div><div></div><div></div><div></div></div>
+      </div>
+    )
   }
 
   if (!designerInfo || Object.keys(designerInfo).length <= 0) {
-    return null
+    return (
+      <div className={styles.beforeLoading}>
+        <div className={styles.ldsEllipsis}><div></div><div></div><div></div><div></div></div>
+      </div>
+    )
   }
 
   // console.log('materialList: ', materialList)

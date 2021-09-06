@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import Moveable from 'react-moveable'
+import Moveable, { MoveableManagerInterface, Renderer } from 'react-moveable'
 import { toast } from 'react-toastify'
 
 import api from '@services/api/espa/api.service'
@@ -9,20 +9,122 @@ import designerActions from '@actions/designer.actions'
 import Button from '@components/Button'
 import styles from './styles.module.scss'
 
+
+
 const BottomPart = () => {
   const [selectedTarget, setSelectedTarget] = useState(null)
+  const [selectedIndex, setSelectedIndex] = useState(-1)
   const [web3FashionItems, setWeb3FashionItems] = useState([])
-  const [currentHeight, setCurrentHeight] = useState(0)
   const [isShowTextAdd, setIsShowTextAdd] = useState(false)
   const [isShowImageAdd, setIsShowImageAdd] = useState(false)
   const [isShowVideoAdd, setIsShowVideoAdd] = useState(false)
   const [imageFileName, setImageFileName] = useState('')
   const [videoFileName, setVideoFileName] = useState('')
   const [addTextDraft, setAddTextDraft] = useState('')
+  const [isTextEdit, setIsTextEdit] = useState(false)
 
-  const onClickTarget = e => {
-    setSelectedTarget(e.target)
+  const dispatch = useDispatch()
+
+  const Removable = {
+    name: 'removable',
+    props: {},
+    events: {},
+    render(moveable, React) {
+      const rect = moveable.getRect()
+      const { pos2 } = moveable.state
+
+      
+  
+      // use css for able
+      const RemovableViewer = moveable.useCSS('div', `
+      {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        will-change: transform;
+        transform-origin: 0px 0px;
+      }
+  
+      .removable-button, .editable-button {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        margin-bottom: 4px;
+        background: #4af;
+        border-radius: 4px;
+        appearance: none;
+        border: 0;
+        color: white;
+        font-weight: bold;
+      }
+
+      .editable-button {
+        padding: 4px;
+      }
+  
+      .removable-button::before, .removable-button::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        width: 16px;
+        height: 2px;
+        background: #fff;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+      
+      .removable-button::after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      `)
+
+      const isText = selectedIndex >= 0 && web3FashionItems[selectedIndex] && 
+      web3FashionItems[selectedIndex].type === 'text'
+  
+      // Add key (required)
+      // Add class prefix moveable-(required)
+      return <RemovableViewer 
+        key='removable-viewer'
+        className={'moveable-removable'}
+  
+        style={{
+          transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(10px)`,
+          color: 'red'
+        }}
+      >
+          <button className='removable-button'
+            onClick={() => {
+              console.log('selectedIndex: ', selectedIndex)
+              web3FashionItems.splice(selectedIndex, 1)
+              setWeb3FashionItems(web3FashionItems)
+              setSelectedTarget(null)
+              console.log('web3FashionItems: ', web3FashionItems)
+            }}
+          >
+          </button>
+          {
+            isText && <button className='editable-button'
+              onClick={() => {
+                setIsTextEdit(true)
+              }}
+            >
+              <img src='/images/designer-page/edit.svg' />
+            </button>
+          }
+      </RemovableViewer>
+    }
   }
+
+  const onClickTarget = (e, index) => {
+    console.log('e: ', e)
+    if (!e.target.classList || !e.target.classList.contains('target')) return
+    setSelectedTarget(e.target)
+    setSelectedIndex(index)
+    setIsTextEdit(false)
+  }
+
 
   const onClickImage = () => {
     setIsShowImageAdd(true)
@@ -45,7 +147,7 @@ const BottomPart = () => {
   const uploadFile = async file => {
     try {
       dispatch(designerActions.setIsloading(true))
-      let url = await api.getPresignedUrl()
+      let url = await api.getPresignedGeneralUrl(file.type)
       if (url) {
         const result = await api.uploadImageToS3(url, file)
         if (result) {
@@ -80,6 +182,8 @@ const BottomPart = () => {
       value: addTextDraft.replace(/\r\n|\r|\n/g, '<br />')
     })
 
+    setWeb3FashionItems(web3FashionItems)
+
     // Reset Add Text
     setAddTextDraft('')
   }
@@ -96,6 +200,7 @@ const BottomPart = () => {
     
     uploadFile(imageUploadEl.files[0])
     .then (uploaded => {
+      console.log('uploaded: ', uploaded)
       if (!uploaded) {
         toast('Failed to upload the file. Please try again.')
         return
@@ -103,14 +208,17 @@ const BottomPart = () => {
 
       web3FashionItems.push({
         type: 'image',
-        value: imageUploadEl
+        value: uploaded
       })
+
+      setWeb3FashionItems(web3FashionItems)
   
       // Reset Add Image
       imageUploadEl.value = ''
       setImageFileName('')
     })
     .catch (e => {
+      console.log('e: ', e)
       toast('Failed to upload the file. Please try again.')
       return
     })
@@ -123,9 +231,32 @@ const BottomPart = () => {
       return
     }
 
-    // Reset Add Video
-    document.getElementById('video-upload').value = ''
-    setVideoFileName('')
+    const videoUploadEl = document.getElementById('video-upload')
+    
+    uploadFile(videoUploadEl.files[0])
+    .then (uploaded => {
+      console.log('uploaded: ', uploaded)
+      if (!uploaded) {
+        toast('Failed to upload the file. Please try again.')
+        return
+      }
+
+      web3FashionItems.push({
+        type: 'video',
+        value: uploaded
+      })
+
+      setWeb3FashionItems(web3FashionItems)
+  
+      // Reset Add Video
+      videoUploadEl.value = ''
+      setVideoFileName('')
+    })
+    .catch (e => {
+      console.log('e: ', e)
+      toast('Failed to upload the file. Please try again.')
+      return
+    })
   }
 
   const onChangeImageFile = e => {
@@ -250,70 +381,91 @@ const BottomPart = () => {
         <Moveable
           target={selectedTarget}
           container={null}
+          checkInput={isTextEdit}
+          ables={[Removable]}
+          props={{
+            removable: true
+          }}
+
           origin={true}
           draggable={true}
           onDragStart={({ target, clientX, clientY }) => {
-              console.log("onDragStart", target);
+              console.log('onDragStart', target.getClientRects());
           }}
           onDrag={({
-              target,
-              beforeDelta, beforeDist,
-              left, top,
-              right, bottom,
-              delta, dist,
-              transform,
-              clientX, clientY,
+            target,
+            beforeDelta, beforeDist,
+            left, top,
+            right, bottom,
+            delta, dist,
+            transform,
+            clientX, clientY,
           }) => {
-              console.log("onDrag left, top", left, top);
+              // return
+              console.log('onDrag left, top', left, top);
               // target!.style.left = `${left}px`;
               // target!.style.top = `${top}px`;
-              console.log("onDrag translate", dist);
+              console.log('onDrag translate', dist);
               target.style.transform = transform;
           }}
           onDragEnd={({ target, isDrag, clientX, clientY }) => {
-            console.log("onDragEnd", target, isDrag);
+            console.log('onDragEnd', target, isDrag);
           }}
 
           resizable={true}
           throttleResize={0}
           onResizeStart={({ target , clientX, clientY}) => {
-              console.log("onResizeStart", target);
+
+              console.log('onResizeStart', target);
           }}
           onResize={({
               target, width, height,
               dist, delta, direction,
               clientX, clientY,
           }) => {
-              console.log("onResize", target);
+              console.log('onResize', target);
               delta[0] && (target.style.width = `${width}px`);
               delta[1] && (target.style.height = `${height}px`);
           }}
           onResizeEnd={({ target, isDrag, clientX, clientY }) => {
-              console.log("onResizeEnd", target, isDrag);
+              console.log('onResizeEnd', target, isDrag);
           }}
 
         />
         {
           web3FashionItems.map((item, index) => {
             if (item.type === 'text') {
-              console.log('item.value: ', item.value)
               return (
                 <div className={[styles.target, styles.text, 'target'].join(' ')}
                   key={index}
-                  onClick={onClickTarget}
+                  onClick={e => onClickTarget(e, index)}
+                  contentEditable='true'
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >
                 </div>
               )
             } else if (item.type === 'image') {
-              console.log('item.value: ', item.value)
               return (
-                <div className={[styles.target, styles.image, 'target'].join(' ')}
+                <img className={[styles.target, styles.image, 'target'].join(' ')}
                   key={index}
-                  onClick={onClickTarget}
+                  onClick={e => onClickTarget(e, index)}
+                  src={item.value} 
+                />
+              )
+            } else if (item.type === 'video') {
+              return (
+                <video
+                  // width='100%'
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className={[styles.target, styles.video, 'target'].join(' ')}
+                  key={index}
+                  onClick={e => onClickTarget(e, index)}
                 >
-                  <img src={item.value} />
-                </div>
+                  <source src={item.value} type='video/mp4' />
+                </video>
               )
             }
           })
