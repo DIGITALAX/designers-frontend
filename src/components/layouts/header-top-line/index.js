@@ -13,8 +13,6 @@ import api from '@services/api/espa/api.service'
 import Logo from './logo'
 import styles from './styles.module.scss'
 
-
-
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
   return {
@@ -51,7 +49,7 @@ const HeaderTopLine = ({ className, buttonText }) => {
   }, [screenWidth])
 
   const checkIfDesigner = async (wallet) => {
-    const designers = await api.getDesignerByWallet(wallet) || []
+    const designers = await api.getDesignerByWallet(wallet.toLowerCase()) || []
     if (designers.length > 0) {
       setIsDesigner(true)
     }
@@ -95,8 +93,8 @@ const HeaderTopLine = ({ className, buttonText }) => {
     setIsShowMenu(false)
     Router.push('/edit-designer-profile')
   }
-  // console.log('Show Menu => ', isCollapse)
-    return (
+
+  return (
     <div className=
       {
         cn(

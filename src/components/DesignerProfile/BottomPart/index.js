@@ -44,10 +44,6 @@ const BottomPart = props => {
   useEffect(() => {
     try {
       const web3Items = JSON.parse(designerInfo['web3FashionItems'])
-      web3Items.forEach(item => {
-        console.log('item.style.height: ', item.style.height)
-        console.log('item.style.transform: ', item.style.transform)
-      })
       setWeb3FashionItems(web3Items)
       handleResize()
     } catch (e) {
@@ -317,7 +313,7 @@ const BottomPart = props => {
 
   const onClickSave = () => {
     designerInfo['web3FashionItems'] = JSON.stringify(web3FashionItems)
-    console.log('designerInfo: ', designerInfo)
+    // console.log('designerInfo: ', designerInfo)
     dispatch(designerActions.updateProfile({...designerInfo}))
   }
 
@@ -348,9 +344,6 @@ const BottomPart = props => {
   useEffect(() => {
     setWrapperHeight((maxYValue + 100) * scale)
   }, [maxYValue])
-
-  // console.log('yValues: ', yValues)
-  // console.log('maxY: ', )
 
   return (
     <div className={styles.wrapper}>
@@ -454,32 +447,6 @@ const BottomPart = props => {
         }
       </div>
       }
-      {/* {isEditable && <Moveable
-        target={document.querySelector('.web3-fashion-wrapper')}
-        resizable={true}
-        renderDirections={["nw","n","ne","w","e","sw","s","se"]}
-        throttleResize={0}
-        onResizeStart={({ target , clientX, clientY}) => {
-
-        }}
-
-        onResize={({
-            target, width, height,
-            dist, delta, direction,
-            clientX, clientY
-        }) => {
-          // delta[0] && (target.style.width = `${width}px`)
-          delta[1] && (target.style.height = `${height}px`)
-        }}
-        onResizeEnd={({ target, isDrag, clientX, clientY }) => {
-          // target.style = {
-          //   width: target.style.width,
-          //   height: target.style.height,
-          //   transform: target.style.transform
-          // }
-        }}
-        />
-      } */}
       <div className={[styles.web3FashionView, 'web3-fashion-wrapper'].join(' ')}
         style={{         
           width: 1920,
@@ -521,10 +488,6 @@ const BottomPart = props => {
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
-            // const matrix = new WebKitCSSMatrix(target.style.transform)
-            // console.log('matrix: ', matrix['m42'])
-            // target.style.height + target.style.transform.
-            // setWrapperHeight
           }}
 
           resizable={true}
