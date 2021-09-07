@@ -23,12 +23,15 @@ const BottomPart = props => {
   const [addTextDraft, setAddTextDraft] = useState('')
   const [isTextEdit, setIsTextEdit] = useState(false)
   const [scale, setScale] = useState(1)
+  const [wrapperHeight, setWrapperHeight] = useState(400)
 
   const dispatch = useDispatch()
 
   function handleResize() {
     setSelectedTarget(null)
     setScale(window.innerWidth / 1920)
+    const maxYValue = getMaxYValue()
+    setWrapperHeight((maxYValue + 100) * scale)
   }
 
   useEffect(() => {  
@@ -41,6 +44,10 @@ const BottomPart = props => {
   useEffect(() => {
     try {
       const web3Items = JSON.parse(designerInfo['web3FashionItems'])
+      web3Items.forEach(item => {
+        console.log('item.style.height: ', item.style.height)
+        console.log('item.style.transform: ', item.style.transform)
+      })
       setWeb3FashionItems(web3Items)
       handleResize()
     } catch (e) {
@@ -314,6 +321,37 @@ const BottomPart = props => {
     dispatch(designerActions.updateProfile({...designerInfo}))
   }
 
+  const getMaxYValue = () => {
+    const yValues = web3FashionItems.map((item, index) => {
+      let translateY = 0
+      let itemHeight = 0
+      if (item && item.style) {
+        const matrix = new WebKitCSSMatrix(item.style.transform)
+        if (matrix['m42']) {
+          translateY = matrix['m42']
+        }
+        
+        if (item.style.height) {
+          itemHeight = parseInt(item.style.height, 10)
+        } else {
+          const el = document.getElementById(`web3-fashion-item-${index}`)
+          itemHeight = el ? el.clientHeight : 0
+        }
+      }
+      return itemHeight + translateY
+    })
+    return Math.max(...yValues, 400)
+  }
+
+  const maxYValue = getMaxYValue()
+
+  useEffect(() => {
+    setWrapperHeight((maxYValue + 100) * scale)
+  }, [maxYValue])
+
+  // console.log('yValues: ', yValues)
+  // console.log('maxY: ', )
+
   return (
     <div className={styles.wrapper}>
       {
@@ -416,13 +454,41 @@ const BottomPart = props => {
         }
       </div>
       }
-      <div className={styles.web3FashionView}
+      {/* {isEditable && <Moveable
+        target={document.querySelector('.web3-fashion-wrapper')}
+        resizable={true}
+        renderDirections={["nw","n","ne","w","e","sw","s","se"]}
+        throttleResize={0}
+        onResizeStart={({ target , clientX, clientY}) => {
+
+        }}
+
+        onResize={({
+            target, width, height,
+            dist, delta, direction,
+            clientX, clientY
+        }) => {
+          // delta[0] && (target.style.width = `${width}px`)
+          delta[1] && (target.style.height = `${height}px`)
+        }}
+        onResizeEnd={({ target, isDrag, clientX, clientY }) => {
+          // target.style = {
+          //   width: target.style.width,
+          //   height: target.style.height,
+          //   transform: target.style.transform
+          // }
+        }}
+        />
+      } */}
+      <div className={[styles.web3FashionView, 'web3-fashion-wrapper'].join(' ')}
         style={{         
-          width: 1920, 
+          width: 1920,
+          height: wrapperHeight,
           transformOrigin: '0 0',
           transform: `scale(${scale})`
         }}
       >
+
         {isEditable && <Moveable
           target={selectedTarget}
           container={null}
@@ -455,13 +521,19 @@ const BottomPart = props => {
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
+            // const matrix = new WebKitCSSMatrix(target.style.transform)
+            // console.log('matrix: ', matrix['m42'])
+            // target.style.height + target.style.transform.
+            // setWrapperHeight
           }}
 
           resizable={true}
+          renderDirections={["nw","n","ne","w","e","sw","s","se"]}
           throttleResize={0}
           onResizeStart={({ target , clientX, clientY}) => {
 
           }}
+
           onResize={({
               target, width, height,
               dist, delta, direction,
