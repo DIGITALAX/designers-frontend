@@ -32,7 +32,7 @@ const EditDesignerProfile = () => {
   const [marketplaceItems, setMarketplaceItems] = useState([])
 
   async function loadData() {
-    const designers = await api.getDesignerByWallet(account) || []
+    const designers = await api.getDesignerByWallet(account.toLowerCase()) || []
     const thumbnails = await api.getAllThumbnails()
 
     const designer = designers && designers.length > 0 ? designers[0] : null
