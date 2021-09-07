@@ -1,6 +1,8 @@
 .wrapper {
   // background: white;
-  padding-bottom: 40px;
+  padding-top: 100px;
+  padding-bottom: 100px;
+
   h1 {
     background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
     -webkit-background-clip: text;
@@ -15,7 +17,10 @@
 
   .web3FashionView {
     // background: gray;
+    // position: absolute;
+    min-height: 400px;
     .target {
+      position: absolute;
       &.showBorder {
         border: 1px dotted white;
       }
