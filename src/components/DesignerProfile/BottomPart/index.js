@@ -550,6 +550,7 @@ const BottomPart = props => {
                   key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
+                  onBlur={e => { console.log('text: ', e.target.value) }}
                   contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >

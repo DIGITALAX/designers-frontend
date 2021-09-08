@@ -9,7 +9,7 @@ import PatternCircle from '@components/DesignerProfile/PatternCircle'
 import designerActions from '@actions/designer.actions'
 import styles from './styles.module.scss'
 
-
+const MAX_DESCRIPTION_LENGTH = 672
 
 const DesignerProfileTopPart = props => {
   const { isEdit, designerInfo, materialList, marketplaceItems } = props
@@ -102,7 +102,7 @@ const DesignerProfileTopPart = props => {
   }
 
   const onChangeDescription = (e) => {
-    setDescriptionDraft(e.target.value)
+    setDescriptionDraft(e.target.value.substring(0, MAX_DESCRIPTION_LENGTH))
   }
 
   // Add more
@@ -249,7 +249,7 @@ const DesignerProfileTopPart = props => {
 
       { 
         !isEditingDescription && <div className={[styles.designerDescription, isEdit ? styles.editing : ''].join(' ')}>
-          { designerInfo['description'] }
+          { designerInfo['description'].substring(0, MAX_DESCRIPTION_LENGTH) }
         </div>
       }
       {

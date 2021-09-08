@@ -92,11 +92,11 @@ const OnChainFashionSubmitForm = props => {
       return false
     }
 
-    const sourceUpload = document.getElementById('source-upload')
-    if (sourceUpload.files.length === 0) {
-      toast('Please choose source file.')
-      return false
-    }
+    // const sourceUpload = document.getElementById('source-upload')
+    // if (sourceUpload.files.length === 0) {
+    //   toast('Please choose source file.')
+    //   return false
+    // }
     
     const render1Upload = document.getElementById('render1-upload')
     if (render1Upload.files.length === 0) {
@@ -110,7 +110,7 @@ const OnChainFashionSubmitForm = props => {
   const uploadFile = async file => {
     try {
       dispatch(designerActions.setIsloading(true))
-      let url = await api.getPresignedUrl()
+      let url = await api.getPresignedGeneralUrl(file.type)
       if (url) {
         const result = await api.uploadImageToS3(url, file)
         if (result) {
@@ -349,7 +349,7 @@ const OnChainFashionSubmitForm = props => {
               type='file'
               onChange={e => onChangeRenderFile(e, 1)}
               hidden
-              accept='*.mp4, *.png, *.jpg, *.gif'
+              accept='.mp4, .png, .jpg, .gif'
             />
             <Button className={styles.uploadButton} background='black' onClick={() => openRenderFile(1)}>
               FILE UPLOAD
@@ -368,7 +368,7 @@ const OnChainFashionSubmitForm = props => {
               type='file'
               onChange={e => onChangeRenderFile(e, 2)}
               hidden
-              accept='*.mp4, *.png, *.jpg, *.gif'
+              accept='.mp4, .png, .jpg, .gif'
             />
             <Button className={styles.uploadButton} background='black' onClick={() => openRenderFile(2)}>
               FILE UPLOAD
@@ -389,7 +389,7 @@ const OnChainFashionSubmitForm = props => {
               type='file'
               onChange={e => onChangeRenderFile(e, 3)}
               hidden
-              accept='*.mp4, *.png, *.jpg, *.gif'
+              accept='.mp4, .png, .jpg, .gif'
             />
             <Button className={styles.uploadButton} background='black' onClick={() => openRenderFile(3)}>
               FILE UPLOAD
@@ -408,7 +408,7 @@ const OnChainFashionSubmitForm = props => {
               type='file'
               onChange={e => onChangeRenderFile(e, 4)}
               hidden
-              accept='*.mp4, *.png, *.jpg, *.gif'
+              accept='.mp4, .png, .jpg, .gif'
             />
             <Button className={styles.uploadButton} background='black' onClick={() => openRenderFile(4)}>
               FILE UPLOAD
@@ -429,7 +429,7 @@ const OnChainFashionSubmitForm = props => {
               type='file'
               onChange={e => onChangeRenderFile(e, 5)}
               hidden
-              accept='*.mp4, *.png, *.jpg, *.gif'
+              accept='.mp4, .png, .jpg, .gif'
             />
             <Button className={styles.uploadButton} background='black' onClick={() => openRenderFile(5)}>
               FILE UPLOAD
