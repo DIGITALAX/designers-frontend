@@ -18,7 +18,7 @@ const patternCircle = props => {
     imgViewer.current.classList.remove('fadeOut' + direction)
     imgViewer.current.classList.add('fadeIn' + direction)
     // title.current.innerHTML = ''
-    description.current.innerHTML = item.description
+    description.current.innerHTML = item.name + '<br />' + item.description
   }
 
   const hleave = (when, e) => {

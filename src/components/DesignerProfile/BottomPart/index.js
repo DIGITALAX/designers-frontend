@@ -168,6 +168,11 @@ const BottomPart = props => {
     setSelectedTarget(null)
   }
 
+  const updateText = (text, index) => {
+    web3FashionItems[index].value = text
+    setWeb3FashionItems([...web3FashionItems])
+  }
+
   const uploadFile = async file => {
     try {
       dispatch(designerActions.setIsloading(true))
@@ -550,7 +555,7 @@ const BottomPart = props => {
                   key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
-                  onBlur={e => { console.log('text: ', e.target.value) }}
+                  onBlur={e => updateText(e.target.innerHTML, index)}
                   contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >
