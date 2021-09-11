@@ -8,17 +8,19 @@ const patternCircle = props => {
   const { item, index, direction = 'Right', secondPart } = props
   const curImage = useRef(null)
   const imgViewer = useRef(null)
-  // const title = useRef(null)
   const description = useRef(null)
-
-  console.log('item: ', item)
 
   const hovered = () => {
     curImage.current.style.backgroundImage = `url(${item.thumbnail ? item.thumbnail : item.image})`
     imgViewer.current.classList.remove('fadeOut' + direction)
     imgViewer.current.classList.add('fadeIn' + direction)
-    // title.current.innerHTML = ''
-    description.current.innerHTML = item.name + '<br />' + item.description
+    const nameItem = item.attributes.find(item => item.type === 'Name of Item')
+    let descriptionInnerHTML = ''
+    if (nameItem) {
+      descriptionInnerHTML = nameItem.value + '<br />'
+    }
+    descriptionInnerHTML += item.description
+    description.current.innerHTML = descriptionInnerHTML
   }
 
   const hleave = (when, e) => {

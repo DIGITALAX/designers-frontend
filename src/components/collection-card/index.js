@@ -1,9 +1,6 @@
 import React, { useState, useRef } from 'react'
-import Link from 'next/link'
 import LazyLoad from 'react-lazyload'
-
 import Button from '@components/buttons/button'
-
 import styles from './styles.module.scss'
 
 const CollectionCard = props => {
@@ -62,15 +59,11 @@ const CollectionCard = props => {
                   preload={'auto'}
                   onLoadedData={
                     () => {
-                      console.log('videoTagRef: ', videoTagRef.current)
                       var video = videoTagRef.current;
-                      console.log('video: ', video)
                       if (getAudio(video)) {
-                          // console.log('video has audio')
                           setHasAudio(true)
                       } else {
                         setHasAudio(false)
-                          // console.log(`video doesn't have audio`)
                       }
                     }
                   }
