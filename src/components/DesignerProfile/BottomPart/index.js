@@ -351,8 +351,11 @@ const BottomPart = props => {
   }, [maxYValue])
 
   return (
-    <div className={styles.wrapper}>
-      <img src='/images/designer-page/triangle2.png' className={styles.triangle2} />
+    <div className={[styles.wrapper, web3FashionItems.length > 0 || isEditable ? styles.showBackground : ''].join(' ')}>
+      {
+        (web3FashionItems.length > 0 || isEditable) &&
+        <img src='/images/designer-page/triangle2.png' className={styles.triangle2} />
+      }
       {
         (isEditable || web3FashionItems.length > 0) && 
         <h1>
