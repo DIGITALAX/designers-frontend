@@ -291,9 +291,9 @@ const DesignerProfileTopPart = props => {
       <div className={styles.patternSection}>
         <div className={[styles.patternWrapper3, materialList.length <= 5 ? styles.smallPattern : ''].join(' ')}>
           {
-            materialList.slice(0, 5).map((item, index) => {
+            materialList.slice(0, 6).map((item, index) => {
               return (
-                <PatternCircle key={index} item={item} index={index} />
+                <PatternCircle key={index} item={item} index={index} direction = {index === 2 ? 'Left' : 'Right'} />
               )
             })
           }
@@ -301,7 +301,7 @@ const DesignerProfileTopPart = props => {
         
         <div className={styles.patternWrapper4}>
           {
-            materialList.slice(6, materialList.length).map((item, index) => {
+            materialList.slice(7, materialList.length).map((item, index) => {
               return (
                 <PatternCircle key={index} item={item} index={index} secondPart direction={index % 3 === 2 ? 'Left' : 'Right'}/>
                 // <div className={styles.patternCircle} >

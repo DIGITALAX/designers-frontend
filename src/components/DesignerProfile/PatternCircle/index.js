@@ -38,11 +38,28 @@ const patternCircle = props => {
     }
   }
 
+  let marginLeft = 0
+  let marginTop = 0
+
+  if (!secondPart) {
+    marginLeft = index % 3 * 30
+    
+    if (index === 2) {
+      marginLeft = 65
+      marginTop = -23
+    } else if (index === 5) {
+      marginLeft = -20
+      marginTop = -23
+    }
+  }
+
   return (
     <div className={[styles.patternCircle, secondPart ? styles.secondPart : ''].join(' ')} 
-    
+      
       style={!secondPart ? {
-        marginLeft: `${index % 2 * 30}%`
+        marginLeft: `${marginLeft}%`,
+        marginTop: `${marginTop}%`
+
       } : {
         marginTop: `${index % 3 === 1 ? -10 : 0}vw`
       }}
