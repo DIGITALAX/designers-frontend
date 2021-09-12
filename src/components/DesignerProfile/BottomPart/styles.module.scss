@@ -1,7 +1,25 @@
 .wrapper {
   // background: white;
+  position: relative;
   padding-top: 100px;
   padding-bottom: 100px;
+  background: url(/images/designer-page/web3-fashion-background.png);
+
+  .web3FashionBack {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    display: none;
+  }
+
+  .triangle2 {
+    right: -10vw;
+    top: -12vw;
+    position: absolute;
+    width: 45vw;
+    z-index: 0;
+  }
 
   h1 {
     background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
@@ -13,6 +31,9 @@
     font-size: 5.2vw;
     line-height: 121%;
     margin-left: 5vw;
+    z-index: 1;
+    position: relative;
+
   }
 
   .web3FashionView {
@@ -45,6 +66,8 @@
     padding-top: 1vw;
     padding-bottom: 1vw;
     padding-left: 5vw;
+    z-index: 1;
+    position: relative;
 
     button {
       background: #000000;
