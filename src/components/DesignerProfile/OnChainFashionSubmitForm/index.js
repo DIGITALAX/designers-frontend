@@ -110,7 +110,8 @@ const OnChainFashionSubmitForm = props => {
   const uploadFile = async file => {
     try {
       dispatch(designerActions.setIsloading(true))
-      let url = await api.getPresignedGeneralUrl(file.type)
+      console.log('--------- file: ', file)
+      let url = await api.getPresignedGeneralUrl(file.type, file.name)
       if (url) {
         const result = await api.uploadImageToS3(url, file)
         if (result) {

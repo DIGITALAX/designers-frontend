@@ -101,10 +101,11 @@ class EspaApiService {
     }
   }
   
-  async getPresignedGeneralUrl(contentType) {
+  async getPresignedGeneralUrl(contentType, fileName) {
     try {
       const data = await get('/presigned-general-url', {
-        contentType
+        contentType,
+        fileName
       })
       return data
     } catch (e) {
