@@ -87,7 +87,14 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
     imgViewer.current.classList.remove('fadeOut' + direction);
     imgViewer.current.classList.add('fadeIn' + direction);
     title.current.innerHTML = '';
-    description.current.innerHTML = item.description;
+
+    const nameItem = item.attributes.find(item => item.type === 'Name of Item')
+    let descriptionInnerHTML = ''
+    if (nameItem) {
+      descriptionInnerHTML = nameItem.value + '<br />'
+    }
+    descriptionInnerHTML += item.description
+    description.current.innerHTML = descriptionInnerHTML
   };
 
   const hleave = (when, e) => {
