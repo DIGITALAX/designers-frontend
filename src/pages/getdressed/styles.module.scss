@@ -76,7 +76,6 @@
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 5rem;
 
       .outfitsItem {
         position: relative;
@@ -242,6 +241,41 @@
           }
         }
 
+        input {
+          background: rgba(192, 71, 231, 0.3);
+          border: 7px solid #C047E7;
+          box-sizing: border-box;
+          padding: 10px;
+          color: white;
+          width: 100%;
+          outline: none;
+          padding: 10px;
+          font-size: 25px;
+    
+          @media (max-width: 576px) {
+            font-size: 15px;
+            line-height: 20px;
+            width: 100%;
+          }
+    
+          &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            font-family: Poppins;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 25px;
+            line-height: 30px;
+            /* identical to box height */
+    
+            @media (max-width: 576px) {
+              font-size: 15px;
+              line-height: 20px;
+            }
+    
+            text-align: center;
+    
+            color: rgba(255, 0, 251, 0.5);
+          }
+        }
       }
     }
 
@@ -275,6 +309,7 @@
       outline: none;
       padding: 10px;
       font-size: 25px;
+      margin-bottom: 3rem;
 
       @media (max-width: 576px) {
         font-size: 15px;

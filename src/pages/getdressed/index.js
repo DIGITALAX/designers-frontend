@@ -22,6 +22,7 @@ const GetDressed = () => {
   const [outfitStake, setOutfitStake] = useState(null);
   const [outfitPeriod, setOutfitPeriod] = useState(null);
   const [amount, setAmount] = useState(null);
+  const [outfitPattern, setOutfitPattern] = useState('');
   const [estimatedTimeline, setEstimatedTimeline] = useState(0);
   const account = useSelector(getAccount);
   const chainId = useSelector(getChainId);
@@ -73,7 +74,7 @@ const GetDressed = () => {
     'In-game/mod only',
     'High fidelity 3D only',
     '2D art style only',
-    'High fidelity 3D +2D art style',
+    'High fidelity 3D + 2D art style',
   ];
   const outfitPositions = [
     'Decentraland',
@@ -311,6 +312,7 @@ const GetDressed = () => {
       const res = await apiService.saveDressedInfo({
         wallet: account,
         outfit: outfit,
+        outfitPattern,
         description,
         outfitVersion,
         outfitPosition,
@@ -444,6 +446,40 @@ const GetDressed = () => {
           )}
           <div className={styles.optionItem}>
             <div className={styles.optionLabel}>
+              Include pattern, material or texture from the open source 1155 on-chain libraries?
+              <span className={styles.tooltip}>
+                <img src="/images/dressed/question.png" alt="" />
+                <div className={styles.body}>
+                  Check out <a href="/" target="_blank">this page here</a> to choose.
+                </div>
+              </span>
+            </div>
+            <input
+              placeholder="Enter the name/s of the pattern, material, texture from the library. "
+              value={outfitPattern}
+              onChange={(e) => {
+                setOutfitPattern(e.target.value)
+              }}
+            />
+          </div>
+          <div className={styles.optionItem}>
+            <div className={styles.optionLabel}>
+              Estimated Delivery is{' '}
+              <span>
+                {estimatedTimeline >= 7
+                  ? `${estimatedTimeline / 7 === 1 ? '1 week' : `${estimatedTimeline / 7} weeks`}`
+                  : `${estimatedTimeline === 1 ? '1 day' : `${estimatedTimeline} days`}`}
+              </span>
+              . Would you like to accelerate the delivery?
+            </div>
+            <Dropdown
+              options={outfitPeriods}
+              value={outfitPeriod}
+              onChange={(v) => setOutfitPeriod(v)}
+            />
+          </div>
+          <div className={styles.optionItem}>
+            <div className={styles.optionLabel}>
               Would you like the NFT to be minted on Ethereum or Polygon network?
             </div>
             <Dropdown
@@ -462,22 +498,6 @@ const GetDressed = () => {
               onChange={(v) => setOutfitStake(v)}
             />
           </div>
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>
-              Estimated Delivery is{' '}
-              <span>
-                {estimatedTimeline >= 7
-                  ? `${estimatedTimeline / 7 === 1 ? '1 week' : `${estimatedTimeline / 7} weeks`}`
-                  : `${estimatedTimeline === 1 ? '1 day' : `${estimatedTimeline}days`}`}
-              </span>
-              . Would you like to accelerate the delivery?
-            </div>
-            <Dropdown
-              options={outfitPeriods}
-              value={outfitPeriod}
-              onChange={(v) => setOutfitPeriod(v)}
-            />
-          </div>
         </div>
       </div>
 
@@ -488,9 +508,17 @@ const GetDressed = () => {
           tempt the best tailors!
         </div>
         <input
+          type="number"
+          step="0.01"
+          min={(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)}
           className={styles.amount}
           placeholder="Enter an amount above reserve"
           value={amount}
+          onBlur={(e) => {
+            if (amount < (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)) {
+              setAmount((totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2));
+            }
+          }}
           onChange={(e) => {
             setAmount(e.target.value)
           }}

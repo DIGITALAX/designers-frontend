@@ -203,6 +203,7 @@ class EspaApiService {
   async saveDressedInfo({
     wallet,
     outfit,
+    outfitPattern,
     description,
     outfitVersion,
     outfitPosition,
@@ -217,6 +218,7 @@ class EspaApiService {
       const res = await post('/dressed-info', {
         wallet,
         outfit,
+        outfitPattern,
         description,
         outfitVersion,
         outfitPosition,
