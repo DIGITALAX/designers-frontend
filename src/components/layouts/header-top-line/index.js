@@ -64,7 +64,9 @@ const HeaderTopLine = ({ className, buttonText }) => {
   }
 
   useEffect(() => {
-    checkIfDesigner(account)
+    if (account) {
+      checkIfDesigner(account)
+    }
   }, [account])
 
   const handleClick = () => dispatch(openConnectMetamaskModal())

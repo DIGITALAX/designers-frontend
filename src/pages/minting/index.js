@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import Input from '../../components/Input';
-import { Icon, ClickAwayListener, Popper, Tooltip, InputBase, Fade } from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { upload as UploadToPinata } from '../../utils/pinata';
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
-import { useSelector } from 'react-redux';
-import { getAccount } from '@selectors/user.selectors';
+import { FormControl, ClickAwayListener, Popper, Tooltip, InputBase, Fade, Select, MenuItem } from '@material-ui/core'
+import { withStyles, makeStyles } from '@material-ui/core/styles'
+import Input from '../../components/Input';
+import { upload as UploadToPinata } from '../../utils/pinata'
+import { getAccount } from '@selectors/user.selectors'
+import {
+  EXCLUSIVE_RARITY,
+  COMMON_RARITY,
+  SEMI_RARE_RARITY
+} from '@constants/global.constants'
+import styles from './styles.module.scss'
 
 const abi = [
   {
@@ -385,12 +389,26 @@ function Minting(props) {
                   value={pattern}
                   onChange={(e) => setValue(setPattern, e.target.value)}
                 />
-                <Input
-                  disabled
-                  label="Degree of Exclusivity"
-                  value={degree}
-                  onChange={(e) => setValue(setDegree, e.target.value)}
-                />
+                <FormControl variant="filled" fullWidth>
+                  <Select
+                    id='degreeOfExclusivity'
+                    className="mt-10 border-1 border-third bg-white h-9 text-left"
+                    style={{color: 'white'}}
+                    value={degree}
+                    inputProps={{
+                      classes: {
+                          root: styles.rootClass,
+                          icon: styles.arrowClass,
+                      },
+                  }}
+                    label="Degree of Exclusivity"
+                    onChange={(e) => setValue(setDegree, e.target.value)}
+                  >
+                    <MenuItem value={COMMON_RARITY}>Common</MenuItem>
+                    <MenuItem value={SEMI_RARE_RARITY}>Semi-Rare</MenuItem>
+                    <MenuItem value={EXCLUSIVE_RARITY}>Exclusive</MenuItem>
+                  </Select>
+                </FormControl>
                 <Input
                   label="Name of Item"
                   value={itemName}
@@ -502,13 +520,28 @@ function Minting(props) {
                     description="Anything else that you want minted on chain with the contribution. Separate by commas."
                   />
                 </div>
+
                 <div style={{ marginTop: 35 }}>
-                  <Input
-                    disabled
-                    label="Degree of Exclusivity"
+                <FormControl variant="filled" fullWidth>
+                  <Select
+                    id='degreeOfExclusivity'
+                    className="mt-10 border-1 border-third bg-white h-9 text-left"
+                    style={{color: 'white'}}
                     value={degree}
+                    inputProps={{
+                      classes: {
+                          root: styles.rootClass,
+                          icon: styles.arrowClass,
+                      },
+                  }}
+                    label="Degree of Exclusivity"
                     onChange={(e) => setValue(setDegree, e.target.value)}
-                  />
+                  >
+                    <MenuItem value={COMMON_RARITY}>Common</MenuItem>
+                    <MenuItem value={SEMI_RARE_RARITY}>Semi-Rare</MenuItem>
+                    <MenuItem value={EXCLUSIVE_RARITY}>Exclusive</MenuItem>
+                  </Select>
+                </FormControl>
                 </div>
                 <div style={{ marginTop: 32 }}>
                   <div className="flex flex-col mt-10 w-full">
