@@ -9,7 +9,8 @@ import {
   getAuctionsHistoryByIds,
   getAuctionContracts,
   getMaterialVS,
-  getCollectionGroups
+  getCollectionGroups,
+  getDigitalaxGarmentNftV2GlobalStats
 } from '@services/api/gql.queries.api.service'
 
 class APIService {
@@ -44,6 +45,10 @@ class APIService {
 
   async getAuctionContracts() {
     return request(this.url, getAuctionContracts)
+  }
+
+  async getGlobalStats() {
+    return request(this.url, getDigitalaxGarmentNftV2GlobalStats)
   }
 
   async getEthRate() {

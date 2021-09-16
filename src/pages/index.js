@@ -48,14 +48,16 @@ function Landing(props) {
           <div className="block" style={{height: 'fit-content'}}>
             <div className="flex items-center absolute z-50 l-8">
               <p className="uppercase font-inter text-third bg-fourth text-5xl p-1 font-black">
-                Open Gates For the metaverse
+                GET DRESSED BY THE BEST
               </p>
-              <img
-                src="/images/arrow.svg"
-                className="animate-horizonbounce opengatearrow"
-                onClick={() => onClickTopArrow()}
-              />
-              {
+              <Link href="/getdressed">
+                <img
+                  src="/images/arrow.svg"
+                  className="animate-horizonbounce opengatearrow"
+                  // onClick={() => onClickTopArrow()}
+                />
+              </Link>
+              {/* {
                 showTopSocial && <div className={styles.topSocialIcons}>
                   <a href='https://twitter.com/web3fashion' target='_blank'>
                     <img src='/images/social-button-circle/twitter.png' />
@@ -73,7 +75,7 @@ function Landing(props) {
                     <img src='/images/social-button-circle/youtube.png' />
                   </a>
                 </div>
-              }
+              } */}
             </div>
             <div className="relative">
               <video width="100%" autoPlay muted loop playsInline>

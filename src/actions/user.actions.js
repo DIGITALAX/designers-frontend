@@ -147,7 +147,7 @@ class UserActions extends BaseActions {
         dispatch(this.logout());
         dispatch(openSuccessModal());
       } else {
-        Router.push('/');
+        // Router.push('/');
       }
 
       dispatch(closeSignupModal());
