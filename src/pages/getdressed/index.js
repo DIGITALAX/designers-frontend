@@ -103,28 +103,28 @@ const GetDressed = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const prices = [
     {
-      'Hat': 190,
-      'Dress': 340,
-      'Shirt': 250,
-      'Pants': 250,
-      'Shoes': 270,
-      'Sunglasses': 190,
-      'Jewellery': 250,
-      'Swimwear': 330,
-      'Full Outfit': 750
+      Hat: 190,
+      Dress: 340,
+      Shirt: 250,
+      Pants: 250,
+      Shoes: 270,
+      Sunglasses: 190,
+      Jewellery: 250,
+      Swimwear: 330,
+      'Full Outfit': 750,
     },
     {
-      'Hat': 10,
-      'Dress': 20,
-      'Shirt': 10,
-      'Pants': 10,
-      'Shoes': 5,
-      'Sunglasses': 5,
-      'Jewellery': 5,
-      'Swimwear': 20,
-      'Full Outfit': 60
-    }
-  ]
+      Hat: 10,
+      Dress: 20,
+      Shirt: 10,
+      Pants: 10,
+      Shoes: 5,
+      Sunglasses: 5,
+      Jewellery: 5,
+      Swimwear: 20,
+      'Full Outfit': 60,
+    },
+  ];
 
   const showOutfitPositions = () => {
     const pos = outfitVersions.indexOf(outfitVersion);
@@ -151,7 +151,7 @@ const GetDressed = () => {
     }
 
     return res;
-  }
+  };
 
   const calculateTimeline = () => {
     const ids = checkOutfitVersionType();
@@ -172,25 +172,41 @@ const GetDressed = () => {
       if (outfitPeriod === outfitPeriods[0]) {
         timeline = 1;
       }
+      if (outfitVersion?.includes('game')) {
+        timeline = 7;
+      }
+    } else if (outfitVersion?.includes('game')) {
+      timeline = 7;
     }
     setEstimatedTimeline(timeline);
-  }
+  };
 
   useEffect(() => {
     calculateTimeline();
-  }, [outfit, outfitVersion, outfitCharacter, outfitNetwork, outfitStake, outfitPeriod, outfitPosition, outfitRender])
+  }, [
+    outfit,
+    outfitVersion,
+    outfitCharacter,
+    outfitNetwork,
+    outfitStake,
+    outfitPeriod,
+    outfitPosition,
+    outfitRender,
+  ]);
 
   useEffect(() => {
-    setTotalPrice(mainPrice + characterPrice + networkPrice + periodPrice + renderPrice + gamePrice);
-  }, [mainPrice, characterPrice, networkPrice, periodPrice, renderPrice, gamePrice])
+    setTotalPrice(
+      mainPrice + characterPrice + networkPrice + periodPrice + renderPrice + gamePrice
+    );
+  }, [mainPrice, characterPrice, networkPrice, periodPrice, renderPrice, gamePrice]);
 
   useEffect(() => {
     if (outfitVersion && outfit.length) {
       let price = 0;
       let timeline = 0;
       const ids = checkOutfitVersionType();
-      ids.forEach(id => {
-        outfit.forEach(fit => {
+      ids.forEach((id) => {
+        outfit.forEach((fit) => {
           price += prices[id][fit];
         });
       });
@@ -203,8 +219,8 @@ const GetDressed = () => {
 
   useEffect(() => {
     const ids = checkOutfitVersionType();
-    if (outfitCharacter && (ids.includes(0) || ids.includes(1))) { 
-      if(outfitCharacter === outfitCharacters[0]) {
+    if (outfitCharacter && (ids.includes(0) || ids.includes(1))) {
+      if (outfitCharacter === outfitCharacters[0]) {
         setCharacterPrice(250 * ids.length);
       } else {
         setCharacterPrice(0);
@@ -254,7 +270,7 @@ const GetDressed = () => {
         if (ids.includes(0)) {
           let prices = [80, 30, 80, 50];
           setRenderPrice(prices[outfitRenders.indexOf(outfitRender) - 1]);
-          return ;
+          return;
         }
       }
       setRenderPrice(0);
@@ -274,7 +290,7 @@ const GetDressed = () => {
     } else {
       setGamePrice(0);
     }
-  }, [outfitPosition, outfit, outfitVersion])
+  }, [outfitPosition, outfit, outfitVersion]);
 
   const onSubmit = async () => {
     if (!account) {
@@ -303,14 +319,14 @@ const GetDressed = () => {
         outfitNetwork,
         outfitStake,
         outfitPeriod,
-        amount: realPrice
-      })
+        amount: realPrice,
+      });
 
       await dressedActions.sendMona(account, chainId, realPrice);
     } catch (e) {
-      console.log({e})
+      console.log({ e });
     }
-  }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -333,13 +349,17 @@ const GetDressed = () => {
         </div>
         <div className={styles.outfitsWrapper}>
           {outfits.map((item) => (
-            <div className={styles.outfitsItem} key={item.name} onClick={() => {
+            <div
+              className={styles.outfitsItem}
+              key={item.name}
+              onClick={() => {
                 if (outfit.includes(item.name)) {
-                  setOutfit(outfit.filter(fit => fit !== item.name));
+                  setOutfit(outfit.filter((fit) => fit !== item.name));
                 } else {
                   setOutfit([...outfit, item.name]);
                 }
-              }}>
+              }}
+            >
               <div
                 className={cn(
                   styles.imageWrapper,
@@ -445,13 +465,11 @@ const GetDressed = () => {
           <div className={styles.optionItem}>
             <div className={styles.optionLabel}>
               Estimated Delivery is{' '}
-              <a
-                href="https://docs.google.com/spreadsheets/d/1Bhr7ly9xPXPLpIPNzK8Jaye_0RVyRnazjq-zsBety1I/edit?usp=sharing"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {estimatedTimeline >= 7 ? `${estimatedTimeline / 7} weeks` : `${estimatedTimeline} days`}
-              </a>
+              <span>
+                {estimatedTimeline >= 7
+                  ? `${estimatedTimeline / 7 === 1 ? '1 week' : `${estimatedTimeline / 7} weeks`}`
+                  : `${estimatedTimeline === 1 ? '1 day' : `${estimatedTimeline}days`}`}
+              </span>
               . Would you like to accelerate the delivery?
             </div>
             <Dropdown
@@ -466,19 +484,16 @@ const GetDressed = () => {
       <div className={styles.row}>
         <div className={styles.amountLabel}>
           Every item has a reserve price, for your order it is{' '}
-          <a
-            href="https://docs.google.com/spreadsheets/d/1Bhr7ly9xPXPLpIPNzK8Jaye_0RVyRnazjq-zsBety1I/edit?usp=sharing"
-            target="_blank"
-          >
-            {(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA
-          </a>
-          , bid up to tempt the best tailors!
+          <span>{(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA</span>, bid up to
+          tempt the best tailors!
         </div>
         <input
           className={styles.amount}
           placeholder="Enter an amount above reserve"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => {
+            setAmount(e.target.value)
+          }}
         />
       </div>
 

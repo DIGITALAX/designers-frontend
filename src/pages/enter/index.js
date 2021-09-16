@@ -199,6 +199,29 @@ function Home(props) {
           )}
           {/* Fractional */}
         </div>
+        <div className="md:flex md:justify-between w-full mt-12">
+          {/* view */}
+          <div className="relative productimg">
+            <img src="/images/product5.png" className="w-full" alt="" />
+            <a href="/getdressed">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
+          </div>
+          <div className="relative productimg">
+            <img src="/images/product6.png" className="w-full enterimg" alt="" />
+            <a href="https://soundcloud.com/talesofweb3tailors" target="_blank">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
+          </div>
+        </div>
       </div>
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
