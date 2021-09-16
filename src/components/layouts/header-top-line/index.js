@@ -49,7 +49,7 @@ const HeaderTopLine = ({ className, buttonText }) => {
   }, [screenWidth])
 
   const checkIfDesigner = async (wallet) => {
-    const designers = await api.getDesignerByWallet(wallet.toLowerCase()) || []
+    const designers = await api.getDesignerByWallet(wallet?.toLowerCase()) || []
     if (designers.length > 0) {
       setIsDesigner(true)
     }
