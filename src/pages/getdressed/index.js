@@ -39,7 +39,7 @@ const GetDressed = () => {
       img: '/images/dressed/dress 1.png',
     },
     {
-      name: 'Shift',
+      name: 'Shirt',
       img: '/images/dressed/casual-t-shirt- 1.png',
     },
     {
@@ -107,26 +107,26 @@ const GetDressed = () => {
   const [file3, setFile3] = useState(null);
   const prices = [
     {
-      Hat: 190,
-      Dress: 340,
-      Shirt: 250,
-      Pants: 250,
-      Shoes: 270,
-      Sunglasses: 190,
+      Hat: 350,
+      Dress: 600,
+      Shirt: 450,
+      Pants: 370,
+      Shoes: 350,
+      Sunglasses: 200,
       Jewellery: 250,
-      Swimwear: 330,
-      'Full Outfit': 750,
+      Swimwear: 300,
+      'Full Outfit': 1600,
     },
     {
-      Hat: 10,
-      Dress: 20,
-      Shirt: 10,
-      Pants: 10,
-      Shoes: 5,
-      Sunglasses: 5,
-      Jewellery: 5,
-      Swimwear: 20,
-      'Full Outfit': 60,
+      Hat: 110,
+      Dress: 350,
+      Shirt: 300,
+      Pants: 280,
+      Shoes: 250,
+      Sunglasses: 150,
+      Jewellery: 170,
+      Swimwear: 150,
+      'Full Outfit': 650,
     },
   ];
 
@@ -162,14 +162,14 @@ const GetDressed = () => {
     let timeline = 0;
     if (ids.includes(0)) {
       timeline = 7;
-      if (outfitCharacter === outfitCharacters[0]) {
+      if (outfit.includes('Full Outfit') || outfitRender) {
         timeline = 10.5;
       }
-      if (outfit.includes('Full Outfit') || outfitRender) {
+      if (outfitCharacter === outfitCharacters[0]) {
         timeline = 14;
       }
       if (outfitPeriod === outfitPeriods[0]) {
-        timeline = 3;
+        timeline = 4;
       }
     } else if (ids.includes(1)) {
       timeline = 2;
@@ -207,7 +207,6 @@ const GetDressed = () => {
   useEffect(() => {
     if (outfitVersion && outfit.length) {
       let price = 0;
-      let timeline = 0;
       const ids = checkOutfitVersionType();
       ids.forEach((id) => {
         outfit.forEach((fit) => {
@@ -225,7 +224,14 @@ const GetDressed = () => {
     const ids = checkOutfitVersionType();
     if (outfitCharacter && (ids.includes(0) || ids.includes(1))) {
       if (outfitCharacter === outfitCharacters[0]) {
-        setCharacterPrice(250 * ids.length);
+        let price = 0;
+        if (ids.includes(0)) {
+          price += 400;
+        }
+        if (ids.includes(1)) {
+          price += 100;
+        }
+        setCharacterPrice(price);
       } else {
         setCharacterPrice(0);
       }
@@ -253,7 +259,7 @@ const GetDressed = () => {
       if (outfitPeriod === outfitPeriods[0]) {
         let price = 0;
         if (ids.includes(0)) {
-          price += 130;
+          price += 300;
         }
         if (ids.includes(1)) {
           price += 20;
@@ -272,7 +278,7 @@ const GetDressed = () => {
     if (outfitRender && (ids.includes(0) || ids.includes(1))) {
       if (outfitRender !== outfitRenders[0]) {
         if (ids.includes(0)) {
-          let prices = [80, 30, 80, 50];
+          let prices = [130, 70, 150, 100];
           setRenderPrice(prices[outfitRenders.indexOf(outfitRender) - 1]);
           return;
         }
@@ -285,7 +291,7 @@ const GetDressed = () => {
 
   useEffect(() => {
     if (outfitPosition && outfitVersion?.includes('game')) {
-      const prices = [600, 10, 10, 10, 10, 50];
+      const prices = [600, 200, 200, 200, 200, 200];
       let price = 0;
       outfitPosition.forEach((position) => {
         price += prices[outfitPositions.indexOf(position)] * outfit.length;
@@ -304,6 +310,11 @@ const GetDressed = () => {
 
     if (!user) {
       dispatch(openSignupModal());
+      return;
+    }
+
+    if (!mainPrice) {
+      window.alert("You must select at least one outfit and outfit version.");
       return;
     }
 
@@ -331,6 +342,13 @@ const GetDressed = () => {
       });
 
       await dressedActions.sendMona(account, chainId, realPrice);
+      setGamePrice(0);
+      setTotalPrice(0);
+      setRenderPrice(0);
+      setPeriodPrice(0);
+      setNetworkPrice(0);
+      setCharacterPrice(0);
+      setMainPrice(0);
     } catch (e) {
       console.log({ e });
     }
