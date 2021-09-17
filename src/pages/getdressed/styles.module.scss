@@ -1,7 +1,4 @@
 .wrapper {
-  display: flex;
-  height: fit-content;
-  flex-direction: column;
   max-width: 1300px;
   margin: auto;
   padding: 15px;
@@ -239,7 +236,7 @@
       .optionItem {
         display: flex;
         flex-direction: column;
-        justify-content: end;
+        justify-content: flex-end;
         
         .optionLabel {
           font-family: Poppins;
