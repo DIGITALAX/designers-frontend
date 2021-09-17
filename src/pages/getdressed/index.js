@@ -102,6 +102,9 @@ const GetDressed = () => {
   const [renderPrice, setRenderPrice] = useState(0);
   const [gamePrice, setGamePrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
   const prices = [
     {
       Hat: 190,
@@ -321,6 +324,9 @@ const GetDressed = () => {
         outfitNetwork,
         outfitStake,
         outfitPeriod,
+        file1: file1,
+        file2: file2,
+        file3: file3,
         amount: realPrice,
       });
 
@@ -329,6 +335,21 @@ const GetDressed = () => {
       console.log({ e });
     }
   };
+
+  const fileChange = async (e, fileIndex) => {
+    let files = e.target.files || e.dataTransfer.files;
+    if (files.length === 0) {
+      return ;
+    }
+
+    const url = await dressedActions.uploadImage(files[0]);
+
+    if (fileIndex === 1) setFile1(url); 
+    if (fileIndex === 2) setFile2(url);
+    if (fileIndex === 3) setFile3(url);
+
+    return url;
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -373,6 +394,26 @@ const GetDressed = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className={styles.row}>
+        <div className={styles.fileLabel}>
+          Upload some reference images & inspiration for your outfit. 
+        </div>
+        <div className={styles.fileuploads}>
+          <button className={styles.fileupload}>
+            {file1 ? <img src={file1} /> : <div className={styles.uploadbutton}> file upload </div>}
+            <input type="file" onChange={(e) => fileChange(e, 1)} />
+          </button>
+          <button className={styles.fileupload}>
+            {file2 ? <img src={file2} /> : <div className={styles.uploadbutton}> file upload </div>}
+            <input type="file" onChange={(e) => fileChange(e, 3)} />
+          </button>
+          <button className={styles.fileupload}>
+            {file3 ? <img src={file3} /> : <div className={styles.uploadbutton}> file upload </div>}
+            <input type="file" onChange={(e) => fileChange(e, 3)} />
+          </button>
         </div>
       </div>
 

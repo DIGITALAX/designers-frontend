@@ -2,6 +2,7 @@ import { utils as ethersUtils } from 'ethers';
 import { getMonaTokenContract } from "@services/contract.service";
 import { getMonaContractAddressByChainId } from "@services/network.service";
 import { convertToWei } from '@helpers/price.helpers';
+import api from '@services/api/espa/api.service';
 
 const address = '0x3Cc6Bc27c36d23Ed95289BAF5b0bcB8538D1467c';
 
@@ -21,6 +22,27 @@ class DressedActions {
         .send({from: wallet});
     } catch (e){
       console.log({e});
+      throw e;
+    }
+  }
+
+  async uploadImage(file) {
+    try {
+      let url = await api.getPresignedUrl();
+      if (url) {
+        const result = await api.uploadImageToS3(url, file);
+        if (result) {
+          // const user = getUser();
+          const queryIndex = url.indexOf('?');
+          if (queryIndex >= 0) {
+            url = url.slice(0, queryIndex);
+          }
+          // user.avatar = url;
+          // dispatch(this.updateProfile(user));
+          return url;
+        }
+      }
+    } catch (e) {
       throw e;
     }
   }

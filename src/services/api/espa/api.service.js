@@ -212,6 +212,9 @@ class EspaApiService {
     outfitNetwork,
     outfitStake,
     outfitPeriod,
+    file1,
+    file2,
+    file3,
     amount
   }) {
     try {
@@ -227,6 +230,9 @@ class EspaApiService {
         outfitNetwork,
         outfitStake,
         outfitPeriod,
+        file1,
+        file2,
+        file3,
         amount
       })
       return res
