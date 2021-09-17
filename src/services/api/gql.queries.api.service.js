@@ -186,3 +186,12 @@ export const getCollectionGroups = gql`
     }
   }
 `
+
+export const getDigitalaxGarmentNftV2GlobalStats = gql`
+  query digitalaxGarmentNFTV2GlobalStats {
+    digitalaxGarmentNFTV2GlobalStats(first: 1) {
+      id
+      monaPerEth
+    }
+  }
+`;

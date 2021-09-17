@@ -200,6 +200,47 @@ class EspaApiService {
     }
   }
 
+  async saveDressedInfo({
+    wallet,
+    outfit,
+    outfitPattern,
+    description,
+    outfitVersion,
+    outfitPosition,
+    outfitRender,
+    outfitCharacter,
+    outfitNetwork,
+    outfitStake,
+    outfitPeriod,
+    file1,
+    file2,
+    file3,
+    amount
+  }) {
+    try {
+      const res = await post('/dressed-info', {
+        wallet,
+        outfit,
+        outfitPattern,
+        description,
+        outfitVersion,
+        outfitPosition,
+        outfitRender,
+        outfitCharacter,
+        outfitNetwork,
+        outfitStake,
+        outfitPeriod,
+        file1,
+        file2,
+        file3,
+        amount
+      })
+      return res
+    } catch (e) {
+      throw e
+    }
+  }
+
   async registerDesigner({
     wallet,
     randomString, 

@@ -9,11 +9,16 @@
   "ENVIRONMENT": "",
   "NETWORKS": [
     "rinkeby",
-    "mainnet"
+    "mainnet",
+    "mumbai",
+    "matic"
   ],
   "API_URLS": {
     "mainnet": "https://api.thegraph.com/subgraphs/name/digitalax/digitalax",
-    "rinkeby": "https://api.thegraph.com/subgraphs/name/digitalax/digitalaxropsten"
+    "rinkeby": "https://api.thegraph.com/subgraphs/name/digitalax/digitalaxropsten",
+    "mumbai": "https://api.thegraph.com/subgraphs/name/digitalax/digitalaxmumbai",
+    "matic": "https://api.thegraph.com/subgraphs/name/digitalax/digitalaxmatic",
+    "goerli": "https://api.thegraph.com/subgraphs/name/digitalax/digitalaxgoerli"
   },
   "DEFAULT_NETWORK": "mainnet",
   "DEFAULT_WEB3_URL": "https://mainnet.infura.io/v3/6e9690131f584ee0a8b445ebb4740f8b",
@@ -31,7 +36,8 @@
   },
   "MONA_TOKEN_ADDRESSES": {
     "mainnet": "0x275f5Ad03be0Fa221B4C6649B8AeE09a42D9412A",
-    "rinkeby": "0x13379fe0e6992180ed0ac5174a02479896f9c510"
+    "rinkeby": "0x13379fe0e6992180ed0ac5174a02479896f9c510",
+    "mumbai": "0xefd3d060ddcfed7903806503440db1089031af3a"
   },
   "ACCESS_CONTROL_ADDRESSES": "0xbe5c84e6b036cb41a7a6b5008b9427a5f4f1c9f5",
   "EXCHANGE_API": "https://api.coingecko.com/api/v3",

@@ -87,10 +87,15 @@ class GlobalActions extends BaseActions {
           console.error('Wrong network. Contracts are not deployed yet')
         }
       })
-
+      
       dispatch(this.changeNetwork(ethereum.chainId))
       await dispatch(this.setContractParams())
       dispatch(this.setValue('isInitialized', true))
+      const { digitalaxGarmentNFTV2GlobalStats } = await api.getGlobalStats();
+      dispatch(
+        this.setValue('monaPerEth', convertToEth(digitalaxGarmentNFTV2GlobalStats[0].monaPerEth)),
+      );
+
     }
   }
 
@@ -151,6 +156,8 @@ class GlobalActions extends BaseActions {
     return async (dispatch) => {
       const url = getAPIUrlByChainId(chainId)
       const wsUrl = getWSUrlByChainId(chainId)
+
+      console.log({url})
 
       api.setUrl(url)
       ws.setUrl(wsUrl)
