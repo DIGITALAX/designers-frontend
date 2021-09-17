@@ -112,21 +112,21 @@ const HeaderTopLine = ({ className, buttonText }) => {
       </div>
       <div className={styles.rightBox}>
         <div className={cn(styles.links, isCollapse ? styles.expandedMenu : '')}>
-          <Link href="https://skins.digitalax.xyz">
-            <a className={styles.link} target="_blank">
-              SUIT UP IN YOUR GAME SKINS
-            </a>
-          </Link>
-          <Link href="https://drip.digitalax.xyz">
-            <a className={styles.link} target="_blank">
-              REP YOUR STLE IRL
-            </a>
-          </Link>
           <Link href="/global">
-            <a className={styles.link}>Global Designer Network</a>
+            <a className={styles.link}>
+              Global Designer Network
+            </a>
           </Link>
-          <Link href="http://staking.digitalax.xyz/">
-            <a className={styles.link}>STAKE YOUR FASHION</a>
+          <Link href="https://digitalax.xyz/look">
+            <a className={styles.link} target="_blank">
+              Look: Fashion Loot
+            </a>
+          </Link>
+          <Link href="/opensourcelibraries">
+            <a className={styles.link}>Open Source Libraries</a>
+          </Link>
+          <Link href="/getdressed">
+            <a className={styles.link}>Get Dressed</a>
           </Link>
           {isMobile && (
             <a className={styles.link} onClick={() => handleClick()}>
