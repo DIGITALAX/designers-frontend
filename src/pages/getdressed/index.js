@@ -39,7 +39,7 @@ const GetDressed = () => {
       img: '/images/dressed/dress 1.png',
     },
     {
-      name: 'Shift',
+      name: 'Shirt',
       img: '/images/dressed/casual-t-shirt- 1.png',
     },
     {
@@ -307,6 +307,11 @@ const GetDressed = () => {
       return;
     }
 
+    if (!mainPrice) {
+      window.alert("You must select at least one outfit and outfit version.");
+      return;
+    }
+
     const monaPrice = totalPrice / (monaPerEth * exchangeRateETH);
 
     try {
@@ -331,6 +336,13 @@ const GetDressed = () => {
       });
 
       await dressedActions.sendMona(account, chainId, realPrice);
+      setGamePrice(0);
+      setTotalPrice(0);
+      setRenderPrice(0);
+      setPeriodPrice(0);
+      setNetworkPrice(0);
+      setCharacterPrice(0);
+      setMainPrice(0);
     } catch (e) {
       console.log({ e });
     }
