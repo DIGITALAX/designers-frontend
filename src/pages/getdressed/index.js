@@ -35,7 +35,7 @@ const GetDressed = () => {
       img: '/images/dressed/hat 1.png',
     },
     {
-      name: 'Dressed',
+      name: 'Dress',
       img: '/images/dressed/dress 1.png',
     },
     {
@@ -102,6 +102,7 @@ const GetDressed = () => {
   const [renderPrice, setRenderPrice] = useState(0);
   const [gamePrice, setGamePrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isMonaApproved, setIsMonaApproved] = useState(false);
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [file3, setFile3] = useState(null);
@@ -198,9 +199,14 @@ const GetDressed = () => {
     outfitRender,
   ]);
 
+  const getVal = value => {
+    if (isNaN(value)) return 0
+    return value
+  }
+
   useEffect(() => {
     setTotalPrice(
-      mainPrice + characterPrice + networkPrice + periodPrice + renderPrice + gamePrice
+      getVal(mainPrice) + getVal(characterPrice) + getVal(networkPrice) + getVal(periodPrice) + getVal(renderPrice) + getVal(gamePrice)
     );
   }, [mainPrice, characterPrice, networkPrice, periodPrice, renderPrice, gamePrice]);
 
@@ -208,12 +214,13 @@ const GetDressed = () => {
     if (outfitVersion && outfit.length) {
       let price = 0;
       const ids = checkOutfitVersionType();
+      
       ids.forEach((id) => {
         outfit.forEach((fit) => {
-          price += prices[id][fit];
+          price += getVal(prices[id][fit]);
         });
       });
-
+      
       setMainPrice(price);
     } else {
       setMainPrice(0);
@@ -302,6 +309,20 @@ const GetDressed = () => {
     }
   }, [outfitPosition, outfit, outfitVersion]);
 
+  useEffect(() => {
+    dressedActions.isApproved(account, chainId).then(isApproved => {
+      setIsMonaApproved(isApproved)
+    })
+    
+  }, [chainId, account])
+
+  const onRequestApprove = async () => {
+    // setLoading(true)
+    await dressedActions.approveMona(account, chainId)
+    const isApproved = await dressedActions.isApproved(account, chainId)
+    setIsMonaApproved(isApproved)
+  }
+
   const onSubmit = async () => {
     if (!account) {
       dispatch(openConnectMetamaskModal());
@@ -312,9 +333,13 @@ const GetDressed = () => {
       dispatch(openSignupModal());
       return;
     }
-
     if (!mainPrice) {
       window.alert("You must select at least one outfit and outfit version.");
+      return;
+    }
+
+    if (!isMonaApproved) {
+      onRequestApprove();
       return;
     }
 
@@ -340,7 +365,7 @@ const GetDressed = () => {
         file3: file3,
         amount: realPrice,
       });
-
+      
       await dressedActions.sendMona(account, chainId, realPrice);
       setGamePrice(0);
       setTotalPrice(0);
@@ -426,7 +451,7 @@ const GetDressed = () => {
           </button>
           <button className={styles.fileupload}>
             {file2 ? <img src={file2} /> : <div className={styles.uploadbutton}> file upload </div>}
-            <input type="file" onChange={(e) => fileChange(e, 3)} />
+            <input type="file" onChange={(e) => fileChange(e, 2)} />
           </button>
           <button className={styles.fileupload}>
             {file3 ? <img src={file3} /> : <div className={styles.uploadbutton}> file upload </div>}
@@ -587,7 +612,11 @@ const GetDressed = () => {
       <div className={styles.row}>
         <div className={styles.submitLabel}>Make sure you are connected to Polygon Network.</div>
         <button type="button" className={styles.submit} onClick={onSubmit}>
-          Submit Purchase & Get Dressed!
+          {
+            isMonaApproved
+              ? 'Submit Purchase & Get Dressed!'
+              : 'Approve Mona Spend'
+          }
         </button>
       </div>
     </div>
