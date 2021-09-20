@@ -420,13 +420,14 @@ const GetDressed = () => {
       <div className={styles.title}>Get Dressed by the GDN for the Metaverse</div>
       <div className={styles.subTitle}>
         Get measured by the web3 tailors. Take a look at the menu of what’s in season and tell us
-        how good you want to look. The metaverse awaits your style.
+        how good you want to look. The metaverse awaits your style. After paying for your order 
+        the Web3 Tailors will be in contact with you through your connected email.
         <span>
-          All looks include the 3D source file and are sent as a 721 NFT. If you choose to include
+           All looks include the 3D source file and are sent as a 721 NFT. If you choose to include
           an open source patterns, materials or textures, 1155 NFTs are also linked under the{' '}
           <a href="https://designers.digitalax.xyz/fractional/" target="_blank" rel="noreferrer">
             {' '}
-            Fractional Garment Ownership standard. After paying for your order the Web3 Tailors will be in contact with you through your connected email.{' '}
+            Fractional Garment Ownership standard.{' '}
           </a>{' '}
         </span>
       </div>
