@@ -426,7 +426,7 @@ const GetDressed = () => {
           an open source patterns, materials or textures, 1155 NFTs are also linked under the{' '}
           <a href="https://designers.digitalax.xyz/fractional/" target="_blank" rel="noreferrer">
             {' '}
-            Fractional Garment Ownership standard.{' '}
+            Fractional Garment Ownership standard. After paying for your order the Web3 Tailors will be in contact with you through your connected email.{' '}
           </a>{' '}
         </span>
       </div>
@@ -631,7 +631,7 @@ const GetDressed = () => {
       </div>
 
       <div className={styles.row}>
-        <div className={styles.submitLabel}>Make sure you are connected to Polygon Network. You will be sent an NFT with confirmation of your order!</div>
+        <div className={styles.submitLabel}>Make sure you are connected to Polygon Network. You will be sent an NFT with confirmation of your order and we will be in contact with you soon!</div>
         <button type="button" className={styles.submit} onClick={onSubmit}>
           {
             isMonaApproved
