@@ -36,6 +36,7 @@ class GlobalActions extends BaseActions {
         return
       }
       const { ethereum } = window
+      console.log('-----here: ', window.web3)
       window.web3 = new Web3(ethereum)
       /**
        * Init subscribers

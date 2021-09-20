@@ -131,6 +131,8 @@ const GetDressed = () => {
     },
   ];
 
+  console.log('account: ', account)
+
   const showOutfitPositions = () => {
     const pos = outfitVersions.indexOf(outfitVersion);
     return pos !== -1 && pos <= 3;
@@ -394,6 +396,10 @@ const GetDressed = () => {
 
     return url;
   }
+
+  console.log('totalPrice: ', totalPrice)
+  console.log('monaPerEth: ', monaPerEth)
+  console.log('exchangeRateETH: ', exchangeRateETH)
 
   return (
     <div className={styles.wrapper}>

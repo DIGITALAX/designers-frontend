@@ -12,7 +12,7 @@ import Modals from '@containers/modals/index';
 import SocialFooter from '@components/layouts/social-footer';
 import Footer from '@components/layouts/footer';
 import HeaderTopLine from '@components/layouts/header-top-line';
-import globalActions from '@actions/global.actions';
+import globalActions from '@actions/global.new.actions';
 import { getIsInitialized, getChainId } from '@selectors/global.selectors';
 import { getEnabledNetworkByChainId } from '@services/network.service';
 import getOrCreateStore from '../lib/with-redux-store';
