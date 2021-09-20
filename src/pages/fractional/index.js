@@ -82,7 +82,7 @@ function Fractional(props) {
               <p className="font-inter font-normal text-3xl text-gray-50 mt-16 pr-12 fractionalcontent">
                 FGO also promotes the broader mission for enabling gatemakers of the metaverse.
                 Modding the Metaverse. The metaverse is nothing more than a radical reduction in the
-                barriers between us. As these barriers come down, as the gates minaturise, the
+                barriers between us. As these barriers come down, as the gates miniaturise, the
                 friction that might stop us normally from any given choice dissipates, allowing for
                 new modes of interaction that are inherently fluid and liberating. And, with that
                 said, modding is the fundamental practice that drives growth and change in fashion,
