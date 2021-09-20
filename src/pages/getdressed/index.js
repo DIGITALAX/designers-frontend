@@ -310,6 +310,7 @@ const GetDressed = () => {
   }, [outfitPosition, outfit, outfitVersion]);
 
   useEffect(() => {
+    if (!account) return
     dressedActions.isApproved(account, chainId).then(isApproved => {
       setIsMonaApproved(isApproved)
     })
