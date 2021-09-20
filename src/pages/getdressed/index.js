@@ -631,7 +631,7 @@ const GetDressed = () => {
       </div>
 
       <div className={styles.row}>
-        <div className={styles.submitLabel}>Make sure you are connected to Polygon Network.</div>
+        <div className={styles.submitLabel}>Make sure you are connected to Polygon Network. You will be sent an NFT with confirmation of your order!</div>
         <button type="button" className={styles.submit} onClick={onSubmit}>
           {
             isMonaApproved
