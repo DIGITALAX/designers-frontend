@@ -552,7 +552,7 @@ const GetDressed = () => {
           )}
           <div className={styles.optionItem}>
             <div className={styles.optionLabel}>
-              Include pattern, material or texture from the open source 1155 on-chain libraries?
+              Include patterns, materials or textures from the open source 1155 on-chain libraries?
               <span className={styles.tooltip}>
                 <img src="/images/dressed/question.png" alt="" />
                 <div className={styles.body}>
