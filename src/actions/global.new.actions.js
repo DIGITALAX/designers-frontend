@@ -59,16 +59,16 @@ class GlobalActions extends BaseActions {
       }
 
       ethereum.on('chainChanged', async (chainId) => {
+
+        console.log('chain changed... global new')
         
         if (!chainId) {
           return
         }
-
         dispatch(garmentActions.clear())
         dispatch(garmentPageActions.clear())
         dispatch(designerPageActions.clear())
         dispatch(designerActions.clear())
-
         dispatch(this.resetContratParams())
         dispatch(this.changeNetwork(chainId))
 
@@ -82,7 +82,6 @@ class GlobalActions extends BaseActions {
       dispatch(this.changeNetwork(ethereum.chainId))
       // await dispatch(this.setContractParams())
       dispatch(this.setValue('isInitialized', true))
-
       const { digitalaxGarmentNFTV2GlobalStats } = await api.getGlobalStats();
       dispatch(
         this.setValue('monaPerEth', convertToEth(digitalaxGarmentNFTV2GlobalStats[0].monaPerEth)),

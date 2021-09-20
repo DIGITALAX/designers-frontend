@@ -83,6 +83,11 @@ class GlobalActions extends BaseActions {
 
         if (getEnabledNetworkByChainId(chainId)) {
           await dispatch(this.setContractParams())
+          const { digitalaxGarmentNFTV2GlobalStats } = await api.getGlobalStats();
+          dispatch(
+            this.setValue('monaPerEth', convertToEth(digitalaxGarmentNFTV2GlobalStats[0].monaPerEth)),
+          );
+
         } else {
           console.error('Wrong network. Contracts are not deployed yet')
         }
@@ -105,18 +110,15 @@ class GlobalActions extends BaseActions {
         const chainId = getState().global.get('chainId')
         const address = getRewardContractAddressByChainId(chainId)
         const rewardContract = await getRewardContract(address)
-
         const monaContractAddress = await getMonaContractAddressByChainId(
           chainId,
         )
-
         const [rewards, monaPerEth] = await Promise.all([
           rewardContract.methods
             .parentRewards(moment().unix(), moment().add(1, 'days').unix())
             .call(),
           getTokenPrice(monaContractAddress),
         ])
-
         dispatch(this.setValue('rewards', rewards))
         dispatch(this.setValue('monaPerEth', monaPerEth))
       } catch (e) {
