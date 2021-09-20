@@ -1,6 +1,10 @@
 import Web3 from 'web3'
 import BaseActions from '@actions/base-actions'
 import userActions from '@actions/user.actions'
+import designerActions from '@actions/designer.actions'
+import designerPageActions from '@actions/designer.page.actions'
+import garmentActions from '@actions/garment.actions'
+import garmentPageActions from '@actions/garment.page.actions'
 import globalReducer from '@reducers/global.reducer'
 import { isMetamaskInstalled } from '@services/metamask.service'
 import {

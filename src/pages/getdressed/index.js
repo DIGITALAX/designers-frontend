@@ -3,12 +3,16 @@ import Dropdown from '@components/Dropdown';
 import { getAccount } from '@selectors/user.selectors';
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import styles from './styles.module.scss';
 import { getUser } from '@helpers/user.helpers';
 import { openConnectMetamaskModal, openSignupModal } from '@actions/modals.actions';
 import apiService from '@services/api/espa/api.service';
 import dressedActions from '@actions/dressed.actions';
 import { getChainId, getExchangeRateETH, getMonaPerEth } from '@selectors/global.selectors';
+import {
+  POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID
+} from '@constants/global.constants'
 
 const GetDressed = () => {
   const dispatch = useDispatch();
@@ -326,7 +330,17 @@ const GetDressed = () => {
     setIsMonaApproved(isApproved)
   }
 
+  console.log('chainId: ', chainId)
+
+
   const onSubmit = async () => {
+    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID) {
+      toast(
+        'Please switch to Polygon Network.'
+      )
+      return;
+    }
+
     if (!account) {
       dispatch(openConnectMetamaskModal());
       return;
