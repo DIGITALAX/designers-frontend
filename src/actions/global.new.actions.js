@@ -15,6 +15,7 @@ import ws from '@services/api/ws.service'
 
 import { STORAGE_IS_LOGGED_IN, STORAGE_WALLET } from '@constants/storage.constants'
 import { WALLET_METAMASK, WALLET_ARKANE } from '@constants/global.constants'
+import { convertToEth } from '@helpers/price.helpers'
 
 class GlobalActions extends BaseActions {
   initApp() {
@@ -54,9 +55,15 @@ class GlobalActions extends BaseActions {
       }
 
       ethereum.on('chainChanged', async (chainId) => {
+        
         if (!chainId) {
           return
         }
+
+        dispatch(garmentActions.clear())
+        dispatch(garmentPageActions.clear())
+        dispatch(designerPageActions.clear())
+        dispatch(designerActions.clear())
 
         dispatch(this.resetContratParams())
         dispatch(this.changeNetwork(chainId))
@@ -71,6 +78,11 @@ class GlobalActions extends BaseActions {
       dispatch(this.changeNetwork(ethereum.chainId))
       // await dispatch(this.setContractParams())
       dispatch(this.setValue('isInitialized', true))
+
+      const { digitalaxGarmentNFTV2GlobalStats } = await api.getGlobalStats();
+      dispatch(
+        this.setValue('monaPerEth', convertToEth(digitalaxGarmentNFTV2GlobalStats[0].monaPerEth)),
+      );
     }
   }
 
