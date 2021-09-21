@@ -106,7 +106,7 @@
 
   .designerName {
     position: absolute;
-    width: 50vw;
+    width: 42vw;
     height: 300px;
     left: 35vw;
     top: 24vw;
@@ -115,6 +115,7 @@
     font-size: 5vw;
     line-height: 120.31%;
     text-align: left;
+    word-break: break-word;
     background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
