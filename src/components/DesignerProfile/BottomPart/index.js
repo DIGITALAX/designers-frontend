@@ -7,6 +7,7 @@ import api from '@services/api/espa/api.service'
 import designerActions from '@actions/designer.actions'
 
 import Button from '@components/Button'
+import ChooseFont from '../ChooseFont'
 import styles from './styles.module.scss'
 
 const BottomPart = props => {
@@ -26,6 +27,9 @@ const BottomPart = props => {
   const [isTextEdit, setIsTextEdit] = useState(false)
   const [scale, setScale] = useState(1)
   const [wrapperHeight, setWrapperHeight] = useState(400)
+
+  const [showFont, setShowFont] = useState(false)
+  const [currentTargetForFont, setCurrentTargetForFont] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -228,9 +232,15 @@ const BottomPart = props => {
       return
     }
 
+    const itemStyle = document.getElementById('text-add-item').style
+
     web3FashionItems.push({
       type: 'text',
-      value: addTextDraft.replace(/\r\n|\r|\n/g, '<br />')
+      value: addTextDraft.replace(/\r\n|\r|\n/g, '<br />'),
+      style: {
+        fontFamily: itemStyle.fontFamily,
+        fontSize: itemStyle.fontSize,
+      }
     })
 
     setWeb3FashionItems(web3FashionItems)
@@ -238,7 +248,6 @@ const BottomPart = props => {
     // Reset Add Text
     setAddTextDraft('')
   }
-
 
   const onClickAddImage = () => {
     // validation
@@ -390,7 +399,37 @@ const BottomPart = props => {
     setWrapperHeight((maxYValue + 100) * scale)
   }, [maxYValue])
 
-  console.log('web3FashionItems: ', web3FashionItems)
+  const changeFont = (fontName, fontSize) => {
+    var sel = window.getSelection() // Gets selection
+    if (sel.rangeCount) {
+      // Creates a new element, and insert the selected text with the chosen font inside
+      var e = document.createElement('span')
+      if (fontName) {
+        e.style = 'font-family:' + fontName + ';';
+      }
+      
+      if (fontSize) {
+        e.style += 'font-size:' + fontSize + ';';
+      }
+      
+      e.innerHTML = sel.toString()
+  
+      var range = sel.getRangeAt(0)
+      range.deleteContents() // Deletes selected text…
+      range.insertNode(e) // … and inserts the new element at its place
+    }
+  }
+
+  const onFocusText = e => {
+    setCurrentTargetForFont(e.target)
+    setShowFont(true)
+  }
+  
+  const onBlurText = e => {
+    setShowFont(false)
+  }
+
+  console.log('showFont: ', showFont)
 
   return (
     <div className={[styles.wrapper, web3FashionItems.length > 0 || isEditable ? styles.showBackground : ''].join(' ')}>
@@ -440,7 +479,13 @@ const BottomPart = props => {
           isShowTextAdd && (
             <div className={styles.addText}>
               <h1>Text</h1>
-              <textarea id='text-add-item' value={addTextDraft} onChange={e => setAddTextDraft(e.target.value)}/>
+              <textarea
+                id='text-add-item'
+                value={addTextDraft}
+                style={{fontFamily: 'Poppin'}}
+                onChange={e => setAddTextDraft(e.target.value)}
+                onFocus={onFocusText}
+              />
               <Button className={styles.addButton} onClick={onClickAddText}>
                 ADD
               </Button>
@@ -556,7 +601,9 @@ const BottomPart = props => {
             web3FashionItems[selectedIndex].style = {
               width: target.style.width,
               height: target.style.height,
-              transform: target.style.transform
+              transform: target.style.transform,
+              fontFamily: target.style.fontFamily,
+              fontSize: target.style.fontSize
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
@@ -581,7 +628,9 @@ const BottomPart = props => {
             web3FashionItems[selectedIndex].style = {
               width: target.style.width,
               height: target.style.height,
-              transform: target.style.transform
+              transform: target.style.transform,
+              fontFamily: target.style.fontFamily,
+              fontSize: target.style.fontSize
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
@@ -604,7 +653,9 @@ const BottomPart = props => {
             web3FashionItems[selectedIndex].style = {
               width: target.style.width,
               height: target.style.height,
-              transform: target.style.transform
+              transform: target.style.transform,
+              fontFamily: target.style.fontFamily,
+              fontSize: target.style.fontSize
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
@@ -622,7 +673,12 @@ const BottomPart = props => {
                   key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
-                  onBlur={e => updateText(e.target.innerHTML, index)}
+                  onBlur={
+                    e => {
+                      updateText(e.target.innerHTML, index)
+                    }
+                  }
+                  onFocus={onFocusText}
                   contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
                 >
@@ -674,6 +730,12 @@ const BottomPart = props => {
           })
         }
       </div>
+      {
+        showFont && <ChooseFont
+          target={currentTargetForFont}
+          onClosed={() => setShowFont(false)}
+        />
+      }
     </div>
   )
 }

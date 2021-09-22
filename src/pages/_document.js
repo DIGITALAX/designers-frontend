@@ -45,6 +45,10 @@ class MyDocument extends Document {
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
           <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900"></link>
+          <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Raleway"></link>
+          <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto"></link>
           {this.getPreloadFontsLinks()}
           {/* ipfs next.js fix */}
           <style
@@ -136,6 +140,36 @@ class MyDocument extends Document {
             @font-face {
               font-family: "THIS FONT IS EMPTY1";
               src: url("./fonts/THIS FONT IS EMPTY1.ttf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Babycakes";
+              src: url("./fonts/BABYCAKES.ttf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Fashionism";
+              src: url("./fonts/fashl954.ttf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Redmond Fashion";
+              src: url("./fonts/RedmondFashion.ttf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Punk Fashion";
+              src: url("./fonts/CFPunkFashionPERSONAL-Regul.ttf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Regular Fashion";
+              src: url("./fonts/regularfashionDEMO.otf");
+              font-weight: 400;
+            }
+            @font-face {
+              font-family: "Just Old Fashion";
+              src: url("./fonts/JustOldFashion.ttf");
               font-weight: 400;
             }
           `,
