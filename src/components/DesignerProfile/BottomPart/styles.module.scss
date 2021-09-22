@@ -167,6 +167,8 @@
       flex-direction: column;
       width: 70vw;
       margin-left: 5vw;
+      z-index: 1;
+      position: relative;
     }
 
     .addVideo {
@@ -174,6 +176,8 @@
       flex-direction: column;
       width: 70vw;
       margin-left: 5vw;
+      z-index: 1;
+      position: relative;
 
       .embededVideo {
         background: #000000;
