@@ -18,8 +18,10 @@ const BottomPart = props => {
   const [isShowTextAdd, setIsShowTextAdd] = useState(false)
   const [isShowImageAdd, setIsShowImageAdd] = useState(false)
   const [isShowVideoAdd, setIsShowVideoAdd] = useState(false)
+  const [isShowEmbededVideoAdd, setIsShowEmbededVideoAdd] = useState(false)
   const [imageFileName, setImageFileName] = useState('')
   const [videoFileName, setVideoFileName] = useState('')
+  const [embededVideoFileName, setEmbededVideoFileName] = useState('')
   const [addTextDraft, setAddTextDraft] = useState('')
   const [isTextEdit, setIsTextEdit] = useState(false)
   const [scale, setScale] = useState(1)
@@ -140,7 +142,15 @@ const BottomPart = props => {
   }
 
   const onClickTarget = (target, index) => {
+    if (target.parentElement.classList && target.parentElement.classList.contains('target')) {
+      setSelectedTarget(target.parentElement)
+      setSelectedIndex(index)
+      setIsTextEdit(false)
+      return
+    }
+
     if (!target.classList || !target.classList.contains('target')) return
+
     setSelectedTarget(target)
     setSelectedIndex(index)
     setIsTextEdit(false)
@@ -150,13 +160,23 @@ const BottomPart = props => {
   const onClickImage = () => {
     setIsShowImageAdd(true)
     setIsShowVideoAdd(false)
+    setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(false)
     setSelectedTarget(null)
   }
 
   const onClickVideo = () => {
     setIsShowImageAdd(false)
+    setIsShowEmbededVideoAdd(false)
     setIsShowVideoAdd(true)
+    setIsShowTextAdd(false)
+    setSelectedTarget(null)
+  }
+
+  const onClickEmbededVideo = () => {
+    setIsShowImageAdd(false)
+    setIsShowVideoAdd(false)
+    setIsShowEmbededVideoAdd(true)
     setIsShowTextAdd(false)
     setSelectedTarget(null)
   }
@@ -164,6 +184,7 @@ const BottomPart = props => {
   const onClickText = () => {
     setIsShowImageAdd(false)
     setIsShowVideoAdd(false)
+    setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(true)
     setSelectedTarget(null)
   }
@@ -287,6 +308,24 @@ const BottomPart = props => {
     })
   }
 
+  const onClickAddEmbededVideo = () => {
+    // validation
+    if (embededVideoFileName === '') {
+      toast('Please choose a video file.')
+      return
+    }
+
+    web3FashionItems.push({
+      type: 'embeded',
+      value: embededVideoFileName
+    })
+
+    setWeb3FashionItems(web3FashionItems)
+
+    // Reset Add Embeded Video
+    setEmbededVideoFileName('')
+  }
+
   const onChangeImageFile = e => {
     let files = e.target.files || e.dataTransfer.files
     if (files.length === 0) {
@@ -351,6 +390,8 @@ const BottomPart = props => {
     setWrapperHeight((maxYValue + 100) * scale)
   }, [maxYValue])
 
+  console.log('web3FashionItems: ', web3FashionItems)
+
   return (
     <div className={[styles.wrapper, web3FashionItems.length > 0 || isEditable ? styles.showBackground : ''].join(' ')}>
       {
@@ -374,6 +415,11 @@ const BottomPart = props => {
             onClick={onClickVideo}
           >
             VIDEO
+          </Button>
+          <Button
+            onClick={onClickEmbededVideo}
+          >
+            EMBEDED VIDEO
           </Button>
           <Button
             onClick={onClickText}
@@ -450,6 +496,22 @@ const BottomPart = props => {
                 }
               </div>
               <Button className={styles.addButton} onClick={onClickAddVideo}>
+                ADD
+              </Button>
+            </div>
+          )
+        }
+        {
+          isShowEmbededVideoAdd && (
+            <div className={styles.addVideo}>
+              <h1>Embeded Video</h1>
+              <input
+                id='embeded-video'
+                type='text'
+                className={styles.embededVideo}
+                value={embededVideoFileName} onChange={e => setEmbededVideoFileName(e.target.value)}
+              />              
+              <Button className={styles.addButton} onClick={onClickAddEmbededVideo}>
                 ADD
               </Button>
             </div>
@@ -591,6 +653,22 @@ const BottomPart = props => {
                 >
                   <source src={item.value} type='video/mp4' />
                 </video>
+              )
+            } else if (item.type === 'embeded') {
+              return (
+                <div
+                  style={item.style || {}}
+                  id={`web3-fashion-item-${index}`}
+                  key={JSON.stringify(item)+index}
+                  className={[styles.target, styles.embeded, 'target', isEditable ? styles.showBorder : ''].join(' ')}
+                  onClick={e => onClickTarget(e.target, index)}
+                >
+                  <iframe
+                    src={item.value}
+                  >
+                  </iframe>
+                  <div className={[isEditable ? styles.overlay : styles.hidden, 'target-overlay'].join(' ')} />
+                </div>
               )
             }
           })
