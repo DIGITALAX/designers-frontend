@@ -419,7 +419,7 @@ const BottomPart = props => {
           <Button
             onClick={onClickEmbededVideo}
           >
-            EMBEDED VIDEO
+            EMBED VIDEO
           </Button>
           <Button
             onClick={onClickText}
