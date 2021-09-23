@@ -240,6 +240,7 @@ const BottomPart = props => {
       style: {
         fontFamily: itemStyle.fontFamily,
         fontSize: itemStyle.fontSize,
+        color: itemStyle.color
       }
     })
 
@@ -603,7 +604,8 @@ const BottomPart = props => {
               height: target.style.height,
               transform: target.style.transform,
               fontFamily: target.style.fontFamily,
-              fontSize: target.style.fontSize
+              fontSize: target.style.fontSize,
+              color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
@@ -630,7 +632,8 @@ const BottomPart = props => {
               height: target.style.height,
               transform: target.style.transform,
               fontFamily: target.style.fontFamily,
-              fontSize: target.style.fontSize
+              fontSize: target.style.fontSize,
+              color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
@@ -655,7 +658,8 @@ const BottomPart = props => {
               height: target.style.height,
               transform: target.style.transform,
               fontFamily: target.style.fontFamily,
-              fontSize: target.style.fontSize
+              fontSize: target.style.fontSize,
+              color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
