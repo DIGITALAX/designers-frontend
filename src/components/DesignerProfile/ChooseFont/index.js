@@ -9,7 +9,7 @@ const FontNames = [
   'Babycakes',
   'Fashionism',
   'Redmond Fashion',
-  'Punk Fashion',
+  'PUNK FASHION',
   'Regular Fashion',
   'Just Old Fashion'
 ]
