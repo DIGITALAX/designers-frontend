@@ -59,7 +59,7 @@ const GetDressed = () => {
       img: '/images/dressed/circular-sunglasses 1.png',
     },
     {
-      name: 'Jewellery',
+      name: 'Accessories',
       img: '/images/dressed/necklace 1.png',
     },
     {
