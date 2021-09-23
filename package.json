@@ -63,6 +63,7 @@
     "prop-types": "^15.7.2",
     "qs": "^6.9.3",
     "react": "^16.13.1",
+    "react-color": "^2.19.3",
     "react-dom": "^16.13.1",
     "react-facebook-pixel": "^1.0.4",
     "react-image-magnify": "^2.7.4",

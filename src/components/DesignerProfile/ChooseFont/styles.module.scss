@@ -15,15 +15,46 @@
     color: white;
   }
 
+  .secondRow {
+    display: flex;
+    flex-direction: row;
+
+    .colorButton {
+      margin: 10px;
+      width: 50%;
+      height: 30px;
+      cursor: pointer;
+      // background-color: black;
+    }
+  }
+
   .fontFamily {
     font-size: 30px;
+    padding-left: 10px;
   }
 
   .fontSize {
     font-size: 30px;
+    padding-left: 10px;
+    width: 50%;
   }
 
   .closeButton {
     font-size: 20px;
+  }
+
+  .colorPickerWrapper {
+    position: fixed;
+    top: 210px;
+    right: 10px;
+
+    .colorPickerCover {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+      bottom: 0px;
+      background: transparent;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { SketchPicker } from 'react-color'
 import { Button, Select, MenuItem } from '@material-ui/core'
 import styles from './styles.module.scss'
 
@@ -9,7 +10,7 @@ const FontNames = [
   'Babycakes',
   'Fashionism',
   'Redmond Fashion',
-  'Punk Fashion',
+  'PUNK FASHION',
   'Regular Fashion',
   'Just Old Fashion'
 ]
@@ -32,10 +33,13 @@ const ChooseFont = props => {
   const { target, onClosed } = props
   const [fontName, setFontName] = useState('')
   const [fontSize, setFontSize] = useState('')
+  const [fontColor, setFontColor] = useState('')
+  const [showColorPicker, setShowColorPicker] = useState(false)
 
   useEffect(() => {
     setFontName(target.style.fontFamily.replaceAll('"', ''))
     setFontSize(target.style.fontSize.replace('pt', ''))
+    setFontColor(target.style.color)
     console.log('target: ', target.style.fontFamily.replace('"', '-'))
 
   }, [target])
@@ -81,27 +85,35 @@ const ChooseFont = props => {
           })
         }
       </Select>
-
-      <Select
-        className={styles.fontSize}
-        onChange={onChangeFontSize}
-        value={fontSize}
-      >
-        {
-          FontSizes.map((item, index) => {
-            return (
-              <MenuItem
-                key={index}
-                value={item}
-              >
-                {
-                  item
-                }
-              </MenuItem>
-            )
-          })
-        }
-      </Select>
+      <div className={styles.secondRow}>
+        <Select
+          className={styles.fontSize}
+          onChange={onChangeFontSize}
+          value={fontSize}
+        >
+          {
+            FontSizes.map((item, index) => {
+              return (
+                <MenuItem
+                  key={index}
+                  value={item}
+                >
+                  {
+                    item
+                  }
+                </MenuItem>
+              )
+            })
+          }
+        </Select>
+        <div
+          className={styles.colorButton}
+          style={{
+            backgroundColor: fontColor
+          }}
+          onClick={() => setShowColorPicker(true)}
+        ></div>
+      </div>
       
       <Button
         className={styles.closeButton}
@@ -109,6 +121,23 @@ const ChooseFont = props => {
       >
         Close
       </Button>
+      {
+        showColorPicker && 
+        <div className={styles.colorPickerWrapper}>
+          <div className={ styles.colorPickerCover } onClick={() => setShowColorPicker(false)}/>
+          <SketchPicker
+            color={fontColor}
+            onChange={
+              color => {
+                console.log('color: ', color)
+                const colorString = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
+                setFontColor(colorString)
+                target.style.color = colorString
+              }
+            }
+          />
+        </div>
+      }
     </div>
   )
 }
