@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef }  from 'react'
+import React, { useRef }  from 'react'
 import { Paper } from '@material-ui/core'
-// import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import styles from './styles.module.scss'
 
@@ -10,7 +9,11 @@ const patternCircle = props => {
   const imgViewer = useRef(null)
   const description = useRef(null)
 
-  const hovered = () => {
+  const hovered = (isViewer, e) => {
+    if (isViewer) {
+      if (imgViewer.current.classList.value.search('fadeIn' + direction) === -1) return
+      imgViewer.current.classList.add('hover')
+    }
     curImage.current.style.backgroundImage = `url(${item.thumbnail ? item.thumbnail : item.image})`
     imgViewer.current.classList.remove('fadeOut' + direction)
     imgViewer.current.classList.add('fadeIn' + direction)
@@ -24,16 +27,22 @@ const patternCircle = props => {
   }
 
   const hleave = (when, e) => {
-    if (
-      (when === 1 &&
-        e.relatedTarget &&
-        e.relatedTarget.classList.value.search('curImage') === -1 &&
-        e.relatedTarget.classList.value.search('imgViewer') === -1) ||
+    if (when === 1) {
+      setTimeout(() => {
+        if (imgViewer.current.classList.value.search('hover') === -1) {
+          imgViewer.current.classList.remove('fadeIn' + direction)
+          imgViewer.current.classList.add('fadeOut' + direction)
+          imgViewer.current.classList.remove('hover')  
+        }
+      }, 100)
+    }
+    else if (
       when === 2
     ) {
       if (curImage.current !== null) {
         imgViewer.current.classList.remove('fadeIn' + direction)
         imgViewer.current.classList.add('fadeOut' + direction)
+        imgViewer.current.classList.remove('hover')
       }
     }
   }
@@ -66,7 +75,7 @@ const patternCircle = props => {
     >
       <img 
         src={item.thumbnail ? item.thumbnail : item.image}
-        onMouseOver={() => hovered()}
+        onMouseOver={(e) => hovered(false, e)}
         onMouseOut={(e) => hleave(1, e)}
       />
       <Paper
@@ -78,6 +87,7 @@ const patternCircle = props => {
         ].join(' ')}
         elevation={3}
         ref={imgViewer}
+        onMouseOver={(e) => hovered(true, e)}
         onMouseLeave={(e) => hleave(2, e)}
       >
         <div className='circlemenu_curImage' ref={curImage}>
