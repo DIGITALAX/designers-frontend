@@ -193,7 +193,8 @@ function Minting(props) {
   const [file, setFile] = useState(null);
   const [itemName, setItemName] = useState('');
 
-  const [istooltip, setIstooltip] = React.useState(false);
+  const [istooltip, setIstooltip] = useState(false);
+  const [thumbnailSrc, setThumbnailSrc] = useState(null);
 
   const handleTooltip = () => {
     setIstooltip(!istooltip);
@@ -210,7 +211,45 @@ function Minting(props) {
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    resize(e.target.files[0]);
   };
+
+  const resize = file => {
+    //define the width to resize e.g 600px
+    const resizeWidth = 600;//without px
+
+    //create a FileReader
+    const reader = new FileReader();
+
+    //image turned to base64-encoded Data URI.
+    reader.readAsDataURL(file);
+
+    reader.name = file.name;//get the image's name
+    reader.size = file.size; //get the image's size
+
+    reader.onload = function(event) {
+      const img = new Image(); //create a image
+      img.src = event.target.result; //result is base64-encoded Data URI
+      img.name = event.target.name; //set name (optional)
+      img.size = event.target.size; //set size (optional)
+      img.onload = function(el) {
+        const elem = document.createElement('canvas');//create a canvas
+
+        //scale the image to 600 (width) and keep aspect ratio
+        const scaleFactor = resizeWidth / el.target.width;
+        elem.width = resizeWidth;
+        elem.height = el.target.height * scaleFactor;
+
+        //draw in canvas
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(el.target, 0, 0, elem.width, elem.height);
+
+        //get the base64-encoded Data URI from the resize image
+        const srcEncoded = ctx.canvas.toDataURL(file.type, 1);
+        setThumbnailSrc(srcEncoded)
+      }
+    }
+  }
 
   const handleContributeClick = async () => {
     if (
