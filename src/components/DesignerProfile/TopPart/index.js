@@ -168,6 +168,16 @@ const DesignerProfileTopPart = props => {
         { designerInfo['designerId'].toUpperCase() }
         <img className={styles.arrowImg} src='/images/designer-page/arrow.png' />
       </div>
+
+      {
+      !isEdit && <Link href='/getdressed'>
+        <div className={styles.getDressedBadge}>
+          <div className={styles.textWrapper}>
+            Get A Bespoke  Metaverse Outfit Designed By {designerInfo['designerId']}
+          </div>
+        </div>
+      </Link>
+      }
       {
         isEdit && 
         <Button className={[styles.modNameButton, styles.blueButton].join(' ')}>MOD</Button>

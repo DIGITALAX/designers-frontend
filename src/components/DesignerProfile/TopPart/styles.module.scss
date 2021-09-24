@@ -125,6 +125,43 @@
     }
   }
 
+  .getDressedBadge {
+    background: #C047E7;
+    border: 7px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 50%;
+    position: absolute;
+    width: 13.9vw;
+    height: 13.9vw;
+    left: 77%;
+    top: 22.3vw;
+    cursor: pointer;
+
+    transition: 0.3s all;
+    &:hover {
+      transition: 0.3s all;
+      transform: scale(1.1);
+    }
+
+    .textWrapper {
+      font-family: Poppins;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 1.25vw;
+      line-height: 150%;
+      text-align: center;
+      
+      color: #FFFFFF;
+      height: 100%;
+      transform: rotate(-15deg);
+      margin-top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5%;
+    }
+  }
+
   .socialIcons {
     position: absolute;
     width: 7vw;
