@@ -25,15 +25,23 @@
     width: 100%;
     top: 100%;
     z-index: 100;
+    max-height: 300px;
+    overflow: auto;
+    border: 7px solid #C047E7;
+    border-top: 0;
+
+    .item:last-child {
+      border: none!important;
+    }
 
     .item {
       padding: 1rem;
       background: black;
-      border: 7px solid #C047E7;
       border-top: 0;
       color: white;
       display: flex;
       align-items: center;
+      border-bottom: 7px solid #C047E7;
 
       .optionWrapper {
         flex-grow: 1;
