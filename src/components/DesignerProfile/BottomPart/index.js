@@ -445,7 +445,7 @@ const BottomPart = props => {
       }
       {
         (isEditable || web3FashionItems.length > 0) && 
-        <h1>
+        <h1 className={isEditable ? '' : styles.marginBottom}>
           Web3 Fashion 101
         </h1>
       }
