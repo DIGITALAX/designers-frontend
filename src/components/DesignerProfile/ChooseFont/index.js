@@ -24,7 +24,11 @@ const FontSizes = [
   '16',
   '20',
   '24',
-  '30'
+  '30',
+  '40',
+  '60',
+  '80',
+  '100',
 ]
 
 
@@ -37,11 +41,10 @@ const ChooseFont = props => {
   const [showColorPicker, setShowColorPicker] = useState(false)
 
   useEffect(() => {
+    console.log('target: ', target)
     setFontName(target.style.fontFamily.replaceAll('"', ''))
     setFontSize(target.style.fontSize.replace('pt', ''))
     setFontColor(target.style.color)
-    console.log('target: ', target.style.fontFamily.replace('"', '-'))
-
   }, [target])
 
 
