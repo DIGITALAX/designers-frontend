@@ -145,6 +145,9 @@ const BottomPart = props => {
     }
   }
 
+  // console.log('selectedTarget: ', selectedTarget)
+  // console.log('currentTargetForFont: ', currentTargetForFont)
+
   const onClickTarget = (target, index) => {
     if (target.parentElement.classList && target.parentElement.classList.contains('target')) {
       setSelectedTarget(target.parentElement)
@@ -426,8 +429,10 @@ const BottomPart = props => {
     setShowFont(true)
   }
   
-  const onBlurText = e => {
-    setShowFont(false)
+  const onBlurText = (e, index) => {
+    console.log('e.target: ', e.target)
+    setCurrentTargetForFont(e.target)
+    updateText(e.target.innerHTML, index)
   }
 
   console.log('showFont: ', showFont)
@@ -483,7 +488,7 @@ const BottomPart = props => {
               <textarea
                 id='text-add-item'
                 value={addTextDraft}
-                style={{fontFamily: 'Poppin'}}
+                style={{fontFamily: 'Poppins'}}
                 onChange={e => setAddTextDraft(e.target.value)}
                 onFocus={onFocusText}
               />
@@ -677,11 +682,7 @@ const BottomPart = props => {
                   key={JSON.stringify(item)}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
-                  onBlur={
-                    e => {
-                      updateText(e.target.innerHTML, index)
-                    }
-                  }
+                  onBlur={e => onBlurText(e, index)}
                   onFocus={onFocusText}
                   contentEditable={isEditable}
                   dangerouslySetInnerHTML={{ __html: item.value }}
