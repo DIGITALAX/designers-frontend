@@ -75,7 +75,7 @@ const BottomPart = props => {
         transform-origin: 0px 0px;
       }
   
-      .removable-button, .editable-button {
+      .removable-button, .editable-button, .clone-button {
         position: relative;
         width: 24px;
         height: 24px;
@@ -107,6 +107,22 @@ const BottomPart = props => {
       
       .removable-button::after {
         transform: translate(-50%, -50%) rotate(-45deg);
+      }
+      .clone-button::before, .clone-button::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        width: 16px;
+        height: 2px;
+        background: #fff;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+      
+      .clone-button::after {
+        transform: translate(-50%, -50%) rotate(180deg);
       }
       `)
 
@@ -141,6 +157,21 @@ const BottomPart = props => {
               <img src='/images/designer-page/edit.svg' />
             </button>
           }
+          <button className='clone-button'
+            onClick={() => {
+              const newItem = Object.assign({}, web3FashionItems[selectedIndex])
+              const regex = /translate\([^)]+\)/g
+              newItem.style = {
+                ...newItem.style,
+                transform: newItem.style.transform.replace(regex, `translate(0, 0)`)
+              }
+              web3FashionItems.splice(selectedIndex + 1, 0, newItem)
+              
+              setWeb3FashionItems(web3FashionItems)
+              setSelectedTarget(null)
+            }}
+          >
+          </button>
       </RemovableViewer>
     }
   }
@@ -679,7 +710,7 @@ const BottomPart = props => {
               return (
                 <div className={[styles.target, styles.text, 'target', isEditable ? styles.showBorder : ''].join(' ')}
                   id={`web3-fashion-item-${index}`}
-                  key={JSON.stringify(item)}
+                  key={JSON.stringify(item)+index}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
                   onBlur={e => onBlurText(e, index)}
@@ -692,7 +723,7 @@ const BottomPart = props => {
             } else if (item.type === 'image') {
               return (
                 <img className={[styles.target, styles.image, 'target', isEditable ? styles.showBorder : ''].join(' ')}
-                  key={JSON.stringify(item)}
+                  key={JSON.stringify(item)+index}
                   id={`web3-fashion-item-${index}`}
                   style={item.style || {}}
                   onClick={e => onClickTarget(e.target, index)}
@@ -709,7 +740,7 @@ const BottomPart = props => {
                   style={item.style || {}}
                   className={[styles.target, styles.video, 'target', isEditable ? styles.showBorder : ''].join(' ')}
                   id={`web3-fashion-item-${index}`}
-                  key={JSON.stringify(item)}
+                  key={JSON.stringify(item)+index}
                   onClick={e => onClickTarget(e.target, index)}
                 >
                   <source src={item.value} type='video/mp4' />
