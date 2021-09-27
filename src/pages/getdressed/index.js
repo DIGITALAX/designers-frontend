@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from '@components/Dropdown';
 import { getAccount } from '@selectors/user.selectors';
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from './styles.module.scss';
 import { getUser } from '@helpers/user.helpers';
@@ -10,13 +10,14 @@ import { openConnectMetamaskModal, openSignupModal } from '@actions/modals.actio
 import apiService from '@services/api/espa/api.service';
 import dressedActions from '@actions/dressed.actions';
 import { getChainId, getExchangeRateETH, getMonaPerEth } from '@selectors/global.selectors';
-import {
-  POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID
-} from '@constants/global.constants'
+import { POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID } from '@constants/global.constants';
+import api from '@services/api/espa/api.service';
+import { useRouter } from 'next/router';
 
 const GetDressed = () => {
   const dispatch = useDispatch();
   const [outfit, setOutfit] = useState([]);
+  const router = useRouter();
   const [description, setDescription] = useState('');
   const [outfitVersion, setOutfitVersion] = useState(null);
   const [outfitPosition, setOutfitPosition] = useState([]);
@@ -99,6 +100,7 @@ const GetDressed = () => {
   const outfitNetworks = ['Polygon Network', 'Ethereum Network'];
   const outfitStakes = ['YES', 'NO'];
   const outfitPeriods = ['YES', 'No, I’m good'];
+  const [pageNumber, setPageNumber] = useState(0);
   const [mainPrice, setMainPrice] = useState(0);
   const [characterPrice, setCharacterPrice] = useState(0);
   const [networkPrice, setNetworkPrice] = useState(0);
@@ -110,6 +112,10 @@ const GetDressed = () => {
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
   const [file3, setFile3] = useState(null);
+  const [lookText, setLookText] = useState('');
+  const [designers, setDesigners] = useState([]);
+  const [designerList, setDesignerList] = useState([]);
+  const enterStatus = useRef();
   const prices = [
     {
       Hat: 350,
@@ -134,8 +140,6 @@ const GetDressed = () => {
       'Full Outfit': 650,
     },
   ];
-
-  console.log('account: ', account)
 
   const showOutfitPositions = () => {
     const pos = outfitVersions.indexOf(outfitVersion);
@@ -205,14 +209,19 @@ const GetDressed = () => {
     outfitRender,
   ]);
 
-  const getVal = value => {
-    if (isNaN(value)) return 0
-    return value
-  }
+  const getVal = (value) => {
+    if (isNaN(value)) return 0;
+    return value;
+  };
 
   useEffect(() => {
     setTotalPrice(
-      getVal(mainPrice) + getVal(characterPrice) + getVal(networkPrice) + getVal(periodPrice) + getVal(renderPrice) + getVal(gamePrice)
+      getVal(mainPrice) +
+        getVal(characterPrice) +
+        getVal(networkPrice) +
+        getVal(periodPrice) +
+        getVal(renderPrice) +
+        getVal(gamePrice)
     );
   }, [mainPrice, characterPrice, networkPrice, periodPrice, renderPrice, gamePrice]);
 
@@ -220,13 +229,13 @@ const GetDressed = () => {
     if (outfitVersion && outfit.length) {
       let price = 0;
       const ids = checkOutfitVersionType();
-      
+
       ids.forEach((id) => {
         outfit.forEach((fit) => {
           price += getVal(prices[id][fit]);
         });
       });
-      
+
       setMainPrice(price);
     } else {
       setMainPrice(0);
@@ -302,6 +311,31 @@ const GetDressed = () => {
     }
   }, [outfitRender, outfitVersion]);
 
+  const loadData = async () => {
+    const designers = (await api.getAllDesigners()) || [];
+    setDesignerList(designers.map((designer) => designer.designerId));
+  };
+
+  useEffect(() => {
+    loadData();
+    document.addEventListener('keydown', onKeydown);
+
+    return () => document.removeEventListener('keydown', onKeydown);
+  }, []);
+
+  useEffect(() => {
+    console.log(`this is pageNumber: ${pageNumber}`);
+    document.addEventListener('keydown', onKeydown);
+
+    return () => document.removeEventListener('keydown', onKeydown);
+  }, [pageNumber]);
+
+  const onKeydown = (e) => {
+    if (e.keyCode !== 13) return;
+    if (pageNumber >= 13) return;
+    handleNext();
+  };
+
   useEffect(() => {
     if (outfitPosition && outfitVersion?.includes('game')) {
       const prices = [600, 200, 200, 200, 200, 200];
@@ -316,50 +350,13 @@ const GetDressed = () => {
   }, [outfitPosition, outfit, outfitVersion]);
 
   useEffect(() => {
-    if (!account) return
-    dressedActions.isApproved(account, chainId).then(isApproved => {
-      setIsMonaApproved(isApproved)
-    })
-    
-  }, [chainId, account])
+    if (!account) return;
+    dressedActions.isApproved(account, chainId).then((isApproved) => {
+      setIsMonaApproved(isApproved);
+    });
+  }, [chainId, account]);
 
-  const onRequestApprove = async () => {
-    // setLoading(true)
-    await dressedActions.approveMona(account, chainId)
-    const isApproved = await dressedActions.isApproved(account, chainId)
-    setIsMonaApproved(isApproved)
-  }
-
-  console.log('chainId: ', chainId)
-
-
-  const onSubmit = async () => {
-    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID) {
-      toast(
-        'Please switch to Polygon Network.'
-      )
-      return;
-    }
-
-    if (!account) {
-      dispatch(openConnectMetamaskModal());
-      return;
-    }
-
-    if (!user) {
-      dispatch(openSignupModal());
-      return;
-    }
-    if (!mainPrice) {
-      window.alert("You must select at least one outfit and outfit version.");
-      return;
-    }
-
-    if (!isMonaApproved) {
-      onRequestApprove();
-      return;
-    }
-
+  const submitTx = async () => {
     const monaPrice = totalPrice / (monaPerEth * exchangeRateETH);
 
     try {
@@ -377,12 +374,14 @@ const GetDressed = () => {
         outfitNetwork,
         outfitStake,
         outfitPeriod,
+        lookText,
+        designers,
         file1: file1,
         file2: file2,
         file3: file3,
         amount: realPrice,
       });
-      
+
       await dressedActions.sendMona(account, chainId, realPrice);
       setGamePrice(0);
       setTotalPrice(0);
@@ -394,119 +393,217 @@ const GetDressed = () => {
     } catch (e) {
       console.log({ e });
     }
+  }
+
+  const onRequestApprove = async () => {
+    // setLoading(true)
+    await dressedActions.approveMona(account, chainId);
+    const isApproved = await dressedActions.isApproved(account, chainId);
+    setIsMonaApproved(isApproved);
+    submitTx();
+  };
+
+  const onSubmit = async () => {
+    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID) {
+      toast('Please switch to Polygon Network.');
+      return;
+    }
+
+    if (!account) {
+      dispatch(openConnectMetamaskModal());
+      return;
+    }
+
+    if (!user) {
+      dispatch(openSignupModal());
+      return;
+    }
+    if (!mainPrice) {
+      window.alert('You must select at least one outfit and outfit version.');
+      return;
+    }
+
+    if (!isMonaApproved) {
+      onRequestApprove();
+      return;
+    }
+
+    submitTx();
   };
 
   const fileChange = async (e, fileIndex) => {
     let files = e.target.files || e.dataTransfer.files;
     if (files.length === 0) {
-      return ;
+      return;
     }
 
     const url = await dressedActions.uploadImage(files[0]);
 
-    if (fileIndex === 1) setFile1(url); 
+    if (fileIndex === 1) setFile1(url);
     if (fileIndex === 2) setFile2(url);
     if (fileIndex === 3) setFile3(url);
 
     return url;
-  }
+  };
 
-  console.log('totalPrice: ', totalPrice)
-  console.log('monaPerEth: ', monaPerEth)
-  console.log('exchangeRateETH: ', exchangeRateETH)
+  const handleNext = () => {
+    if (pageNumber >= 3 && pageNumber <= 5) {
+      if (pageNumber === 3 && showOutfitPositions()) {
+        setPageNumber(4);
+        return;
+      }
+      if (pageNumber <= 4 && showOutfitRenders()) {
+        setPageNumber(5);
+        return ;
+      }
+      if (pageNumber <= 5 && showOutfitCharacters()) {
+        setPageNumber(6);
+        return ;
+      }
+      setPageNumber(7);
+      return;
+    }
+    setPageNumber(pageNumber + 1);
+  };
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>Get Dressed by the GDN for the Metaverse</div>
-      <div className={styles.subTitle}>
-        Get measured by the web3 tailors. Take a look at the menu of what’s in season and tell us
-        how good you want to look. The metaverse awaits your style. After paying for your order 
-        the Web3 Tailors will be in contact with you through your connected email.
-        <span>
-           All looks include the 3D source file and are sent as a 721 NFT. If you choose to include
-          an open source patterns, materials or textures, 1155 NFTs are also linked under the{' '}
-          <a href="https://designers.digitalax.xyz/fractional/" target="_blank" rel="noreferrer">
-            {' '}
-            Fractional Garment Ownership standard.{' '}
-          </a>{' '}
-        </span>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.label}>
-          Choose the parts of your outfit you’d like to have tailored.
-        </div>
-        <div className={styles.outfitsWrapper}>
-          {outfits.map((item) => (
-            <div
-              className={styles.outfitsItem}
-              key={item.name}
-              onClick={() => {
-                if (outfit.includes(item.name)) {
-                  setOutfit(outfit.filter((fit) => fit !== item.name));
-                } else {
-                  setOutfit([...outfit, item.name]);
-                }
-              }}
-            >
-              <div
-                className={cn(
-                  styles.imageWrapper,
-                  outfit.includes(item.name) ? styles.active : styles.deactive
-                )}
+      <div className={styles.contentWrapper}>
+        {pageNumber === 0 && (
+          <>
+            <div className={styles.title}>Get Dressed by the GDN for the Metaverse</div>
+            <div className={styles.subTitle}>
+              Welcome to the bespoke metaverse tailor shop! Get measured by our web3 tailors and
+              rock styles across the digi-fizzy realms. Take a look at the menu of what’s in season
+              and tell us how good you want to look. The metaverse awaits your style.
+            </div>
+            <div className={styles.pinkTitle}>
+              All looks include the 3D source file and are sent as a 721 NFT. If you choose to
+              include an open source patterns, materials or textures, 1155 NFTs are also linked
+              under the{' '}
+              <a
+                href="https://designers.digitalax.xyz/fractional/"
+                target="_blank"
+                rel="noreferrer"
               >
-                <img src={item.img} alt="" />
-                <div className={styles.outfitName}>{item.name}</div>
+                {' '}
+                Fractional Garment Ownership standard.{' '}
+              </a>{' '}
+              <br />
+              <br />
+              You can also choose specific designers to stitch your outfit!
+            </div>
+          </>
+        )}
+        {pageNumber === 1 && (
+          <div className={styles.row}>
+            <div className={styles.label}>
+              Choose the parts of your outfit you’d like to have tailored.
+            </div>
+            <div className={styles.outfitsWrapper}>
+              {outfits.map((item) => (
+                <div
+                  className={styles.outfitsItem}
+                  key={item.name}
+                  onClick={() => {
+                    if (outfit.includes(item.name)) {
+                      setOutfit(outfit.filter((fit) => fit !== item.name));
+                    } else {
+                      setOutfit([...outfit, item.name]);
+                    }
+                  }}
+                >
+                  <div
+                    className={cn(
+                      styles.imageWrapper,
+                      outfit.includes(item.name) ? styles.active : styles.deactive
+                    )}
+                  >
+                    <img src={item.img} alt="" />
+                    <div className={styles.outfitName}>{item.name}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {pageNumber === 2 && (
+          <>
+            <div className={styles.row}>
+              <div className={styles.descriptionLabel}>
+                Give us a brief description and overview of how you’d like to be dressed & where we
+                should take inspiration from.
+              </div>
+              <textarea
+                className={styles.description}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.fileLabel}>
+                Upload some reference images & inspiration for your outfit.
+              </div>
+              <div className={styles.fileuploads}>
+                <button className={styles.fileupload}>
+                  {file1 ? (
+                    <img src={file1} />
+                  ) : (
+                    <div className={styles.uploadbutton}> file upload </div>
+                  )}
+                  <input type="file" onChange={(e) => fileChange(e, 1)} />
+                </button>
+                <button className={styles.fileupload}>
+                  {file2 ? (
+                    <img src={file2} />
+                  ) : (
+                    <div className={styles.uploadbutton}> file upload </div>
+                  )}
+                  <input type="file" onChange={(e) => fileChange(e, 2)} />
+                </button>
+                <button className={styles.fileupload}>
+                  {file3 ? (
+                    <img src={file3} />
+                  ) : (
+                    <div className={styles.uploadbutton}> file upload </div>
+                  )}
+                  <input type="file" onChange={(e) => fileChange(e, 3)} />
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.fileLabel}>
-          Upload some reference images & inspiration for your outfit. 
-        </div>
-        <div className={styles.fileuploads}>
-          <button className={styles.fileupload}>
-            {file1 ? <img src={file1} /> : <div className={styles.uploadbutton}> file upload </div>}
-            <input type="file" onChange={(e) => fileChange(e, 1)} />
-          </button>
-          <button className={styles.fileupload}>
-            {file2 ? <img src={file2} /> : <div className={styles.uploadbutton}> file upload </div>}
-            <input type="file" onChange={(e) => fileChange(e, 2)} />
-          </button>
-          <button className={styles.fileupload}>
-            {file3 ? <img src={file3} /> : <div className={styles.uploadbutton}> file upload </div>}
-            <input type="file" onChange={(e) => fileChange(e, 3)} />
-          </button>
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.descriptionLabel}>
-          Give us a brief description and overview of how you’d like to be dressed & where we should
-          take inspiration from.
-        </div>
-        <textarea
-          className={styles.description}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.optionsWrapper}>
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>What versions of your outfit would you like?</div>
-            <Dropdown
-              options={outfitVersions}
-              value={outfitVersion}
-              onChange={(v) => setOutfitVersion(v)}
-            />
-          </div>
-          {showOutfitPositions() && (
+          </>
+        )}
+        {pageNumber === 3 && (
+          <div className={styles.row}>
             <div className={styles.optionItem}>
-              <div className={styles.optionLabel}>Where would you like to wear your outfit?</div>
+              <div className={styles.optionLabel}>
+                What versions of your outfit would you like? For high fidelity versions of your NFT
+                check out the DIGITALAX Marketplace{' '}
+                <a href="https://skins.digitalax.xyz/" target="_blank">
+                  {' '}
+                  here
+                </a>{' '}
+                for examples, for 2D examples see{' '}
+                <a href="https://skins.digitalax.xyz/marketplace/all/0/" target="_blank">
+                  here
+                </a>
+                .
+              </div>
+              <Dropdown
+                options={outfitVersions}
+                value={outfitVersion}
+                onChange={(v) => setOutfitVersion(v)}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 4 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Where would you like to wear your outfit? Take your style across the metaverse into
+                different game and social environments.
+              </div>
               <Dropdown
                 multi
                 options={outfitPositions}
@@ -518,12 +615,18 @@ const GetDressed = () => {
                 }}
               />
             </div>
-          )}
-          {showOutfitRenders() && (
+          </div>
+        )}
+        {pageNumber === 5 && (
+          <div className={styles.row}>
             <div className={styles.optionItem}>
               <div className={styles.optionLabel}>
                 Would like the high fidelity art collectible version to be still or animation
-                render?
+                render? See some different render and animation types{' '}
+                <a href="https://skins.digitalax.xyz/" target="_blank">
+                  here
+                </a>
+                .
               </div>
               <Dropdown
                 options={outfitRenders}
@@ -531,8 +634,10 @@ const GetDressed = () => {
                 onChange={(v) => setOutfitRender(v)}
               />
             </div>
-          )}
-          {showOutfitCharacters() && (
+          </div>
+        )}
+        {pageNumber === 6 && (
+          <div className={styles.row}>
             <div className={styles.optionItem}>
               <div className={styles.optionLabel}>
                 Do you want just the garment or it worn by a model/character?
@@ -549,97 +654,211 @@ const GetDressed = () => {
                 onChange={(v) => setOutfitCharacter(v)}
               />
             </div>
-          )}
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>
-              Include patterns, materials or textures from the open source 1155 on-chain libraries?
-              <span className={styles.tooltip}>
-                <img src="/images/dressed/question.png" alt="" />
-                <div className={styles.body}>
-                  Check out <a href="/" target="_blank">this page here</a> to choose.
+          </div>
+        )}
+        {pageNumber === 7 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Include patterns, materials or textures from the open source 1155 on-chain
+                libraries? You can{' '}
+                <a href="https://designers.digitalax.xyz/opensourcelibraries/" target="_blank">
+                  view all open source prints here.
+                </a>{' '}
+                Search by print name below.
+                <span className={styles.subLabel}>
+                  You can include up to 15. Each print is an 1155 NFT and is included in your order
+                  on-chain under the{' '}
+                  <a href="https://designers.digitalax.xyz/fractional/" target="_blank">
+                    Fractional Garment Ownership Standard
+                  </a>
+                  , whereby the master garment ERC-721 NFT owns a balance of 1155 Child NFTs.
+                </span>
+              </div>
+              <input
+                placeholder="Enter the name/s of the pattern, material, texture from the library. "
+                value={outfitPattern}
+                className={styles.input}
+                onChange={(e) => {
+                  setOutfitPattern(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 8 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Estimated Delivery is{' '}
+                <span>
+                  {estimatedTimeline >= 7
+                    ? `${estimatedTimeline / 7 === 1 ? '1 week' : `${estimatedTimeline / 7} weeks`}`
+                    : `${estimatedTimeline === 1 ? '1 day' : `${estimatedTimeline} days`}`}
+                </span>
+                . Would you like to accelerate the delivery?
+              </div>
+              <Dropdown
+                options={outfitPeriods}
+                value={outfitPeriod}
+                onChange={(v) => setOutfitPeriod(v)}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 9 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Would you like the NFT to be minted on Ethereum or Polygon network? It will be
+                airdropped to you on the network of your choice. You can also bridge it between
+                networks using our multi-token bridge{' '}
+                <a href="https://skins.digitalax.xyz/bridge/" target="_blank">
+                  here
+                </a>
+                .
+              </div>
+              <Dropdown
+                options={outfitNetworks}
+                value={outfitNetwork}
+                onChange={(v) => setOutfitNetwork(v)}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 10 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Would you like to be able to stake your NFT for crypto yield? You can stake your NFT
+                in our staking contracts on Polygon or Ethereum and earn $MONA token.
+                <br />
+                <span className={styles.subLabel}>#Wear2Earn #Wear2DeFi</span>
+              </div>
+              <Dropdown
+                options={outfitStakes}
+                value={outfitStake}
+                onChange={(v) => setOutfitStake(v)}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 11 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Which LOOK text would you like included in your outfit? Specify the LookBook number
+                and the specific text phrase.
+                <span className={styles.subLabel}>
+                  {' '}
+                  You can learn more about the LOOK composable generated text experiment{' '}
+                  <a href="https://www.digitalax.xyz/look" target="_blank">
+                    here
+                  </a>
+                  .{' '}
+                </span>
+              </div>
+              <input
+                placeholder="i.e. LookBook 1301, Ring T-Shirt."
+                type="text"
+                className={styles.input}
+                value={lookText}
+                onChange={(e) => setLookText(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 12 && (
+          <div className={styles.row}>
+            <div className={styles.optionItem}>
+              <div className={styles.optionLabel}>
+                Are there any specific GDN Designers that you would like to have work on this
+                garment?
+                <span className={styles.subLabel}>
+                  {' '}
+                  You can check out all of the cool fashion anarchy the GDN is brewing up{' '}
+                  <a href="https://designers.digitalax.xyz/global/" target="_blank">
+                    here
+                  </a>
+                  , and see what specific designers are up to!{' '}
+                </span>
+                You can choose between one or more designers to collaborate on your garment.
+              </div>
+              <Dropdown
+                options={designerList}
+                value={designers}
+                multi
+                onChange={(v) => {
+                  if (designers.includes(v))
+                    setDesigners([...designers.filter((designer) => designer !== v)]);
+                  else setDesigners([...designers, v]);
+                }}
+              />
+            </div>
+          </div>
+        )}
+        {pageNumber === 13 && (
+          <>
+            <div className={styles.row}>
+              <div className={styles.amountLabel}>
+                Every item has a reserve price, for your order it is{' '}
+                <span>{(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA</span>, bid
+                up to tempt the best tailors!
+              </div>
+              <input
+                type="number"
+                step="0.01"
+                min={(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)}
+                className={styles.input}
+                placeholder="Enter an amount above reserve"
+                value={amount}
+                onBlur={(e) => {
+                  if (amount < (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)) {
+                    setAmount((totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2));
+                  }
+                }}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
+              />
+            </div>
+            <div className={styles.row}>
+              <div className={styles.submitLabel}>
+                Make sure you are connected to Polygon Network. You will be sent an NFT with
+                confirmation of your order and we will be in contact with you soon!
+              </div>
+              <button type="button" className={styles.submit} onClick={onSubmit}>
+                {isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
+              </button>
+            </div>
+          </>
+        )}
+        {pageNumber === 0 ? (
+          <button type="button" className={styles.nextButton} onClick={handleNext}>
+            Get Dressed!
+          </button>
+        ) : (
+          <div className={styles.pageActionsWrapper}>
+            {pageNumber !== 13 ? (
+              <div className={styles.actionsRow}>
+                <button type="button" className={styles.nextButton} onClick={handleNext}>
+                  Continue Stitching
+                </button>
+                <div className={styles.nextButtonTip}>
+                  Press Enter
+                  <img src="/images/dressed/enter 1.png" />
                 </div>
-              </span>
-            </div>
-            <input
-              placeholder="Enter the name/s of the pattern, material, texture from the library. "
-              value={outfitPattern}
-              onChange={(e) => {
-                setOutfitPattern(e.target.value)
-              }}
-            />
+              </div>
+            ) : (
+              <div className={styles.actionsRow}>
+                <button type="button" className={styles.returnButton} onClick={() => router.push('/')}>
+                  Return
+                  <img src="/images/dressed/go-back-arrow 1.png" />
+                </button>
+              </div>
+            )}
           </div>
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>
-              Estimated Delivery is{' '}
-              <span>
-                {estimatedTimeline >= 7
-                  ? `${estimatedTimeline / 7 === 1 ? '1 week' : `${estimatedTimeline / 7} weeks`}`
-                  : `${estimatedTimeline === 1 ? '1 day' : `${estimatedTimeline} days`}`}
-              </span>
-              . Would you like to accelerate the delivery?
-            </div>
-            <Dropdown
-              options={outfitPeriods}
-              value={outfitPeriod}
-              onChange={(v) => setOutfitPeriod(v)}
-            />
-          </div>
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>
-              Would you like the NFT to be minted on Ethereum or Polygon network?
-            </div>
-            <Dropdown
-              options={outfitNetworks}
-              value={outfitNetwork}
-              onChange={(v) => setOutfitNetwork(v)}
-            />
-          </div>
-          <div className={styles.optionItem}>
-            <div className={styles.optionLabel}>
-              Would you like to be able to stake your NFT for crypto yield?
-            </div>
-            <Dropdown
-              options={outfitStakes}
-              value={outfitStake}
-              onChange={(v) => setOutfitStake(v)}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.amountLabel}>
-          Every item has a reserve price, for your order it is{' '}
-          <span>{(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA</span>, bid up to
-          tempt the best tailors!
-        </div>
-        <input
-          type="number"
-          step="0.01"
-          min={(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)}
-          className={styles.amount}
-          placeholder="Enter an amount above reserve"
-          value={amount}
-          onBlur={(e) => {
-            if (amount < (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)) {
-              setAmount((totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2));
-            }
-          }}
-          onChange={(e) => {
-            setAmount(e.target.value)
-          }}
-        />
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.submitLabel}>Make sure you are connected to Polygon Network. You will be sent an NFT with confirmation of your order and we will be in contact with you soon!</div>
-        <button type="button" className={styles.submit} onClick={onSubmit}>
-          {
-            isMonaApproved
-              ? 'Submit Purchase & Get Dressed!'
-              : 'Approve Mona Spend'
-          }
-        </button>
+        )}
       </div>
     </div>
   );
