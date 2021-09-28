@@ -1,5 +1,6 @@
 .wrapper {
   position: relative;
+  height: 64px;
 
   .main {
     box-sizing: border-box;
@@ -7,12 +8,21 @@
     border: 7px solid #C047E7;
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 10px;
+    height: 100%;
 
     .valueWrapper {
       flex-grow: 1;
       text-align: center;
       color: white;
+      font-size: 25px;
+    }
+
+    .inputValueWrapper {
+      border: none!important;
+      color: white;
+      background-color: transparent!important;
+      padding: 0!important;
     }
 
     img {
