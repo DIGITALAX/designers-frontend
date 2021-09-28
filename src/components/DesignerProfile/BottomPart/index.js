@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import Moveable from 'react-moveable'
+import Selecto from "react-selecto"
 import { toast } from 'react-toastify'
 
 import api from '@services/api/espa/api.service'
@@ -13,7 +14,7 @@ import styles from './styles.module.scss'
 const BottomPart = props => {
   const { designerInfo, isEditable } = props
 
-  const [selectedTarget, setSelectedTarget] = useState(null)
+  const [selectedTarget, setSelectedTarget] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [web3FashionItems, setWeb3FashionItems] = useState([])
   const [isShowTextAdd, setIsShowTextAdd] = useState(false)
@@ -31,10 +32,14 @@ const BottomPart = props => {
   const [showFont, setShowFont] = useState(false)
   const [currentTargetForFont, setCurrentTargetForFont] = useState(null)
 
+  const selectoRef = useRef(null)
+  const moveableRef = useRef(null)
+  const [frameMap] = useState(() => new Map())
+
   const dispatch = useDispatch()
 
   function handleResize() {
-    setSelectedTarget(null)
+    setSelectedTarget([])
     setScale(window.innerWidth / 1920)
     const maxYValue = getMaxYValue()
     setWrapperHeight((maxYValue + 100) * scale)
@@ -144,7 +149,7 @@ const BottomPart = props => {
             onClick={() => {
               web3FashionItems.splice(selectedIndex, 1)
               setWeb3FashionItems(web3FashionItems)
-              setSelectedTarget(null)
+              setSelectedTarget([])
             }}
           >
           </button>
@@ -168,7 +173,7 @@ const BottomPart = props => {
               web3FashionItems.splice(selectedIndex + 1, 0, newItem)
               
               setWeb3FashionItems(web3FashionItems)
-              setSelectedTarget(null)
+              setSelectedTarget([])
             }}
           >
           </button>
@@ -181,7 +186,7 @@ const BottomPart = props => {
 
   const onClickTarget = (target, index) => {
     if (target.parentElement.classList && target.parentElement.classList.contains('target')) {
-      setSelectedTarget(target.parentElement)
+      setSelectedTarget([target.parentElement])
       setSelectedIndex(index)
       setIsTextEdit(false)
       return
@@ -189,7 +194,7 @@ const BottomPart = props => {
 
     if (!target.classList || !target.classList.contains('target')) return
 
-    setSelectedTarget(target)
+    setSelectedTarget([target])
     setSelectedIndex(index)
     setIsTextEdit(false)
   }
@@ -200,7 +205,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickVideo = () => {
@@ -208,7 +213,7 @@ const BottomPart = props => {
     setIsShowEmbededVideoAdd(false)
     setIsShowVideoAdd(true)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickEmbededVideo = () => {
@@ -216,7 +221,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(true)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickText = () => {
@@ -224,7 +229,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(true)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const updateText = (text, index) => {
@@ -615,6 +620,12 @@ const BottomPart = props => {
           container={null}
           checkInput={isTextEdit}
           ables={[Removable]}
+          ref={moveableRef}
+
+          onClickGroup={e => {
+            selectoRef.current.clickTarget(e.inputEvent, e.inputTarget);
+          }}
+
           props={{
             removable: true
           }}
@@ -632,6 +643,11 @@ const BottomPart = props => {
             transform,
             clientX, clientY,
           }) => {
+            const frame = frameMap.get(target)
+        
+            // frame.translate = e.beforeTranslate;
+            // target.style.transform = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`;
+
               target.style.transform = transform
           }}
           onDragEnd={({ target, isDrag, clientX, clientY }) => {
@@ -645,6 +661,30 @@ const BottomPart = props => {
             }
             setWeb3FashionItems([...web3FashionItems])
             onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
+          }}
+
+          onDragGroupStart={e => {
+            e.events.forEach(ev => {
+              const target = ev.target;
+      
+              if (!frameMap.has(target)) {
+                frameMap.set(target, {
+                  translate: [0, 0],
+                });
+              }
+              const frame = frameMap.get(target);
+      
+              ev.set(frame.translate);
+            });
+          }}
+          onDragGroup={e => {
+            e.events.forEach(ev => {
+              const target = ev.target;
+              const frame = frameMap.get(target);
+      
+              frame.translate = ev.beforeTranslate;
+              target.style.transform = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`;
+            });
           }}
 
           resizable={true}
@@ -702,6 +742,41 @@ const BottomPart = props => {
           }}
 
         />
+        }
+
+        {
+          isEditable && <Selecto
+            ref={selectoRef}
+            dragContainer={'.web3-fashion-wrapper'}
+            selectableTargets={['.target']}
+            hitRate={0}
+            selectByClick={true}
+            selectFromInside={false}
+            toggleContinueSelect={['shift']}
+            ratio={0}
+            onDragStart={e => {
+              const moveable = moveableRef.current;
+              const target = e.inputEvent.target;
+              if (
+                moveable.isMoveableElement(target)
+                || selectedTarget.some(t => t === target || t.contains(target))
+              ) {
+                e.stop();
+              }
+            }}
+            onSelectEnd={e => {
+              const moveable = moveableRef.current
+              setSelectedTarget(e.selected)
+          
+              if (e.isDragStart) {
+                e.inputEvent.preventDefault()
+        
+                setTimeout(() => {
+                  moveable.dragStart(e.inputEvent)
+                })
+              }
+            }}
+        ></Selecto>
         }
 
         {
