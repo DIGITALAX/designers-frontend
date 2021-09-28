@@ -457,6 +457,27 @@ const GetDressed = () => {
     return url;
   };
 
+  const handlePrev = () => {
+    if (pageNumber <= 7 && pageNumber >= 5) {
+      console.log({show: showOutfitRenders()})
+      if (pageNumber === 7 && showOutfitCharacters()) {
+        setPageNumber(6);
+        return;
+      }
+      if (pageNumber >= 6 && showOutfitRenders()) {
+        setPageNumber(5);
+        return;
+      }
+      if (pageNumber >= 5 && showOutfitPositions()) {
+        setPageNumber(4);
+        return;
+      }
+      setPageNumber(3);
+      return ;
+    }
+    setPageNumber(pageNumber - 1);
+  }
+
   const handleNext = () => {
     if (pageNumber >= 3 && pageNumber <= 5) {
       if (pageNumber === 3 && showOutfitPositions()) {
@@ -869,7 +890,7 @@ const GetDressed = () => {
                   </div>
                 </div>
                 <div className={styles.actionsRow}>
-                  <button type="button" className={styles.returnButton} onClick={() => router.push('/')}>
+                  <button type="button" className={styles.returnButton} onClick={handlePrev}>
                     Return
                     <img src="/images/dressed/go-back-arrow 1.png" />
                   </button>
@@ -877,7 +898,7 @@ const GetDressed = () => {
               </>
             ) : (
               <div className={styles.actionsRow}>
-                <button type="button" className={styles.returnButton} onClick={() => router.push('/')}>
+                <button type="button" className={styles.returnButton} onClick={handlePrev}>
                   Return
                   <img src="/images/dressed/go-back-arrow 1.png" />
                 </button>
