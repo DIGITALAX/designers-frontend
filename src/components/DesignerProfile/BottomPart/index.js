@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import Moveable from 'react-moveable'
+import Selecto from "react-selecto"
 import { toast } from 'react-toastify'
 
 import api from '@services/api/espa/api.service'
@@ -13,7 +14,7 @@ import styles from './styles.module.scss'
 const BottomPart = props => {
   const { designerInfo, isEditable } = props
 
-  const [selectedTarget, setSelectedTarget] = useState(null)
+  const [selectedTarget, setSelectedTarget] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [web3FashionItems, setWeb3FashionItems] = useState([])
   const [isShowTextAdd, setIsShowTextAdd] = useState(false)
@@ -26,15 +27,19 @@ const BottomPart = props => {
   const [addTextDraft, setAddTextDraft] = useState('')
   const [isTextEdit, setIsTextEdit] = useState(false)
   const [scale, setScale] = useState(1)
-  const [wrapperHeight, setWrapperHeight] = useState(400)
+  const [wrapperHeight, setWrapperHeight] = useState(800)
 
   const [showFont, setShowFont] = useState(false)
   const [currentTargetForFont, setCurrentTargetForFont] = useState(null)
 
+  const selectoRef = useRef(null)
+  const moveableRef = useRef(null)
+  const [frameMap] = useState(() => new Map())
+
   const dispatch = useDispatch()
 
   function handleResize() {
-    setSelectedTarget(null)
+    setSelectedTarget([])
     setScale(window.innerWidth / 1920)
     const maxYValue = getMaxYValue()
     setWrapperHeight((maxYValue + 100) * scale)
@@ -126,8 +131,10 @@ const BottomPart = props => {
       }
       `)
 
-      const isText = selectedIndex >= 0 && web3FashionItems[selectedIndex] && 
-      web3FashionItems[selectedIndex].type === 'text'
+      const isText = selectedIndex.length > 0 && web3FashionItems[selectedIndex[0]] && 
+      web3FashionItems[selectedIndex[0]].type === 'text'
+      const isGroup = selectedIndex.length > 1
+
   
       // Add key (required)
       // Add class prefix moveable-(required)
@@ -142,14 +149,21 @@ const BottomPart = props => {
       >
           <button className='removable-button'
             onClick={() => {
-              web3FashionItems.splice(selectedIndex, 1)
-              setWeb3FashionItems(web3FashionItems)
-              setSelectedTarget(null)
+              const newWeb3FashionItems = []
+
+              web3FashionItems.forEach((item, index) => {
+                if (selectedIndex.findIndex(selected => selected == index) === -1) {
+                  newWeb3FashionItems.push(item)
+                }
+              })
+
+              setWeb3FashionItems(newWeb3FashionItems)
+              setSelectedTarget([])
             }}
           >
           </button>
           {
-            isText && <button className='editable-button'
+            !isGroup && isText && <button className='editable-button'
               onClick={() => {
                 setIsTextEdit(true)
               }}
@@ -157,40 +171,38 @@ const BottomPart = props => {
               <img src='/images/designer-page/edit.svg' />
             </button>
           }
-          <button className='clone-button'
+          {!isGroup && <button className='clone-button'
             onClick={() => {
-              const newItem = Object.assign({}, web3FashionItems[selectedIndex])
+              const newItem = Object.assign({}, web3FashionItems[selectedIndex[0]])
               const regex = /translate\([^)]+\)/g
               newItem.style = {
                 ...newItem.style,
                 transform: newItem.style.transform.replace(regex, `translate(0, 0)`)
               }
-              web3FashionItems.splice(selectedIndex + 1, 0, newItem)
+              web3FashionItems.splice(selectedIndex[0] + 1, 0, newItem)
               
               setWeb3FashionItems(web3FashionItems)
-              setSelectedTarget(null)
+              setSelectedTarget([])
             }}
           >
           </button>
+          }
       </RemovableViewer>
     }
   }
 
-  // console.log('selectedTarget: ', selectedTarget)
-  // console.log('currentTargetForFont: ', currentTargetForFont)
-
   const onClickTarget = (target, index) => {
     if (target.parentElement.classList && target.parentElement.classList.contains('target')) {
-      setSelectedTarget(target.parentElement)
-      setSelectedIndex(index)
+      setSelectedTarget([target.parentElement])
+      setSelectedIndex([index])
       setIsTextEdit(false)
       return
     }
 
     if (!target.classList || !target.classList.contains('target')) return
 
-    setSelectedTarget(target)
-    setSelectedIndex(index)
+    setSelectedTarget([target])
+    setSelectedIndex([index])
     setIsTextEdit(false)
   }
 
@@ -200,7 +212,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickVideo = () => {
@@ -208,7 +220,7 @@ const BottomPart = props => {
     setIsShowEmbededVideoAdd(false)
     setIsShowVideoAdd(true)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickEmbededVideo = () => {
@@ -216,7 +228,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(true)
     setIsShowTextAdd(false)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const onClickText = () => {
@@ -224,7 +236,7 @@ const BottomPart = props => {
     setIsShowVideoAdd(false)
     setIsShowEmbededVideoAdd(false)
     setIsShowTextAdd(true)
-    setSelectedTarget(null)
+    setSelectedTarget([])
   }
 
   const updateText = (text, index) => {
@@ -235,7 +247,6 @@ const BottomPart = props => {
   const uploadFile = async file => {
     try {
       dispatch(designerActions.setIsloading(true))
-      console.log('--------- file: ', file)
       let url = await api.getPresignedGeneralUrl(file.type, file.name)
       if (url) {
         const result = await api.uploadImageToS3(url, file)
@@ -440,11 +451,11 @@ const BottomPart = props => {
       // Creates a new element, and insert the selected text with the chosen font inside
       var e = document.createElement('span')
       if (fontName) {
-        e.style = 'font-family:' + fontName + ';';
+        e.style = 'font-family:' + fontName + ';'
       }
       
       if (fontSize) {
-        e.style += 'font-size:' + fontSize + ';';
+        e.style += 'font-size:' + fontSize + ';'
       }
       
       e.innerHTML = sel.toString()
@@ -461,12 +472,9 @@ const BottomPart = props => {
   }
   
   const onBlurText = (e, index) => {
-    console.log('e.target: ', e.target)
     setCurrentTargetForFont(e.target)
     updateText(e.target.innerHTML, index)
   }
-
-  console.log('showFont: ', showFont)
 
   return (
     <div className={[styles.wrapper, web3FashionItems.length > 0 || isEditable ? styles.showBackground : ''].join(' ')}>
@@ -615,14 +623,20 @@ const BottomPart = props => {
           container={null}
           checkInput={isTextEdit}
           ables={[Removable]}
+          ref={moveableRef}
+
+          onClickGroup={e => {
+            selectoRef.current.clickTarget(e.inputEvent, e.inputTarget)
+          }}
+
           props={{
             removable: true
           }}
 
           origin={true}
+          defaultGroupOrigin={"50% 50%"}
+
           draggable={true}
-          onDragStart={({ target, clientX, clientY }) => {
-          }}
           onDrag={({
             target,
             beforeDelta, beforeDist,
@@ -632,19 +646,66 @@ const BottomPart = props => {
             transform,
             clientX, clientY,
           }) => {
-              target.style.transform = transform
+            target.style.transform = transform
           }}
           onDragEnd={({ target, isDrag, clientX, clientY }) => {
-            web3FashionItems[selectedIndex].style = {
+            web3FashionItems[selectedIndex[0]].style = {
               width: target.style.width,
               height: target.style.height,
               transform: target.style.transform,
+              transformOrigin: target.style.transformOrigin,
               fontFamily: target.style.fontFamily,
               fontSize: target.style.fontSize,
               color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
-            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex[0])
+          }}
+
+          
+          onDragGroup={e => {
+            e.events.forEach(ev => {
+              const target = ev.target
+              target.style.transform = ev.transform
+            })
+          }}
+          
+          onDragGroupEnd={e => {
+            e.targets.forEach(target => {
+              const itemId = parseInt(target.id.replace('web3-fashion-item-', ''))
+              web3FashionItems[itemId].style = {
+                width: target.style.width,
+                height: target.style.height,
+                transform: target.style.transform,
+                transformOrigin: target.style.transformOrigin,
+                fontFamily: target.style.fontFamily,
+                fontSize: target.style.fontSize,
+                color: target.style.color
+              }
+            })
+          }}
+
+          onRotateGroup={e => {
+            e.events.forEach(ev => {
+              const target = ev.target
+              target.style.transform
+                = `translate(${ev.drag.beforeTranslate[0]}px, ${ev.drag.beforeTranslate[1]}px)`
+                + ` rotate(${ev.rotate}deg)`
+            })
+          }}
+
+          onRotateGroupEnd={e => {
+            e.targets.forEach(target => {
+              const itemId = parseInt(target.id.replace('web3-fashion-item-', ''))
+              web3FashionItems[itemId].style = {
+                width: target.style.width,
+                height: target.style.height,
+                transform: target.style.transform,
+                fontFamily: target.style.fontFamily,
+                fontSize: target.style.fontSize,
+                color: target.style.color
+              }
+            })
           }}
 
           resizable={true}
@@ -662,17 +723,19 @@ const BottomPart = props => {
             delta[0] && (target.style.width = `${width}px`)
             delta[1] && (target.style.height = `${height}px`)
           }}
+
           onResizeEnd={({ target, isDrag, clientX, clientY }) => {
-            web3FashionItems[selectedIndex].style = {
+            web3FashionItems[selectedIndex[0]].style = {
               width: target.style.width,
               height: target.style.height,
               transform: target.style.transform,
+              transformOrigin: target.style.transformOrigin,
               fontFamily: target.style.fontFamily,
               fontSize: target.style.fontSize,
               color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
-            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex[0]}`), selectedIndex[0])
           }}
 
           rotatable={true}
@@ -689,21 +752,21 @@ const BottomPart = props => {
             target.style.transform = transform
           }}
           onRotateEnd={({ target, isDrag, clientX, clientY }) => {
-            web3FashionItems[selectedIndex].style = {
+            web3FashionItems[selectedIndex[0]].style = {
               width: target.style.width,
               height: target.style.height,
               transform: target.style.transform,
+              transformOrigin: target.style.transformOrigin,
               fontFamily: target.style.fontFamily,
               fontSize: target.style.fontSize,
               color: target.style.color
             }
             setWeb3FashionItems([...web3FashionItems])
-            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex}`), selectedIndex)
+            onClickTarget(document.getElementById(`web3-fashion-item-${selectedIndex[0]}`), selectedIndex[0])
           }}
 
         />
         }
-
         {
           web3FashionItems.map((item, index) => {
             if (item.type === 'text') {
@@ -766,6 +829,50 @@ const BottomPart = props => {
           })
         }
       </div>
+      {
+        isEditable && <Selecto
+          ref={selectoRef}
+          dragContainer={'.web3-fashion-wrapper'}
+          selectableTargets={['.target']}
+          hitRate={0}
+          selectByClick={false}
+          selectFromInside={false}
+          toggleContinueSelect={['shift']}
+          ratio={0}
+          onDragStart={e => {
+            const moveable = moveableRef.current;
+            const target = e.inputEvent.target;
+            if (
+              moveable.isMoveableElement(target)
+              || selectedTarget.some(t => t === target || t.contains(target))
+              || target.classList.contains('removable-button')
+              || target.classList.contains('editable-button')
+              || target.classList.contains('clone-button')
+            ) {
+              e.stop()
+            }
+          }}
+          onDrag={e => {
+
+          }}
+          onSelectEnd={e => {
+            const moveable = moveableRef.current
+
+            if (e.selected.length > 0 || selectedTarget.length > 1) {
+              setSelectedTarget(e.selected)
+            }
+            
+            const selectedIds = e.selected.map(item => parseInt(item.id.replace('web3-fashion-item-', '')))
+            if (selectedIds.length > 0 || selectedIndex.length > 1) {
+              setSelectedIndex(selectedIds)
+            }
+
+            if (e.isDragStart) {
+              e.inputEvent.preventDefault()
+            }
+          }}
+        ></Selecto>
+        }
       {
         showFont && <ChooseFont
           target={currentTargetForFont}
