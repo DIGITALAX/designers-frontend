@@ -19,3 +19,4 @@ export const USERNAME_ERROR = 2
 
 export const POLYGON_MAINNET_CHAINID = 0x89
 export const MUMBAI_TESTNET_CHAINID = 0x13881
+export const ETHEREUM_MAINNET_CHAINID = 0x1

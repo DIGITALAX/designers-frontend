@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import styles from './styles.module.scss';
 import { getUser } from '@helpers/user.helpers';
 import { openConnectMetamaskModal, openSignupModal } from '@actions/modals.actions';
-import apiService from '@services/api/espa/api.service';
 import dressedActions from '@actions/dressed.actions';
 import { getChainId, getExchangeRateETH, getMonaPerEth } from '@selectors/global.selectors';
-import { POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID } from '@constants/global.constants';
+import { POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID, ETHEREUM_MAINNET_CHAINID } from '@constants/global.constants';
 import api from '@services/api/espa/api.service';
+import apiService from '@services/api/api.service';
 import { useRouter } from 'next/router';
 
 const GetDressed = () => {
@@ -27,13 +27,14 @@ const GetDressed = () => {
   const [outfitStake, setOutfitStake] = useState(null);
   const [outfitPeriod, setOutfitPeriod] = useState(null);
   const [amount, setAmount] = useState(null);
-  const [outfitPattern, setOutfitPattern] = useState('');
+  const [outfitPattern, setOutfitPattern] = useState([]);
   const [estimatedTimeline, setEstimatedTimeline] = useState(0);
   const account = useSelector(getAccount);
   const chainId = useSelector(getChainId);
   const user = useSelector(getUser);
   const monaPerEth = useSelector(getMonaPerEth);
   const exchangeRateETH = useSelector(getExchangeRateETH);
+  const [materials, setMaterials] = useState([]);
   const outfits = [
     {
       name: 'Hat',
@@ -115,7 +116,6 @@ const GetDressed = () => {
   const [lookText, setLookText] = useState('');
   const [designers, setDesigners] = useState([]);
   const [designerList, setDesignerList] = useState([]);
-  const enterStatus = useRef();
   const prices = [
     {
       Hat: 350,
@@ -356,12 +356,24 @@ const GetDressed = () => {
     });
   }, [chainId, account]);
 
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      const { digitalaxMaterialV2S } = await apiService.getMaterialVS()
+      setMaterials(digitalaxMaterialV2S.map((material, index) => `${(material.attributes[0] || {}).value || ''}-${index}`));
+    };
+
+    fetchMaterials();
+  }, []);
+
   const submitTx = async () => {
-    const monaPrice = totalPrice / (monaPerEth * exchangeRateETH);
+    const monaPrice = Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
 
     try {
       const realPrice = parseFloat(amount) > monaPrice ? amount : monaPrice;
-
+      if (chainId === POLYGON_MAINNET_CHAINID || chainId === MUMBAI_TESTNET_CHAINID)
+        await dressedActions.sendMona(account, chainId, realPrice);
+      else await dressedActions.sendEth(account, realPrice);
+      
       const res = await apiService.saveDressedInfo({
         wallet: account,
         outfit: outfit,
@@ -382,7 +394,6 @@ const GetDressed = () => {
         amount: realPrice,
       });
 
-      await dressedActions.sendMona(account, chainId, realPrice);
       setGamePrice(0);
       setTotalPrice(0);
       setRenderPrice(0);
@@ -404,8 +415,8 @@ const GetDressed = () => {
   };
 
   const onSubmit = async () => {
-    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID) {
-      toast('Please switch to Polygon Network.');
+    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID && chainId != ETHEREUM_MAINNET_CHAINID) {
+      toast('Please switch to Polygon or Ethereum Network.');
       return;
     }
 
@@ -423,7 +434,7 @@ const GetDressed = () => {
       return;
     }
 
-    if (!isMonaApproved) {
+    if ((chainId === POLYGON_MAINNET_CHAINID || chainId === MUMBAI_TESTNET_CHAINID) && !isMonaApproved) {
       onRequestApprove();
       return;
     }
@@ -675,13 +686,17 @@ const GetDressed = () => {
                   , whereby the master garment ERC-721 NFT owns a balance of 1155 Child NFTs.
                 </span>
               </div>
-              <input
-                placeholder="Enter the name/s of the pattern, material, texture from the library. "
+              <Dropdown
+                options={materials}
                 value={outfitPattern}
-                className={styles.input}
-                onChange={(e) => {
-                  setOutfitPattern(e.target.value);
+                onChange={(v) => {
+                  if (outfitPattern.includes(v))
+                  setOutfitPattern([...outfitPattern.filter((material) => material !== v)]);
+                  else setOutfitPattern([...outfitPattern, v]);
                 }}
+                multi
+                searchable
+                placeholder="Enter the name/s of the pattern, material, texture from the library. "
               />
             </div>
           </div>
@@ -788,6 +803,8 @@ const GetDressed = () => {
                 options={designerList}
                 value={designers}
                 multi
+                searchable
+                placeholder="Search by designer name"
                 onChange={(v) => {
                   if (designers.includes(v))
                     setDesigners([...designers.filter((designer) => designer !== v)]);
@@ -802,7 +819,8 @@ const GetDressed = () => {
             <div className={styles.row}>
               <div className={styles.amountLabel}>
                 Every item has a reserve price, for your order it is{' '}
-                <span>{(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA</span>, bid
+                <span>{Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} 
+                {Number(chainId) === 1 ? 'ETH' : '$MONA'}</span>, bid
                 up to tempt the best tailors!
               </div>
               <input
@@ -813,8 +831,9 @@ const GetDressed = () => {
                 placeholder="Enter an amount above reserve"
                 value={amount}
                 onBlur={(e) => {
-                  if (amount < (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)) {
-                    setAmount((totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2));
+                  const maxValue = Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
+                  if (amount < maxValue) {
+                    setAmount(maxValue);
                   }
                 }}
                 onChange={(e) => {
@@ -824,11 +843,10 @@ const GetDressed = () => {
             </div>
             <div className={styles.row}>
               <div className={styles.submitLabel}>
-                Make sure you are connected to Polygon Network. You will be sent an NFT with
-                confirmation of your order and we will be in contact with you soon!
+                You can choose to pay on Ethereum or Polygon network. Prices might be slightly different due to the live oracle.  
               </div>
               <button type="button" className={styles.submit} onClick={onSubmit}>
-                {isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
+                {Number(chainId) === 1 || isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
               </button>
             </div>
           </>
@@ -840,15 +858,23 @@ const GetDressed = () => {
         ) : (
           <div className={styles.pageActionsWrapper}>
             {pageNumber !== 13 ? (
-              <div className={styles.actionsRow}>
-                <button type="button" className={styles.nextButton} onClick={handleNext}>
-                  Continue Stitching
-                </button>
-                <div className={styles.nextButtonTip}>
-                  Press Enter
-                  <img src="/images/dressed/enter 1.png" />
+              <>
+                <div className={styles.actionsRow}>
+                  <button type="button" className={styles.nextButton} onClick={handleNext}>
+                    Continue Stitching
+                  </button>
+                  <div className={styles.nextButtonTip}>
+                    Press Enter
+                    <img src="/images/dressed/enter 1.png" />
+                  </div>
                 </div>
-              </div>
+                <div className={styles.actionsRow}>
+                  <button type="button" className={styles.returnButton} onClick={() => router.push('/')}>
+                    Return
+                    <img src="/images/dressed/go-back-arrow 1.png" />
+                  </button>
+                </div>
+              </>
             ) : (
               <div className={styles.actionsRow}>
                 <button type="button" className={styles.returnButton} onClick={() => router.push('/')}>

@@ -48,7 +48,7 @@ class APIService {
   }
 
   async getGlobalStats() {
-    return request(this.url, getDigitalaxGarmentNftV2GlobalStats)
+    return request(MATIC_NETWORK_URL, getDigitalaxGarmentNftV2GlobalStats)
   }
 
   async getEthRate() {

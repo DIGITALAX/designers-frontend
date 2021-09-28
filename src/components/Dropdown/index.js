@@ -2,8 +2,17 @@
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
 
-const Dropdown = ({ options, value, onChange, multi = false }) => {
+const Dropdown = ({
+  options,
+  value,
+  onChange,
+  multi = false,
+  max,
+  searchable = false,
+  placeholder,
+}) => {
   const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   const onSelect = (v) => {
     onChange(v);
@@ -14,12 +23,24 @@ const Dropdown = ({ options, value, onChange, multi = false }) => {
     <>
       <div className={styles.wrapper}>
         <div className={styles.main} onClick={() => setOpen(!open)}>
-          <div className={styles.valueWrapper}>{multi ? 'Select from Dropdown' : value}</div>
+          {searchable ? (
+            <input
+              className={styles.inputValueWrapper}
+              placeholder={value.length ? `${value.length} items selected` : placeholder}
+              value={open ? inputValue : ''}
+              onChange={(e) => {
+                if (!open) return;
+                setInputValue(e.target.value);
+              }}
+            />
+          ) : (
+            <div className={styles.valueWrapper}>{multi ? 'Select from Dropdown' : value}</div>
+          )}
           <img src="/images/dressed/arrow-down.png" alt="" />
         </div>
         {open && (
           <div className={styles.dropdown}>
-            {options.map((option, index) => (
+            {options.filter(option => option.toLowerCase().includes(inputValue.toLowerCase())).map((option, index) => (
               <div className={styles.item} key={index} onClick={() => onSelect(option)}>
                 <div className={styles.optionWrapper}>{option}</div>
                 {multi && (
