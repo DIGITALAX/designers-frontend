@@ -116,7 +116,8 @@ const HeaderTopLine = ({ className, buttonText }) => {
             <a className={styles.link} target="_blank">
               Collect and Wear Web3 Fashion
             </a>
-          </Link>          
+          </Link>
+          <Link href="/global">
             <a className={styles.link}>
               Global Designer Network
             </a>
@@ -131,9 +132,6 @@ const HeaderTopLine = ({ className, buttonText }) => {
           </Link>
           <Link href="/getdressed">
             <a className={styles.link}>Order Metaverse Boutique Fashion</a>
-          </Link>
-          <Link href="https://skins.digitalax.xyz">
-            <a className={styles.link} target="_blank">Collect and Wear Web3 Fashion</a>
           </Link>
           {isMobile && (
             <a className={styles.link} onClick={() => handleClick()}>
