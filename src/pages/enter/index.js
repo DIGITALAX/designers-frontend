@@ -115,13 +115,14 @@ function Home(props) {
         <div className="md:flex md:justify-between w-full">
           {/* contribute */}
           <div className="relative productimg">
-            <img src="/images/product1.png" className="md:w-full enterimg" alt="" />
-            <img
-              src="/images/arrow.svg"
-              className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
-              onClick={onContribute}
-              alt=""
-            />
+            <img src="/images/product5.png" className="w-full" alt="" />
+            <a href="/getdressed">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
           </div>
 
           {!isMobile ? (
@@ -147,6 +148,31 @@ function Home(props) {
               </a>
             </div>
           )}
+        </div>
+
+        <div className="md:flex md:justify-between w-full mt-12">
+          {/* contribute */}
+          <div className="relative productimg">
+            <img src="/images/product7.png" className="md:w-full enterimg" alt="" />
+            <a href="/web3-fashion-101">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
+          </div>
+
+          <div className="relative productimg">
+            <img src="/images/product8.png" className="w-full enterimg" alt="" />
+            <a href="https://skins.digitalax.xyz" target="_blank">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
+          </div>
         </div>
 
         <div className="md:flex md:justify-between w-full mt-12">
@@ -202,14 +228,13 @@ function Home(props) {
         <div className="md:flex md:justify-between w-full mt-12">
           {/* view */}
           <div className="relative productimg">
-            <img src="/images/product5.png" className="w-full" alt="" />
-            <a href="/getdressed">
-              <img
-                src="/images/arrow.svg"
-                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
-                alt=""
-              />
-            </a>
+            <img src="/images/product1.png" className="md:w-full enterimg" alt="" />
+            <img
+              src="/images/arrow.svg"
+              className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+              onClick={onContribute}
+              alt=""
+            />
           </div>
           <div className="relative productimg">
             <img src="/images/product6.png" className="w-full enterimg" alt="" />
