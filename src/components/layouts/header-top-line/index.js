@@ -133,7 +133,7 @@ const HeaderTopLine = ({ className, buttonText }) => {
           <Link href="/getdressed">
             <a className={styles.link}>Order Metaverse Boutique Fashion</a>
           </Link>
-          {isMobile && (
+          {isMobile && !user && (
             <a className={styles.link} onClick={() => handleClick()}>
               {buttonText}
             </a>
