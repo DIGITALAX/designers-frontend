@@ -112,7 +112,11 @@ const HeaderTopLine = ({ className, buttonText }) => {
       </div>
       <div className={styles.rightBox}>
         <div className={cn(styles.links, isCollapse ? styles.expandedMenu : '')}>
-          <Link href="/global">
+          <Link href="https://skins.digitalax.xyz">
+            <a className={styles.link} target="_blank">
+              Collect and Wear Web3 Fashion
+            </a>
+          </Link>          
             <a className={styles.link}>
               Global Designer Network
             </a>
