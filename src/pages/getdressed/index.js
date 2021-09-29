@@ -359,7 +359,13 @@ const GetDressed = () => {
   useEffect(() => {
     const fetchMaterials = async () => {
       const { digitalaxMaterialV2S } = await apiService.getMaterialVS()
-      setMaterials(digitalaxMaterialV2S.map((material, index) => `${(material.attributes[0] || {}).value || ''}-${index}`));
+      const mats = digitalaxMaterialV2S.filter(material => material.attributes.find(item => item.type === 'Name of Item'));
+      setMaterials(
+        [...new Set(mats
+          .map((material, index) => 
+            material.attributes.find(item => item.type === 'Name of Item').value
+          ))]
+      );
     };
 
     fetchMaterials();
@@ -840,8 +846,7 @@ const GetDressed = () => {
             <div className={styles.row}>
               <div className={styles.amountLabel}>
                 Every item has a reserve price, for your order it is{' '}
-                <span>{Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} 
-                {Number(chainId) === 1 ? 'ETH' : '$MONA'}</span>, bid
+                <span>{(totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2)} $MONA</span>, bid
                 up to tempt the best tailors!
               </div>
               <input
