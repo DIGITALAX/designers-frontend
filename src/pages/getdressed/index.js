@@ -372,13 +372,11 @@ const GetDressed = () => {
   }, []);
 
   const submitTx = async () => {
-    const monaPrice = Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
+    const monaPrice = (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
 
     try {
       const realPrice = parseFloat(amount) > monaPrice ? amount : monaPrice;
-      if (chainId === POLYGON_MAINNET_CHAINID || chainId === MUMBAI_TESTNET_CHAINID)
-        await dressedActions.sendMona(account, chainId, realPrice);
-      else await dressedActions.sendEth(account, realPrice);
+      await dressedActions.sendMona(account, chainId, realPrice);
       
       const res = await apiService.saveDressedInfo({
         wallet: account,
@@ -440,7 +438,7 @@ const GetDressed = () => {
       return;
     }
 
-    if ((chainId === POLYGON_MAINNET_CHAINID || chainId === MUMBAI_TESTNET_CHAINID) && !isMonaApproved) {
+    if (!isMonaApproved) {
       onRequestApprove();
       return;
     }
@@ -857,7 +855,7 @@ const GetDressed = () => {
                 placeholder="Enter an amount above reserve"
                 value={amount}
                 onBlur={(e) => {
-                  const maxValue = Number(chainId) === 1 ? (totalPrice / exchangeRateETH).toFixed(2) : (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
+                  const maxValue = (totalPrice / (monaPerEth * exchangeRateETH)).toFixed(2);
                   if (amount < maxValue) {
                     setAmount(maxValue);
                   }
@@ -872,7 +870,7 @@ const GetDressed = () => {
                 You can choose to pay on Ethereum or Polygon network. Prices might be slightly different due to the live oracle.  
               </div>
               <button type="button" className={styles.submit} onClick={onSubmit}>
-                {Number(chainId) === 1 || isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
+                {isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
               </button>
             </div>
           </>

@@ -4,8 +4,7 @@ import { getMonaContractAddressByChainId } from '@services/network.service';
 import { convertToWei } from '@helpers/price.helpers';
 import api from '@services/api/espa/api.service';
 
-const address = '0x3Cc6Bc27c36d23Ed95289BAF5b0bcB8538D1467c';
-const ethAddress = '0x981b2cfe8c29757c1d5e5862b6f268b9792ffa32';
+const address = '0xaa3e5ee4fdc831e5274fe7836c95d670dc2502e6';
 
 class DressedActions {
   async isApproved(wallet, chainId) {
@@ -46,13 +45,6 @@ class DressedActions {
       console.log({ e });
       throw e;
     }
-  }
-
-  async sendEth(wallet, value) {
-    const web3 = window.web3;
-
-    const amountToSend = convertToWei(value); // Convert to wei value
-    var send = web3.eth.sendTransaction({ from: wallet, to: ethAddress, value: amountToSend });
   }
 
   async uploadImage(file) {
