@@ -1,36 +1,37 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { Paper } from '@material-ui/core';
+import fileDownload from 'js-file-download';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    return {
-      width,
-      height,
-    };
-  }
-  
-  function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
-  
-    useEffect(() => {
-      function handleResize() {
-        setWindowDimensions(getWindowDimensions());
-      }
-  
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-  
-    return windowDimensions;
-  }
-  
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 const PiePaths = ({ count }) => {
   const endx = Math.cos(((360 / count - 90) * Math.PI) / 180) * 0.5 + 0.5;
   const endy = Math.sin(((360 / count - 90) * Math.PI) / 180) * 0.5 + 0.5;
-    
+
   const screenWidth = useWindowDimensions().width;
   const [isMobile, setIsMobile] = useState(false);
 
@@ -69,18 +70,20 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
   const imgViewer = useRef(null);
   const title = useRef(null);
   const description = useRef(null);
-  
+  const downloadImage = useRef(null);
+  const mintUrl = useRef(null);
+
   useEffect(() => {
     setTimeout(() => {
-      if (!menu) return
+      if (!menu.current) return;
       menu.current.classList.toggle('active');
       menu.current.style.transition = 'transform .25s ease-out, opacity .25s ease-in';
     }, 1000);
   }, []);
 
-  const getThumbnailFromItem = item => {
-    return (item.thumbnail && item.thumbnail !== '') ? item.thumbnail : item.image
-  }
+  const getThumbnailFromItem = (item) => {
+    return item.thumbnail && item.thumbnail !== '' ? item.thumbnail : item.image;
+  };
 
   const hovered = (item) => {
     curImage.current.style.backgroundImage = `url(${getThumbnailFromItem(item)})`;
@@ -88,13 +91,27 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
     imgViewer.current.classList.add('fadeIn' + direction);
     title.current.innerHTML = '';
 
-    const nameItem = item.attributes.find(item => item.type === 'Name of Item')
-    let descriptionInnerHTML = ''
+    const nameItem = item.attributes.find((item) => item.type === 'Name of Item');
+    let descriptionInnerHTML = '';
     if (nameItem) {
-      descriptionInnerHTML = nameItem.value + '<br />'
+      descriptionInnerHTML = nameItem.value + '<br />';
     }
-    descriptionInnerHTML += item.description
-    description.current.innerHTML = descriptionInnerHTML
+    descriptionInnerHTML += item.description;
+    description.current.innerHTML = descriptionInnerHTML;
+    downloadImage.current.src = item.image;
+    mintUrl.current.href = `https://opensea.io/assets/matic/0x567c7b3364ba2903a80ecbad6c54ba8c0e1a069e/${item.id}`;
+  };
+
+  const handleDownload = async () => {
+    const image = await fetch(downloadImage.current.src);
+    const imageBlog = await image.blob();
+    const imageURL = URL.createObjectURL(imageBlog);
+    const link = document.createElement('a');
+    link.href = imageURL;
+    link.download = 'download';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const hleave = (when, e) => {
@@ -128,14 +145,14 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 onMouseOut={(e) => hleave(1, e)}
               >
                 <img
-                   className="circlemenu_piece_img"
-                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
-                   src={getThumbnailFromItem(item)}
+                  className="circlemenu_piece_img"
+                  style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
+                  src={getThumbnailFromItem(item)}
                   //  effect="blur"
-                   width={375}
-                   height={375}
-                   alt=""
-                /> 
+                  width={375}
+                  height={375}
+                  alt=""
+                />
                 {/* <LazyLoadImage
                   className="circlemenu_piece_img"
                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
@@ -159,6 +176,15 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
           <div className="circlemenu_curImage" ref={curImage}>
             <div className="circlemenu_imgTitle" ref={title} />
             <div className="circlemenu_imgDescription" ref={description} />
+            <div className="circlemenu_actions">
+              <a className="circlemenu_minted_nft" target="_blank" ref={mintUrl}>
+                See Minted NFT
+              </a>
+              <a className="circlemenu_download" target="_blank" onClick={handleDownload}>
+                <img ref={downloadImage} style={{ width: 0, height: 0 }} crossOrigin="anonymous" />
+                <img src="/images/download.png" />
+              </a>
+            </div>
           </div>
         </Paper>
         <div style={{ color: 'white', textAlign: 'center' }}>{keyName}</div>
