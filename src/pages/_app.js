@@ -17,12 +17,12 @@ import { getIsInitialized, getChainId } from '@selectors/global.selectors';
 import { getEnabledNetworkByChainId } from '@services/network.service';
 import getOrCreateStore from '../lib/with-redux-store';
 
-import { UseWalletProvider } from 'use-wallet'
+import { UseWalletProvider } from 'use-wallet';
 
 import config from '../utils/config';
 import '../assets/scss/global.scss';
 import 'tailwindcss/dist/tailwind.css';
-import '../styles/globals.css'
+import '../styles/globals.css';
 
 if (config.SENTRY_DSN) {
   Sentry.init({
@@ -58,7 +58,6 @@ const NetworkWrapper = (props) => {
 };
 
 const MyApp = ({ Component, pageProps, store, err }) => {
-
   const [loadArkane, setLoadArkane] = useState(true);
 
   if (err) {
@@ -93,7 +92,7 @@ const MyApp = ({ Component, pageProps, store, err }) => {
   );
 };
 
-MyApp.getInitialProps = async () => { };
+MyApp.getInitialProps = async () => {};
 
 MyApp.propTypes = {
   Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
