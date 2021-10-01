@@ -31,6 +31,7 @@ function useWindowDimensions() {
 
 function Libraries(props) {
   const [items, setItems] = useState({});
+  const [loading, setLoading] = useState(false);
   const screenWidth = useWindowDimensions().width;
   const [isMobile, setIsMobile] = useState(false);
   const [searchPattern, setSearchPattern] = useState('');
@@ -120,18 +121,22 @@ function Libraries(props) {
 
       console.log('noThumbnailData: ', JSON.stringify(noThumbnailData));
     }
+    setLoading(false);
   }
 
   useEffect(() => {
+    setLoading(true);
     getData();
   }, []);
 
   const filterItems = () => {
     const designers = Object.keys(items);
+    // setLoading(true);
     const filteredDesigners = designers.filter((designer) =>
       designer.toLowerCase().includes(searchPattern.trim().toLowerCase())
     );
     if (filteredDesigners.length) {
+      // setLoading(false);
       return filteredDesigners;
     }
     const filteredItems = designers.filter((designer) => {
@@ -142,7 +147,11 @@ function Libraries(props) {
         );
       });
     });
-    if (filteredItems.length) return filteredItems;
+    if (filteredItems.length) {
+      // setLoading(false);
+      return filteredItems;
+    }
+    // setLoading(false);
     return [];
   };
 
@@ -213,32 +222,44 @@ function Libraries(props) {
           placeholder="Start Searching Here."
         />
       </div>
-      {!isMobile ? (
-        <Grid container item xs={12}>
-          {filterItems().map((key, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Grid container item xs={4} justify="center" key={`circle-${index}`}>
-              <CircleMenu
-                items={items[key]}
-                keyName={key}
-                direction={index % 3 < 2 ? 'Right' : 'Left'}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <div style={{ width: 375, maxWidth: 375 }}>
-          <div className="opensourcecontent">
-            {/* <Grid container item xs={12}> */}
-            {filterItems().map((key, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Grid container item xs={12} justify="center" key={`circle-${index}`}>
-                <CircleMenu items={items[key]} keyName={key} direction="Right" />
-              </Grid>
-            ))}
-            {/* </Grid> */}
+      {loading ? (
+        <>
+          <div className={styles.loadingWrapper}>
+            <video autoPlay muted loop className={styles.loadingVideo}>
+              <source src="/video/init-loading.mp4" type="video/mp4" />
+            </video>
           </div>
-        </div>
+        </>
+      ) : (
+        <>
+          {!isMobile ? (
+            <Grid container item xs={12}>
+              {filterItems().map((key, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Grid container item xs={4} justify="center" key={`circle-${index}`}>
+                  <CircleMenu
+                    items={items[key]}
+                    keyName={key}
+                    direction={index % 3 < 2 ? 'Right' : 'Left'}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <div style={{ width: 375, maxWidth: 375 }}>
+              <div className="opensourcecontent">
+                {/* <Grid container item xs={12}> */}
+                {filterItems().map((key, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <Grid container item xs={12} justify="center" key={`circle-${index}`}>
+                    <CircleMenu items={items[key]} keyName={key} direction="Right" />
+                  </Grid>
+                ))}
+                {/* </Grid> */}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

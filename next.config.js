@@ -41,6 +41,9 @@ module.exports = withImages({
   },
   trailingSlash: true,
   assetPrefix: './',
+  images: {
+    domains: ['digitalax.mypinata.cloud'],
+  },
   webpack(cfg, { isServer }) {
     const originalEntry = cfg.entry;
     cfg.entry = async () => {

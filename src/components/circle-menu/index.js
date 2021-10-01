@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { Paper } from '@material-ui/core';
+import Image from 'next/image';
 import fileDownload from 'js-file-download';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -144,7 +145,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 onMouseOver={() => hovered(item)}
                 onMouseOut={(e) => hleave(1, e)}
               >
-                <img
+                <Image
                   className="circlemenu_piece_img"
                   style={{ transform: 'rotate(' + (360 / count) * i + 'deg)' }}
                   src={getThumbnailFromItem(item)}
