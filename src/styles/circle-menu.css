@@ -210,10 +210,6 @@ section .circlemenu_ul li:focus a .icon {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 30px;
-  /* identical to box height */
-
   display: flex;
   align-items: center;
   text-decoration: underline;
@@ -237,7 +233,7 @@ section .circlemenu_ul li:focus a .icon {
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: 0px 20px;
+  padding: 10px 20px;
 }
 
 .circlemenu_piespan {
