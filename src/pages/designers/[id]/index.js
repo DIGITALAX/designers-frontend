@@ -57,7 +57,7 @@ const DesignerPage = () => {
     // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
     const auctionItems = [];
     digitalaxCollectionGroups.forEach((group) => {
-      if (!(groupd.auctions.length === 1 && group.auctions[0].id === '0')) {
+      if (!(group.auctions.length === 1 && group.auctions[0].id === '0')) {
         auctionItems.push(
           ...group.auctions
             .filter((auctionItem) => {
@@ -75,7 +75,7 @@ const DesignerPage = () => {
         );
       }
 
-      if (!(group.collections.length === 1 && gropud.collections[0].id === '0')) {
+      if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
         group.collections
           .filter((collectionItem) => {
             return (
