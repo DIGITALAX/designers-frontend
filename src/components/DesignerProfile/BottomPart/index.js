@@ -413,28 +413,14 @@ const BottomPart = props => {
 
   const onClickSave = () => {
     designerInfo['web3FashionItems'] = JSON.stringify(web3FashionItems)
-    // console.log('designerInfo: ', designerInfo)
     dispatch(designerActions.updateProfile({...designerInfo}))
   }
 
   const getMaxYValue = () => {
+    const elWrapper = document.getElementById(`web3-fashion-wrapper`)
     const yValues = web3FashionItems.map((item, index) => {
-      let translateY = 0
-      let itemHeight = 0
-      if (item && item.style) {
-        const matrix = new WebKitCSSMatrix(item.style.transform)
-        if (matrix['m42']) {
-          translateY = matrix['m42']
-        }
-        
-        if (item.style.height) {
-          itemHeight = parseInt(item.style.height, 10)
-        } else {
-          const el = document.getElementById(`web3-fashion-item-${index}`)
-          itemHeight = el ? el.clientHeight : 0
-        }
-      }
-      return itemHeight + translateY
+      const el = document.getElementById(`web3-fashion-item-${index}`)
+      return (el && elWrapper) ? (el.getBoundingClientRect().bottom - elWrapper.getBoundingClientRect().top) / scale : 0
     })
     return Math.max(...yValues, 400)
   }
@@ -610,6 +596,7 @@ const BottomPart = props => {
       </div>
       }
       <div className={[styles.web3FashionView, 'web3-fashion-wrapper'].join(' ')}
+        id='web3-fashion-wrapper'
         style={{         
           width: 1920,
           height: wrapperHeight,
