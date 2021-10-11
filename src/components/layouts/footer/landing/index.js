@@ -214,7 +214,7 @@ const LandingFooter = () => {
               FAQs
             </a>
             <a href="https://www.digitalax.xyz/marketplace" target="_blank">
-              Digital Fashion Auctions
+              Indie Web3 Fashion NFTs
             </a>
             <a href="https://staking.digitalax.xyz" target="_blank">
               Staking
