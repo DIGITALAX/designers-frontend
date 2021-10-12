@@ -165,7 +165,7 @@ function Home(props) {
 
           <div className="relative productimg">
             <img src="/images/product8.png" className="w-full enterimg" alt="" />
-            <a href="https://skins.digitalax.xyz" target="_blank">
+            <a href="https://fashion.digitalax.xyz" target="_blank">
               <img
                 src="/images/arrow.svg"
                 className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
