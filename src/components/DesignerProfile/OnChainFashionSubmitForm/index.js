@@ -8,6 +8,7 @@ import api from '@services/api/espa/api.service';
 import { getUser } from '@helpers/user.helpers';
 import designerActions from '@actions/designer.actions';
 import styles from './styles.module.scss';
+import Dropdown from '@components/Dropdown';
 
 const QuestionMark = (props) => {
   const { children } = props;
@@ -35,7 +36,10 @@ const OnChainFashionSubmitForm = (props) => {
   const [renderFileName3, setRenderFileName3] = useState('');
   const [renderFileName4, setRenderFileName4] = useState('');
   const [renderFileName5, setRenderFileName5] = useState('');
+  const [type, setType] = useState([]);
   const [rarity, setRarity] = useState(COMMON_RARITY);
+
+  const types = ['IN-GAME', 'PHYSICAL', 'AR FILTER', 'DIGITAL DRESSING', 'Extra Unlockables'];
 
   const dispatch = useDispatch();
 
@@ -189,6 +193,7 @@ const OnChainFashionSubmitForm = (props) => {
       editionNo: itemEditionNo,
       price: itemPrice,
       type: itemType,
+      sourceType: type,
       sourceFile: sourceUrl,
       renderFiles: [render1Url, render2Url, render3Url, render4Url, render5Url],
       attachFGO: itemAttachFGO,
@@ -436,12 +441,27 @@ const OnChainFashionSubmitForm = (props) => {
             ATTACH FGO
             <QuestionMark>LIST NAME OF FGO PATTERNS TO ATTACH</QuestionMark>
           </div>
+          <input
+            className={styles.marginBottom30}
+            type="text"
+            value={itemAttachFGO}
+            onChange={(e) => setItemAttachFGO(e.target.value)}
+          />
+          <div className={[styles.label, styles.marginTop22].join(' ')}>SELECT ALL THAT APPLY</div>
+
           <div className={styles.buttonRow}>
-            <input
-              className={styles.marginBottom30}
-              type="text"
-              value={itemAttachFGO}
-              onChange={(e) => setItemAttachFGO(e.target.value)}
+            <Dropdown
+              multi
+              color="blue"
+              options={types}
+              value={type}
+              onChange={(option) => {
+                if (type.includes(option)) {
+                  setType([...type.filter((value) => value !== option)]);
+                } else {
+                  setType([...type, option]);
+                }
+              }}
             />
             <Button className={styles.sendButton} onClick={onSend}>
               Send OFF

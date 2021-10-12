@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import cn from 'classnames';
 import styles from './styles.module.scss';
 
 const Dropdown = ({
@@ -10,6 +11,7 @@ const Dropdown = ({
   max,
   searchable = false,
   placeholder,
+  color = 'pink',
 }) => {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -21,7 +23,7 @@ const Dropdown = ({
 
   return (
     <>
-      <div className={styles.wrapper}>
+      <div className={cn(styles.wrapper, color === 'pick' ? styles.pink : styles.blue)}>
         <div className={styles.main} onClick={() => setOpen(!open)}>
           {searchable ? (
             <input
@@ -34,25 +36,38 @@ const Dropdown = ({
               }}
             />
           ) : (
-            <div className={styles.valueWrapper}>{multi ? 'Select from Dropdown' : value}</div>
+            <div className={styles.valueWrapper}>
+              {multi
+                ? !value.length
+                  ? 'Select from Dropdown'
+                  : `${value.length} items selected`
+                : value}
+            </div>
           )}
-          <img src="/images/dressed/arrow-down.png" alt="" />
+          <img
+            src={
+              color === 'pink' ? '/images/dressed/arrow-down.png' : '/images/blue-arrow-down.png'
+            }
+            alt=""
+          />
         </div>
         {open && (
           <div className={styles.dropdown}>
-            {options.filter(option => option.toLowerCase().includes(inputValue.toLowerCase())).map((option, index) => (
-              <div className={styles.item} key={index} onClick={() => onSelect(option)}>
-                <div className={styles.optionWrapper}>{option}</div>
-                {multi && (
-                  <input
-                    type="checkbox"
-                    checked={!!value?.find((item) => item === option)}
-                    onChange={() => onSelect(option)}
-                    className={styles.customCheck}
-                  />
-                )}
-              </div>
-            ))}
+            {options
+              .filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))
+              .map((option, index) => (
+                <div className={styles.item} key={index} onClick={() => onSelect(option)}>
+                  <div className={styles.optionWrapper}>{option}</div>
+                  {multi && (
+                    <input
+                      type="checkbox"
+                      checked={!!value?.find((item) => item === option)}
+                      onChange={() => onSelect(option)}
+                      className={styles.customCheck}
+                    />
+                  )}
+                </div>
+              ))}
           </div>
         )}
       </div>
