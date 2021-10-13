@@ -210,7 +210,7 @@ function Libraries(props) {
             LOOK Experiment
           </a>{' '}
           &{' '}
-          <a href="https://skins.digitalax.xyz/" target="_blank">
+          <a href="https://fashion.digitalax.xyz/" target="_blank">
             Web3 Fashion Marketplace
           </a>
           .
