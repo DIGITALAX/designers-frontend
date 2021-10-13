@@ -265,9 +265,6 @@ function Home(props) {
             <img src="/images/product10.png" className="w-full enterimg" alt="" />
             </a>
           </div>
-        </div>
-
-
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
         <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
