@@ -37,7 +37,7 @@ function Libraries(props) {
   const [searchPattern, setSearchPattern] = useState('');
 
   useEffect(() => {
-    console.log('screen Width = >', screenWidth);
+    // console.log('screen Width = >', screenWidth);
     screenWidth > 796 ? setIsMobile(false) : setIsMobile(true);
   }, [screenWidth]);
 
