@@ -274,7 +274,12 @@ function Home(props) {
         </div>
       </div>
 
-      <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
+      <Modal
+        open={comingModalOpen}
+        handleClose={() => {
+          setComingModalOpen(false);
+        }}
+      >
         <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
       </Modal>
 
