@@ -267,7 +267,7 @@ function Home(props) {
               <img
                 src="/images/arrow.svg"
                 className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
-                alt=""
+                alt="arrow"
               />
             </a>
           </div>
