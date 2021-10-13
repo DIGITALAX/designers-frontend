@@ -247,7 +247,27 @@ function Home(props) {
             </a>
           </div>
         </div>
-      </div>
+
+        <div className="md:flex md:justify-between w-full mt-12">
+          {/* contribute */}
+          <div className="relative productimg">
+            <img src="/images/product9.png" className="md:w-full enterimg" alt="" />
+            <a href="https://www.web3fashionweek.xyz">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute t-9 r-8 animate-horizonbounce"
+                alt=""
+              />
+            </a>
+          </div>
+
+          <div className="relative productimg">
+            <img src="/images/product10.png" className="w-full enterimg" alt="" />
+            </a>
+          </div>
+        </div>
+       </div>
+
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
         <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
