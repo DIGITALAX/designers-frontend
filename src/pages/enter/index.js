@@ -273,53 +273,54 @@ function Home(props) {
           </div>
         </div>
 
-      <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
-        <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
-      </Modal>
+        <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
+          <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
+        </Modal>
 
-      <Modal open={switchModalOpen} handleClose={() => setSwitchModalOpen(false)}>
-        <p className="text-gray-50 font-normal text-base font-inter text-center">
-          Please switch network to Matic on metamask
-        </p>
-      </Modal>
-
-      <Modal open={open} handleClose={handleClose}>
-        <p className="text-gray-50 font-normal text-base font-inter text-center">
+        <Modal open={switchModalOpen} handleClose={() => setSwitchModalOpen(false)}>
           <p className="text-gray-50 font-normal text-base font-inter text-center">
-            Hey! Please make sure to SIGN IN to contribute!
+            Please switch network to Matic on metamask
           </p>
-          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
-            We are currently in BETA and whitelisting designers!
-          </p>
-          <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
-            If you would like to join the Global Designer Network and contribute to our on-chain
-            open source libraries through Fractional Garment Ownership then please join our discord
-            or telegram and reach out!
-          </p>
-          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
-            Join us on our mission as we storm the gates of the metaverse and enable the gatemakers
-            for web3 fashion and beyond!
-          </p>
-        </p>
-      </Modal>
+        </Modal>
 
-      <Modal open={open1} handleClose={handleClose1}>
-        <p className="text-gray-50 font-normal text-base font-inter text-center">
-          <p className="text-gray-50 font-normal text-base font-inter text-center">Hey!</p>
-          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
-            We are currently in BETA and whitelisting designers!
+        <Modal open={open} handleClose={handleClose}>
+          <p className="text-gray-50 font-normal text-base font-inter text-center">
+            <p className="text-gray-50 font-normal text-base font-inter text-center">
+              Hey! Please make sure to SIGN IN to contribute!
+            </p>
+            <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+              We are currently in BETA and whitelisting designers!
+            </p>
+            <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
+              If you would like to join the Global Designer Network and contribute to our on-chain
+              open source libraries through Fractional Garment Ownership then please join our discord
+              or telegram and reach out!
+            </p>
+            <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+              Join us on our mission as we storm the gates of the metaverse and enable the gatemakers
+              for web3 fashion and beyond!
+            </p>
           </p>
-          <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
-            If you would like to join the Global Designer Network and contribute to our on-chain
-            open source libraries through Fractional Garment Ownership then please join our discord
-            or telegram and reach out!
+        </Modal>
+
+        <Modal open={open1} handleClose={handleClose1}>
+          <p className="text-gray-50 font-normal text-base font-inter text-center">
+            <p className="text-gray-50 font-normal text-base font-inter text-center">Hey!</p>
+            <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+              We are currently in BETA and whitelisting designers!
+            </p>
+            <p className="text-gray-50 font-normal text-base font-inter text-center mt-6">
+              If you would like to join the Global Designer Network and contribute to our on-chain
+              open source libraries through Fractional Garment Ownership then please join our discord
+              or telegram and reach out!
+            </p>
+            <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
+              Join us on our mission as we storm the gates of the metaverse and enable the gatemakers
+              for web3 fashion and beyond!
+            </p>
           </p>
-          <p className="text-gray-50 font-extrabold text-base font-inter text-center mt-6">
-            Join us on our mission as we storm the gates of the metaverse and enable the gatemakers
-            for web3 fashion and beyond!
-          </p>
-        </p>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   )
 }
