@@ -188,7 +188,9 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
             </div>
           </div>
         </Paper>
-        <div style={{ color: 'white', textAlign: 'center' }}>{keyName}</div>
+        <a href={`/designers/${keyName}`}>
+          <div style={{ color: 'white', textAlign: 'center' }}>{keyName}</div>
+        </a>
       </section>
     </>
   );

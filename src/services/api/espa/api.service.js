@@ -1,14 +1,14 @@
-import { STAGE_ESPA_BACKEND_URL, USERNAME_ERROR } from '@constants/global.constants'
-import { get, post, put } from '@utils/api'
-import axios from 'axios'
+import { STAGE_ESPA_BACKEND_URL, USERNAME_ERROR } from '@constants/global.constants';
+import { get, post, put } from '@utils/api';
+import axios from 'axios';
 
 class EspaApiService {
   constructor() {
-    this.url = STAGE_ESPA_BACKEND_URL
+    this.url = STAGE_ESPA_BACKEND_URL;
   }
 
   setUrl(url) {
-    this.url = url
+    this.url = url;
   }
 
   async handleSignUp(account, userName, email, ip) {
@@ -18,10 +18,10 @@ class EspaApiService {
         username: userName,
         email,
         ipAddrs: ip,
-      })
-      return message
+      });
+      return message;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
@@ -29,13 +29,13 @@ class EspaApiService {
     try {
       const data = await post('/account-exists', {
         wallet: account,
-      })
+      });
       if (data === 0) {
-        return ''
+        return '';
       }
-      return data
+      return data;
     } catch (e) {
-      return ''
+      return '';
     }
   }
 
@@ -45,10 +45,10 @@ class EspaApiService {
         wallet: account,
         randomString: signMsg,
         signature,
-      })
-      return data
+      });
+      return data;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
@@ -56,10 +56,10 @@ class EspaApiService {
     try {
       const isExist = await get('/username-available', {
         username,
-      })
-      return isExist | 0
+      });
+      return isExist | 0;
     } catch (e) {
-      return USERNAME_ERROR
+      return USERNAME_ERROR;
     }
   }
 
@@ -67,58 +67,58 @@ class EspaApiService {
     try {
       const ntfs = await get('/get-nfts', {
         wallet: account,
-      })
-      return ntfs
+      });
+      return ntfs;
     } catch (e) {
-      return []
+      return [];
     }
   }
 
   async getProfile() {
     try {
-      const user = await get('/profile')
-      return user
+      const user = await get('/profile');
+      return user;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async updateProfile(user) {
     try {
-      const data = await put('/profile', user)
-      return data
+      const data = await put('/profile', user);
+      return data;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getPresignedUrl() {
     try {
-      const data = await get('/presigned-url')
-      return data
+      const data = await get('/presigned-url');
+      return data;
     } catch (e) {
-      return null
+      return null;
     }
   }
-  
+
   async getPresignedGeneralUrl(contentType, fileName) {
     try {
       const data = await get('/presigned-general-url', {
         contentType,
-        fileName
-      })
-      return data
+        fileName,
+      });
+      return data;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getPresignedVideoUrl() {
     try {
-      const data = await get('/presigned-video-url')
-      return data
+      const data = await get('/presigned-video-url');
+      return data;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
@@ -128,75 +128,75 @@ class EspaApiService {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      })
-      return true
+      });
+      return true;
     } catch (e) {
-      return false
+      return false;
     }
   }
-  
+
   async getMyIP() {
     try {
-      const url = 'https://api.ipify.org/?format=json'
-      const { data } = await axios.get(url)
-      return data.ip
+      const url = 'https://api.ipify.org/?format=json';
+      const { data } = await axios.get(url);
+      return data.ip;
     } catch (e) {
-      return ''
+      return '';
     }
   }
 
   async checkProfanity(username) {
     try {
-      const url = `https://www.purgomalum.com/service/containsprofanity?text=${username}`
-      const { data } = await axios.get(url)
-      return data
+      const url = `https://www.purgomalum.com/service/containsprofanity?text=${username}`;
+      const { data } = await axios.get(url);
+      return data;
     } catch (e) {
-      return true
+      return true;
     }
   }
 
   async getThumbnailsByDesigner(designerId) {
     try {
-      const thumbnails = await get('/get-thumbnails-by-designer', { designerId })
-      return thumbnails
+      const thumbnails = await get('/get-thumbnails-by-designer', { designerId });
+      return thumbnails;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getAllThumbnails() {
     try {
-      const thumbnails = await get('/get-all-thumbnails')
-      return thumbnails
+      const thumbnails = await get('/get-all-thumbnails');
+      return thumbnails;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getAllDesigners() {
     try {
-      const designers = await get('/get-all-designers')
-      return designers ? designers.data : []
+      const designers = await get('/get-all-designers');
+      return designers ? designers.data : [];
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getDesignerByWallet(wallet) {
     try {
-      const designers = await get('/get-designer-by-wallet', { wallet })
-      return designers
+      const designers = await get('/get-designer-by-wallet', { wallet });
+      return designers;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
   async getDesignerById(designerId) {
     try {
-      const designers = await get('/get-designer-by-id', { designerId })
-      return designers
+      const designers = await get('/get-designer-by-id', { designerId });
+      return designers;
     } catch (e) {
-      return null
+      return null;
     }
   }
 
@@ -217,7 +217,7 @@ class EspaApiService {
     file1,
     file2,
     file3,
-    amount
+    amount,
   }) {
     try {
       const res = await post('/dressed-info', {
@@ -237,17 +237,17 @@ class EspaApiService {
         file1,
         file2,
         file3,
-        amount
-      })
-      return res
+        amount,
+      });
+      return res;
     } catch (e) {
-      throw e
+      throw e;
     }
   }
 
   async registerDesigner({
     wallet,
-    randomString, 
+    randomString,
     designerId,
     description,
     external_url,
@@ -258,7 +258,7 @@ class EspaApiService {
     linkedin,
     tiktok,
     youtube,
-    web3FashionItems
+    web3FashionItems,
   }) {
     try {
       const message = await post('/register-designer', {
@@ -274,17 +274,17 @@ class EspaApiService {
         linkedin,
         tiktok,
         youtube,
-        web3FashionItems
-      })
-      return message
+        web3FashionItems,
+      });
+      return message;
     } catch (e) {
-      return null
+      return null;
     }
   }
-  
+
   async registerOnChainFashionItem({
     wallet,
-    randomString, 
+    randomString,
     designerId,
     itemName,
     description,
@@ -292,9 +292,10 @@ class EspaApiService {
     editionNo,
     price,
     type,
+    sourceType,
     sourceFile,
     renderFiles,
-    attachFGO
+    attachFGO,
   }) {
     try {
       const message = await post('/register-on-chain-fashion-item', {
@@ -307,15 +308,16 @@ class EspaApiService {
         editionNo,
         price,
         type,
+        sourceType,
         sourceFile,
         renderFiles,
-        attachFGO
-      })
-      return message
+        attachFGO,
+      });
+      return message;
     } catch (e) {
-      return null
+      return null;
     }
   }
 }
 
-export default new EspaApiService()
+export default new EspaApiService();

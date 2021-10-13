@@ -46,7 +46,7 @@ function Fractional(props) {
             <div className="fractionalbody">
               <p className="font-inter font-normal text-3xl text-gray-50 pr-12 fractionalcontent">
                 Fractional Garment Ownership (FGO) sets forth the standard and dress code for the
-                manufacture of digital fashion along the digital content supply chain. FGO leverages
+                manufacture of web3 fashion along the digital content supply chain. FGO leverages
                 ERC Protocol standards across the Ethereum Blockchain and Polygon (Matic Network) for
                 breaking down a master ERC-721 digital garment into its programmable and composable
                 ERC-1155 elements of materials, patterns and textures.
