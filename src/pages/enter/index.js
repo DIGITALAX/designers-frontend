@@ -266,7 +266,7 @@ function Home(props) {
             </a>
           </div>
         </div>
-       </div>
+
 
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
