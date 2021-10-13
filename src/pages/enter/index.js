@@ -263,8 +263,15 @@ function Home(props) {
 
           <div className="relative productimg">
             <img src="/images/product10.png" className="w-full enterimg" alt="" />
+            <a href="" target="_blank">
+              <img
+                src="/images/arrow.svg"
+                className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
+                alt=""
+              />
             </a>
           </div>
+        </div>
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
         <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
