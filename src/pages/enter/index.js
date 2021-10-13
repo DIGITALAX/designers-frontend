@@ -1,102 +1,102 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
-import Modal from '../../components/modal/popup'
+import Modal from '../../components/modal/popup';
 
-import { getAccount, getUser } from '@selectors/user.selectors'
-import { getChainId } from '@selectors/global.selectors'
+import { getAccount, getUser } from '@selectors/user.selectors';
+import { getChainId } from '@selectors/global.selectors';
 
-import userActions from '@actions/user.actions'
+import userActions from '@actions/user.actions';
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window
+  const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
-  }
+    height,
+  };
 }
 
 function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions())
+      setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return windowDimensions
+  return windowDimensions;
 }
 
 function Home(props) {
-  const dispatch = useDispatch()
-  const user = useSelector(getUser)
-  const account = useSelector(getAccount)
+  const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const account = useSelector(getAccount);
   if (!user) {
-    dispatch(userActions.checkStorageAuth())
+    dispatch(userActions.checkStorageAuth());
   }
 
-  const router = useRouter()
-  const chainId = useSelector(getChainId)
+  const router = useRouter();
+  const chainId = useSelector(getChainId);
 
-  const [comingModalOpen, setComingModalOpen] = useState(false)
-  const [switchModalOpen, setSwitchModalOpen] = useState(false)
-  const [open, setOpen] = useState(false)
-  const [open1, setOpen1] = useState(false)
-  const [whitelisted, setWhitelisted] = useState(false)
-  const screenWidth = useWindowDimensions().width
-  const [isMobile, setIsMobile] = useState(false)
+  const [comingModalOpen, setComingModalOpen] = useState(false);
+  const [switchModalOpen, setSwitchModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [whitelisted, setWhitelisted] = useState(false);
+  const screenWidth = useWindowDimensions().width;
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    screenWidth > 376 ? setIsMobile(false) : setIsMobile(true)
-  }, [screenWidth])
+    screenWidth > 376 ? setIsMobile(false) : setIsMobile(true);
+  }, [screenWidth]);
 
   const handleClose1 = () => {
-    setOpen1(false)
-  }
+    setOpen1(false);
+  };
 
   const handleClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchWhiteListed = async () => {
-      const resp = await userActions.checkWhitelisted(account)
-      if (resp !== whitelisted) setWhitelisted(resp)
-    }
+      const resp = await userActions.checkWhitelisted(account);
+      if (resp !== whitelisted) setWhitelisted(resp);
+    };
 
     if (account) {
-      fetchWhiteListed()
+      fetchWhiteListed();
     }
-  }, [account])
+  }, [account]);
 
   const onContribute = () => {
     if (!user) {
-      setOpen(true)
-      return
+      setOpen(true);
+      return;
     }
     if (!whitelisted) {
-      setOpen1(true)
-      return
+      setOpen1(true);
+      return;
     }
     if (Number(chainId) === 137 || Number(chainId) === 80001) {
-      router.push('/minting')
-      return
+      router.push('/minting');
+      return;
     }
-    setSwitchModalOpen(true)
-  }
+    setSwitchModalOpen(true);
+  };
 
   return (
-    <div className="block" style={{height: 'fit-content'}}>
+    <div className="block" style={{ height: 'fit-content' }}>
       <div className="relative enterheader" id="parentCo">
         <img src="/images/banner.png" alt="banner" className="md:absolute w-full md:h-full" />
         <img src="/images/open.svg" alt="open" className="absolute t-20 l-0 openimg" />
       </div>
-      <div style={{marginBottom:45}}>
+      <div style={{ marginBottom: 45 }}>
         <p className="font-inter text-3xl text-white md:w-1204 sm:w-auto p-12 mx-auto text-center mt-12 entertext">
           It’s often the case that we have to conform to a framework set by gatekeepers in our
           society. These gatekeepers have been around in every society since the dawn of
@@ -272,6 +272,7 @@ function Home(props) {
             </a>
           </div>
         </div>
+      </div>
 
       <Modal open={comingModalOpen} handleClose={() => setComingModalOpen(false)}>
         <p className="text-gray-50 font-normal text-base font-inter text-center">Coming Soon!</p>
@@ -321,7 +322,7 @@ function Home(props) {
         </p>
       </Modal>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
