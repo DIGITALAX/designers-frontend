@@ -23,7 +23,7 @@ const Dropdown = ({
 
   return (
     <>
-      <div className={cn(styles.wrapper, color === 'pick' ? styles.pink : styles.blue)}>
+      <div className={cn(styles.wrapper, color === 'pink' ? styles.pink : styles.blue)}>
         <div className={styles.main} onClick={() => setOpen(!open)}>
           {searchable ? (
             <input

@@ -108,7 +108,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 100px;
+        margin-bottom: 350px;
 
         & > div {
           width: 60%;
@@ -273,12 +273,13 @@
         font-size: 8px;
         line-height: 10px;
         width: 200px;
-        height: 30px;
+        min-height: 30px;
 
         display: none;
         align-items: center;
         text-align: center;
         justify-content: center;
+        white-space: pre-wrap;
 
         color: #2b67f1;
         background: #000000;

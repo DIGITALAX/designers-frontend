@@ -8,7 +8,7 @@
   &.showBackground {
     background: url(/images/designer-page/web3-fashion-background.png);
   }
-  
+
   .web3FashionBack {
     position: absolute;
     left: 0;
@@ -26,7 +26,7 @@
   }
 
   h1 {
-    background: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
+    background: linear-gradient(90deg, #db00ff 4.23%, #2b67f1 105.79%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: Inter;
@@ -52,7 +52,7 @@
       &.showBorder {
         border: 1px dotted white;
       }
-      
+
       &.text {
         color: white;
         background: transparent;
@@ -95,14 +95,15 @@
     justify-content: space-between;
     padding-top: 1vw;
     padding-bottom: 1vw;
+    margin-bottom: 2.5rem;
     padding-left: 5vw;
     z-index: 1;
     position: relative;
 
     button {
       background: #000000;
-      border: 4px solid #2B67F1;
-      color: #2B67F1;
+      border: 4px solid #2b67f1;
+      color: #2b67f1;
       min-width: 10vw;
       margin-right: 1vw;
       margin-left: 1vw;
@@ -114,9 +115,8 @@
     }
 
     .leftPart {
-      
     }
-    
+
     .rightPart {
       margin-right: 5vw;
     }
@@ -124,8 +124,8 @@
 
   .addItem {
     button.addButton {
-      background: #BCB1FF;
-      border: 4px solid #2B67F1;
+      background: #bcb1ff;
+      border: 4px solid #2b67f1;
       font-family: Poppins;
       font-style: normal;
       font-weight: 500;
@@ -133,7 +133,7 @@
       line-height: 30px;
       text-align: center;
 
-      color: #2B67F1;
+      color: #2b67f1;
       width: 200px;
       padding: 10px 10px;
       align-self: flex-end;
@@ -141,7 +141,6 @@
       margin-bottom: 20px;
       margin-right: 0;
     }
-
 
     h1 {
       margin-left: 0;
@@ -159,7 +158,7 @@
         width: 100%;
         height: 20vw;
         background: #000000;
-        border: 4px solid #2B67F1;
+        border: 4px solid #2b67f1;
         color: white;
         outline: none;
         padding: 5px;
@@ -185,7 +184,7 @@
 
       .embededVideo {
         background: #000000;
-        border: 4px solid #2B67F1;
+        border: 4px solid #2b67f1;
         color: white;
         outline: none;
         padding: 5px;
@@ -195,8 +194,8 @@
     .uploadButton {
       text-transform: uppercase;
       background: #000000;
-      border: 4px solid #2B67F1;
-      color: #2B67F1;
+      border: 4px solid #2b67f1;
+      color: #2b67f1;
       box-sizing: border-box;
       border-radius: 21px;
       padding: 8px 30px;

@@ -308,12 +308,13 @@ const OnChainFashionSubmitForm = (props) => {
                   AUCTIONS ARE ONLY EXCLUSIVE, OTHER RARITIES CAN BE INSTANT BUY
                 </QuestionMark>
               </div>
-              <input
+              <Dropdown
+                color="blue"
+                options={['INSTANT BUY', 'AUCTION']}
                 className={styles.marginBottom30}
-                id="item-type"
-                type="text"
                 value={itemType}
-                onChange={(e) => setItemType(e.target.value)}
+                onChange={(value) => setItemType(value)}
+                id="item-type"
               />
             </div>
           </div>
