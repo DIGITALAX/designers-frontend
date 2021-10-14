@@ -37,7 +37,7 @@ function Libraries(props) {
   const [searchPattern, setSearchPattern] = useState('');
 
   useEffect(() => {
-    console.log('screen Width = >', screenWidth);
+    // console.log('screen Width = >', screenWidth);
     screenWidth > 796 ? setIsMobile(false) : setIsMobile(true);
   }, [screenWidth]);
 
@@ -210,7 +210,7 @@ function Libraries(props) {
             LOOK Experiment
           </a>{' '}
           &{' '}
-          <a href="https://skins.digitalax.xyz/" target="_blank">
+          <a href="https://fashion.digitalax.xyz/" target="_blank">
             Web3 Fashion Marketplace
           </a>
           .

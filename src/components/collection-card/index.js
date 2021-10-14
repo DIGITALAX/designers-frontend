@@ -34,7 +34,7 @@ const CollectionCard = props => {
   const { item } = props
 
   console.log(`item:'${JSON.stringify(item)}'`)
-  const itemLink = `https://skins.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
+  const itemLink = `https://fashion.digitalax.xyz/product/${item.id}/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`
   const onClickView = () => {
     window.open(itemLink, '_blank')
   }

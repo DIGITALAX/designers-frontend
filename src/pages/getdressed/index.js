@@ -615,12 +615,12 @@ const GetDressed = () => {
               <div className={styles.optionLabel}>
                 What versions of your outfit would you like? For high fidelity versions of your NFT
                 check out the DIGITALAX Marketplace{' '}
-                <a href="https://skins.digitalax.xyz/" target="_blank">
+                <a href="https://fashion.digitalax.xyz/" target="_blank">
                   {' '}
                   here
                 </a>{' '}
                 for examples, for 2D examples see{' '}
-                <a href="https://skins.digitalax.xyz/marketplace/all/0/" target="_blank">
+                <a href="https://fashion.digitalax.xyz/marketplace/all/0/" target="_blank">
                   here
                 </a>
                 .
@@ -659,7 +659,7 @@ const GetDressed = () => {
               <div className={styles.optionLabel}>
                 Would like the high fidelity art collectible version to be still or animation
                 render? See some different render and animation types{' '}
-                <a href="https://skins.digitalax.xyz/" target="_blank">
+                <a href="https://fashion.digitalax.xyz/" target="_blank">
                   here
                 </a>
                 .
@@ -753,7 +753,7 @@ const GetDressed = () => {
                 Would you like the NFT to be minted on Ethereum or Polygon network? It will be
                 airdropped to you on the network of your choice. You can also bridge it between
                 networks using our multi-token bridge{' '}
-                <a href="https://skins.digitalax.xyz/bridge/" target="_blank">
+                <a href="https://fashion.digitalax.xyz/bridge/" target="_blank">
                   here
                 </a>
                 .
