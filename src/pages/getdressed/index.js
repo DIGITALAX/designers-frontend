@@ -9,7 +9,11 @@ import { getUser } from '@helpers/user.helpers';
 import { openConnectMetamaskModal, openSignupModal } from '@actions/modals.actions';
 import dressedActions from '@actions/dressed.actions';
 import { getChainId, getExchangeRateETH, getMonaPerEth } from '@selectors/global.selectors';
-import { POLYGON_MAINNET_CHAINID, MUMBAI_TESTNET_CHAINID, ETHEREUM_MAINNET_CHAINID } from '@constants/global.constants';
+import {
+  POLYGON_MAINNET_CHAINID,
+  MUMBAI_TESTNET_CHAINID,
+  ETHEREUM_MAINNET_CHAINID,
+} from '@constants/global.constants';
 import api from '@services/api/espa/api.service';
 import apiService from '@services/api/api.service';
 import { useRouter } from 'next/router';
@@ -19,6 +23,7 @@ const GetDressed = () => {
   const [outfit, setOutfit] = useState([]);
   const router = useRouter();
   const [description, setDescription] = useState('');
+  const curOutfitVersion = useRef();
   const [outfitVersion, setOutfitVersion] = useState(null);
   const [outfitPosition, setOutfitPosition] = useState([]);
   const [outfitRender, setOutfitRender] = useState(null);
@@ -142,17 +147,17 @@ const GetDressed = () => {
   ];
 
   const showOutfitPositions = () => {
-    const pos = outfitVersions.indexOf(outfitVersion);
+    const pos = outfitVersions.indexOf(curOutfitVersion.current);
     return pos !== -1 && pos <= 3;
   };
 
   const showOutfitRenders = () => {
-    const pos = outfitVersions.indexOf(outfitVersion);
+    const pos = outfitVersions.indexOf(curOutfitVersion.current);
     return pos === 0 || pos === 1 || pos === 4 || pos === 6;
   };
 
   const showOutfitCharacters = () => {
-    const pos = outfitVersions.indexOf(outfitVersion);
+    const pos = outfitVersions.indexOf(curOutfitVersion.current);
     return pos !== 3 && pos !== -1;
   };
 
@@ -358,14 +363,18 @@ const GetDressed = () => {
 
   useEffect(() => {
     const fetchMaterials = async () => {
-      const { digitalaxMaterialV2S } = await apiService.getMaterialVS()
-      const mats = digitalaxMaterialV2S.filter(material => material.attributes.find(item => item.type === 'Name of Item'));
-      setMaterials(
-        [...new Set(mats
-          .map((material, index) => 
-            material.attributes.find(item => item.type === 'Name of Item').value
-          ))]
+      const { digitalaxMaterialV2S } = await apiService.getMaterialVS();
+      const mats = digitalaxMaterialV2S.filter((material) =>
+        material.attributes.find((item) => item.type === 'Name of Item')
       );
+      setMaterials([
+        ...new Set(
+          mats.map(
+            (material, index) =>
+              material.attributes.find((item) => item.type === 'Name of Item').value
+          )
+        ),
+      ]);
     };
 
     fetchMaterials();
@@ -377,7 +386,7 @@ const GetDressed = () => {
     try {
       const realPrice = parseFloat(amount) > monaPrice ? amount : monaPrice;
       await dressedActions.sendMona(account, chainId, realPrice);
-      
+
       const res = await apiService.saveDressedInfo({
         wallet: account,
         outfit: outfit,
@@ -408,7 +417,7 @@ const GetDressed = () => {
     } catch (e) {
       console.log({ e });
     }
-  }
+  };
 
   const onRequestApprove = async () => {
     // setLoading(true)
@@ -419,7 +428,11 @@ const GetDressed = () => {
   };
 
   const onSubmit = async () => {
-    if (chainId != POLYGON_MAINNET_CHAINID && chainId != MUMBAI_TESTNET_CHAINID && chainId != ETHEREUM_MAINNET_CHAINID) {
+    if (
+      chainId != POLYGON_MAINNET_CHAINID &&
+      chainId != MUMBAI_TESTNET_CHAINID &&
+      chainId != ETHEREUM_MAINNET_CHAINID
+    ) {
       toast('Please switch to Polygon or Ethereum Network.');
       return;
     }
@@ -463,7 +476,7 @@ const GetDressed = () => {
 
   const handlePrev = () => {
     if (pageNumber <= 7 && pageNumber >= 5) {
-      console.log({show: showOutfitRenders()})
+      console.log({ show: showOutfitRenders() });
       if (pageNumber === 7 && showOutfitCharacters()) {
         setPageNumber(6);
         return;
@@ -477,24 +490,25 @@ const GetDressed = () => {
         return;
       }
       setPageNumber(3);
-      return ;
+      return;
     }
     setPageNumber(pageNumber - 1);
-  }
+  };
 
   const handleNext = () => {
     if (pageNumber >= 3 && pageNumber <= 5) {
+      console.log(outfitVersion);
       if (pageNumber === 3 && showOutfitPositions()) {
         setPageNumber(4);
         return;
       }
       if (pageNumber <= 4 && showOutfitRenders()) {
         setPageNumber(5);
-        return ;
+        return;
       }
       if (pageNumber <= 5 && showOutfitCharacters()) {
         setPageNumber(6);
-        return ;
+        return;
       }
       setPageNumber(7);
       return;
@@ -628,7 +642,11 @@ const GetDressed = () => {
               <Dropdown
                 options={outfitVersions}
                 value={outfitVersion}
-                onChange={(v) => setOutfitVersion(v)}
+                onChange={(v) => {
+                  setOutfitVersion(v);
+                  curOutfitVersion.current = v;
+                  console.log('this is outfit version select', v);
+                }}
               />
             </div>
           </div>
@@ -716,7 +734,7 @@ const GetDressed = () => {
                 value={outfitPattern}
                 onChange={(v) => {
                   if (outfitPattern.includes(v))
-                  setOutfitPattern([...outfitPattern.filter((material) => material !== v)]);
+                    setOutfitPattern([...outfitPattern.filter((material) => material !== v)]);
                   else setOutfitPattern([...outfitPattern, v]);
                 }}
                 multi
@@ -867,7 +885,8 @@ const GetDressed = () => {
             </div>
             <div className={styles.row}>
               <div className={styles.submitLabel}>
-                You can choose to pay on Ethereum or Polygon network. Prices might be slightly different due to the live oracle.  
+                You can choose to pay on Ethereum or Polygon network. Prices might be slightly
+                different due to the live oracle.
               </div>
               <button type="button" className={styles.submit} onClick={onSubmit}>
                 {isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
