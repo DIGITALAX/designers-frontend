@@ -36,6 +36,7 @@ const OnChainFashionSubmitForm = (props) => {
   const [renderFileName3, setRenderFileName3] = useState('');
   const [renderFileName4, setRenderFileName4] = useState('');
   const [renderFileName5, setRenderFileName5] = useState('');
+  const [auctionTime, setAuctionTime] = useState(0);
   const [type, setType] = useState([]);
   const [rarity, setRarity] = useState(COMMON_RARITY);
 
@@ -192,6 +193,7 @@ const OnChainFashionSubmitForm = (props) => {
       rarity,
       editionNo: itemEditionNo,
       price: itemPrice,
+      auctionTime: auctionTime,
       type: itemType,
       sourceType: type,
       sourceFile: sourceUrl,
@@ -308,14 +310,30 @@ const OnChainFashionSubmitForm = (props) => {
                   AUCTIONS ARE ONLY EXCLUSIVE, OTHER RARITIES CAN BE INSTANT BUY
                 </QuestionMark>
               </div>
-              <Dropdown
-                color="blue"
-                options={['INSTANT BUY', 'AUCTION']}
-                className={styles.marginBottom30}
-                value={itemType}
-                onChange={(value) => setItemType(value)}
-                id="item-type"
-              />
+              <div className={styles.marginBottom30}>
+                <Dropdown
+                  color="blue"
+                  options={['INSTANT BUY', 'AUCTION']}
+                  value={itemType}
+                  onChange={(value) => setItemType(value)}
+                  id="item-type"
+                />
+              </div>
+              {itemType === 'AUCTION' && (
+                <>
+                  <div className={styles.label}>
+                    AUCTION TIME
+                    <QuestionMark>ENTER THE LENGTH OF AUCTION YOU WANT I.E. 48 HOURS.</QuestionMark>
+                  </div>
+                  <input
+                    id="auction-time"
+                    className={styles.marginBottom30}
+                    type="text"
+                    value={auctionTime}
+                    onChange={(e) => setAuctionTime(e.target.value)}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>

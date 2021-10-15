@@ -292,6 +292,7 @@ class EspaApiService {
     editionNo,
     price,
     type,
+    auctionTime,
     sourceType,
     sourceFile,
     renderFiles,
@@ -311,6 +312,7 @@ class EspaApiService {
         sourceType,
         sourceFile,
         renderFiles,
+        auctionTime,
         attachFGO,
       });
       return message;
