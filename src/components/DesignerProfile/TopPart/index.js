@@ -124,6 +124,9 @@ const DesignerProfileTopPart = (props) => {
   return (
     <div className={styles.wrapper}>
       <img className={styles.background} src="/images/designer-page/background.png" />
+      {!!designerInfo.GDNPurveyor && (
+        <div className={styles.purveyor}> {designerInfo.GDNPurveyor} </div>
+      )}
       <div className={styles.rect1}></div>
       <div className={styles.rect2}></div>
       {!isEdit && <img className={styles.triangle} src="/images/designer-page/triangle.png" />}
