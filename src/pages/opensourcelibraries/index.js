@@ -237,11 +237,7 @@ function Libraries(props) {
               {filterItems().map((key, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <Grid container item xs={4} justify="center" key={`circle-${index}`}>
-                  <CircleMenu
-                    items={items[key]}
-                    keyName={key}
-                    direction={index % 3 < 2 ? 'Right' : 'Left'}
-                  />
+                  <CircleMenu items={items[key]} keyName={key} direction={'Right'} />
                 </Grid>
               ))}
             </Grid>
