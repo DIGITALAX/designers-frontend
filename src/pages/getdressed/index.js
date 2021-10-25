@@ -34,6 +34,7 @@ const GetDressed = () => {
   const [amount, setAmount] = useState(null);
   const [outfitPattern, setOutfitPattern] = useState([]);
   const [estimatedTimeline, setEstimatedTimeline] = useState(0);
+  const [success, setSuccess] = useState(false);
   const account = useSelector(getAccount);
   const chainId = useSelector(getChainId);
   const user = useSelector(getUser);
@@ -329,7 +330,7 @@ const GetDressed = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`this is pageNumber: ${pageNumber}`);
+    if (pageNumber !== 13 && success) setSuccess(false);
     document.addEventListener('keydown', onKeydown);
 
     return () => document.removeEventListener('keydown', onKeydown);
@@ -387,7 +388,7 @@ const GetDressed = () => {
       const realPrice = parseFloat(amount) > monaPrice ? amount : monaPrice;
       await dressedActions.sendMona(account, chainId, realPrice);
 
-      const res = await apiService.saveDressedInfo({
+      const res = await api.saveDressedInfo({
         wallet: account,
         outfit: outfit,
         outfitPattern,
@@ -414,6 +415,7 @@ const GetDressed = () => {
       setNetworkPrice(0);
       setCharacterPrice(0);
       setMainPrice(0);
+      setSuccess(true);
     } catch (e) {
       console.log({ e });
     }
@@ -891,6 +893,9 @@ const GetDressed = () => {
               <button type="button" className={styles.submit} onClick={onSubmit}>
                 {isMonaApproved ? 'Submit Purchase & Get Dressed!' : 'Approve Mona Spend'}
               </button>
+              {success && <div className={styles.success}>
+                Success! Check out some more web3 fashion <a href="https://fashion.digitalax.xyz/" target="_blank">here</a>!
+              </div>}
             </div>
           </>
         )}

@@ -4,12 +4,21 @@ import { getMonaContractAddressByChainId } from '@services/network.service';
 import { convertToWei } from '@helpers/price.helpers';
 import api from '@services/api/espa/api.service';
 
-const address = '0xaa3e5ee4fdc831e5274fe7836c95d670dc2502e6';
+const maticAddress = '0x1c5a6720677146B27a91b5040FD1Eb25948abFC1';
+const ethAddress = '0x981b2cfe8c29757c1d5e5862b6f268b9792ffa32';
 
 class DressedActions {
   async isApproved(wallet, chainId) {
     const monaContractAddress = getMonaContractAddressByChainId(chainId);
     const contract = await getMonaTokenContract(monaContractAddress);
+    let address;
+    if (Number(chainId) === 1) {
+      address = ethAddress;
+    } else if (Number(chainId) === 137) {
+      address = maticAddress;
+    } else {
+      return;
+    }
     try {
       const allowance = await contract.methods.allowance(wallet, address).call({ from: wallet });
       const jsAllowedValue = parseFloat(ethersUtils.formatEther(allowance));
@@ -26,6 +35,14 @@ class DressedActions {
   async approveMona(wallet, chainId) {
     const monaContractAddress = getMonaContractAddressByChainId(chainId);
     const contract = await getMonaTokenContract(monaContractAddress);
+    let address;
+    if (Number(chainId) === 1) {
+      address = ethAddress;
+    } else if (Number(chainId) === 137) {
+      address = maticAddress;
+    } else {
+      return;
+    }
     try {
       await contract.methods.approve(address, convertToWei(20000000000)).send({ from: wallet });
     } catch (e) {
@@ -36,6 +53,14 @@ class DressedActions {
 
   async sendMona(wallet, chainId, value) {
     const monaContractAddress = getMonaContractAddressByChainId(chainId);
+    let address;
+    if (Number(chainId) === 1) {
+      address = ethAddress;
+    } else if (Number(chainId) === 137) {
+      address = maticAddress;
+    } else {
+      return;
+    }
     const contract = await getMonaTokenContract(monaContractAddress);
     try {
       const res = await contract.methods
