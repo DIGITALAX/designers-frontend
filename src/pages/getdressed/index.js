@@ -414,8 +414,10 @@ const GetDressed = () => {
       setNetworkPrice(0);
       setCharacterPrice(0);
       setMainPrice(0);
+      toast.success("Successfully purchased!");
     } catch (e) {
       console.log({ e });
+      toast.error(e.message);
     }
   };
 
