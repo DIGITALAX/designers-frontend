@@ -387,7 +387,7 @@ const GetDressed = () => {
       const realPrice = parseFloat(amount) > monaPrice ? amount : monaPrice;
       await dressedActions.sendMona(account, chainId, realPrice);
 
-      const res = await apiService.saveDressedInfo({
+      const res = await api.saveDressedInfo({
         wallet: account,
         outfit: outfit,
         outfitPattern,
