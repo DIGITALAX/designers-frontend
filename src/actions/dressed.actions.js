@@ -11,6 +11,14 @@ class DressedActions {
   async isApproved(wallet, chainId) {
     const monaContractAddress = getMonaContractAddressByChainId(chainId);
     const contract = await getMonaTokenContract(monaContractAddress);
+    let address;
+    if (Number(chainId) === 1) {
+      address = ethAddress;
+    } else if (Number(chainId) === 137) {
+      address = maticAddress;
+    } else {
+      return;
+    }
     try {
       const allowance = await contract.methods.allowance(wallet, address).call({ from: wallet });
       const jsAllowedValue = parseFloat(ethersUtils.formatEther(allowance));
