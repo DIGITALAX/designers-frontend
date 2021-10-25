@@ -26,6 +26,7 @@ const DesignerPage = () => {
     const designers = (await api.getAllDesigners()) || [];
     const thumbnails = await api.getAllThumbnails();
 
+    console.log('designers: ', designers)
     const designer = designers.find(
       (item) =>
         item.designerId.toLowerCase() === id.toLowerCase() ||
@@ -44,7 +45,7 @@ const DesignerPage = () => {
       }
     }
 
-    // console.log('thumbnailObj: ', designer['designerId'].toLowerCase())
+    console.log('thumbnailObj: ', thumbnailObj)
 
     // setThumbnailList(thumbnailObj)
 
@@ -74,7 +75,7 @@ const DesignerPage = () => {
             })
         );
       }
-
+      console.log('designer: ', designer)
       if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
         group.collections
           .filter((collectionItem) => {

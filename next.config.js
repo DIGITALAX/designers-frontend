@@ -16,6 +16,7 @@ const {
   MONA_TOKEN_ADDRESSES,
   DIGITAL_MARKETPLACE_ADDRESSES,
   ACCESS_CONTROL_ADDRESSES,
+  DTX_ADDRESSES
 } = require('config');
 const withImages = require('next-images');
 
@@ -38,6 +39,7 @@ module.exports = withImages({
     MONA_TOKEN_ADDRESSES,
     DIGITAL_MARKETPLACE_ADDRESSES,
     ACCESS_CONTROL_ADDRESSES,
+    DTX_ADDRESSES
   },
   trailingSlash: true,
   assetPrefix: './',
