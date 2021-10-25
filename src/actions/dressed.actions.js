@@ -27,6 +27,14 @@ class DressedActions {
   async approveMona(wallet, chainId) {
     const monaContractAddress = getMonaContractAddressByChainId(chainId);
     const contract = await getMonaTokenContract(monaContractAddress);
+    let address;
+    if (Number(chainId) === 1) {
+      address = ethAddress;
+    } else if (Number(chainId) === 137) {
+      address = maticAddress;
+    } else {
+      return;
+    }
     try {
       await contract.methods.approve(address, convertToWei(20000000000)).send({ from: wallet });
     } catch (e) {
