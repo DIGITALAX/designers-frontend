@@ -55,7 +55,7 @@ const DesignerPage = () => {
     const { digitalaxMaterialV2S } = result;
 
     const { digitalaxCollectionGroups } = await APIService.getCollectionGroups();
-    // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
+    console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
     const auctionItems = [];
     digitalaxCollectionGroups.forEach((group) => {
       if (!(group.auctions.length === 1 && group.auctions[0].id === '0')) {
@@ -75,12 +75,19 @@ const DesignerPage = () => {
             })
         );
       }
-      console.log('designer: ', designer)
+      console.log('-- current designer: ', designer)
       if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
         group.collections
           .filter((collectionItem) => {
+          //   console.log(`designer: ${collectionItem.designer.name.toLowerCase()},current: ${designer['newDesignerID'].toLowerCase()}, check: ${
+          //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
+          // } `)
             return (
-              collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+              collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
+              (
+                designer['newDesignerID'] && designer['newDesignerID'] !== '' 
+                && collectionItem.designer.name.toLowerCase() === designer['newDesignerID'].toLowerCase()
+              )
             );
           })
           .forEach((item) => {
