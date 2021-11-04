@@ -99,7 +99,7 @@ function Landing(props) {
                   className="text-gray-50 uppercase font-inter font-black whitespace-normal text-gradient mb-32"
                   style={{ fontSize: '80px' }}
                 >
-                  Digital Fashion movement
+                  Web3 Fashion movement
                 </p>
               </div>
 
