@@ -41,7 +41,7 @@ const DesignerList = () => {
 
   async function loadData() {
     const designers = await api.getAllDesigners() || []
-    setDesignerList(designers)
+    setDesignerList(designers.filter(designer => !designer.organization))
   }
 
   useEffect(() => {
