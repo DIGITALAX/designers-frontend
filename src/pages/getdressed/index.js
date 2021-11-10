@@ -365,6 +365,7 @@ const GetDressed = () => {
   useEffect(() => {
     const fetchMaterials = async () => {
       const { digitalaxMaterialV2S } = await apiService.getMaterialVS();
+      console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
       const mats = digitalaxMaterialV2S.filter((material) =>
         material.attributes.find((item) => item.type === 'Name of Item')
       );
