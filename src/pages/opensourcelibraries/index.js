@@ -112,6 +112,7 @@ function Libraries(props) {
             name:
               rdata['attributes'] && rdata['attributes'].length > 0 && rdata['attributes'][0].value,
             image: rdata['image_url'],
+            source: rdata['source_url'],
             thumbnail: thumbnailObj ? thumbnailObj[rdata['image_url']] : null,
             description: rdata['description'],
           });

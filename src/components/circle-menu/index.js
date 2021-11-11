@@ -99,12 +99,12 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
     }
     descriptionInnerHTML += item.description;
     description.current.innerHTML = descriptionInnerHTML;
-    downloadImage.current.src = item.image;
+    downloadImage.current.href = item.source || item.image;
     mintUrl.current.href = `https://opensea.io/assets/matic/0x567c7b3364ba2903a80ecbad6c54ba8c0e1a069e/${item.id}`;
   };
 
   const handleDownload = async () => {
-    const image = await fetch(downloadImage.current.src);
+    const image = await fetch(downloadImage.current.href);
     const imageBlog = await image.blob();
     const imageURL = URL.createObjectURL(imageBlog);
     const link = document.createElement('a');
@@ -182,7 +182,7 @@ const Pie = ({ items, keyName, direction = 'Right' }) => {
                 See Minted NFT
               </a>
               <a className="circlemenu_download" target="_blank" onClick={handleDownload}>
-                <img ref={downloadImage} style={{ width: 0, height: 0 }} crossOrigin="anonymous" />
+                <a ref={downloadImage} style={{ width: 0, height: 0 }} crossOrigin="anonymous" />
                 <img src="/images/download.png" />
               </a>
             </div>
