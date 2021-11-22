@@ -115,10 +115,16 @@ const DesignerProfileTopPart = (props) => {
     designerInfo['twitter'] = twitterDraft.includes('twitter.com')
       ? twitterDraft
       : `https://twitter.com/${twitterDraft}`;
-    designerInfo['instagram'] = instagramDraft;
-    designerInfo['linkedin'] = linkedinDraft;
-    designerInfo['youtube'] = youtubeDraft;
-    designerInfo['tiktok'] = tiktokDraft;
+    designerInfo['instagram'] = instagramDraft.includes('https')
+      ? instagramDraft
+      : `https://${instagramDraft}`;
+    designerInfo['linkedin'] = linkedinDraft.includes('https')
+      ? linkedinDraft
+      : `https://${linkedinDraft}`;
+    designerInfo['youtube'] = youtubeDraft.includes('https')
+      ? youtubeDraft
+      : `https://${youtubeDraft}`;
+    designerInfo['tiktok'] = tiktokDraft.includes('https') ? tiktokDraft : `https://${tiktokDraft}`;
 
     dispatch(designerActions.updateProfile(designerInfo));
   };
@@ -187,27 +193,62 @@ const DesignerProfileTopPart = (props) => {
       {!isEdit && (
         <div className={styles.socialIcons}>
           {designerInfo['twitter'] && designerInfo['twitter'] !== '' && (
-            <a href={designerInfo['twitter']} target="_blank">
+            <a
+              href={
+                designerInfo['twitter'].includes('https')
+                  ? designerInfo['twitter']
+                  : `https://${designerInfo['twitter']}`
+              }
+              target="_blank"
+            >
               <img src="/images/social-button-circle/twitter.png" />
             </a>
           )}
           {designerInfo['instagram'] && designerInfo['instagram'] !== '' && (
-            <a href={designerInfo['instagram']} target="_blank">
+            <a
+              href={
+                designerInfo['instagram'].includes('https')
+                  ? designerInfo['instagram']
+                  : `https://${designerInfo['instagram']}`
+              }
+              target="_blank"
+            >
               <img src="/images/social-button-circle/instagram.png" />
             </a>
           )}
           {designerInfo['linkedin'] && designerInfo['linkedin'] !== '' && (
-            <a href={designerInfo['linkedin']} target="_blank">
+            <a
+              href={
+                designerInfo['linkedin'].includes('https')
+                  ? designerInfo['linkedin']
+                  : `https://${designerInfo['linkedin']}`
+              }
+              target="_blank"
+            >
               <img src="/images/social-button-circle/linkedin.png" />
             </a>
           )}
           {designerInfo['tiktok'] && designerInfo['tiktok'] !== '' && (
-            <a href={designerInfo['tiktok']} target="_blank">
+            <a
+              href={
+                designerInfo['tiktok'].includes('https')
+                  ? designerInfo['tiktok']
+                  : `https://${designerInfo['tiktok']}`
+              }
+              target="_blank"
+            >
               <img src="/images/social-button-circle/tiktok.png" />
             </a>
           )}
           {designerInfo['youtube'] && designerInfo['youtube'] !== '' && (
-            <a href={designerInfo['youtube']} target="_blank">
+            <a
+              href={
+                designerInfo['youtube'].includes('https')
+                  ? designerInfo['youtube']
+                  : `https://${designerInfo['youtube']}`
+              }
+              target="_blank"
+            >
               <img src="/images/social-button-circle/youtube.png" />
             </a>
           )}
