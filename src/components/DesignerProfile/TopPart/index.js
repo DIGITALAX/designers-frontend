@@ -112,7 +112,9 @@ const DesignerProfileTopPart = (props) => {
 
   // Social
   const saveSocialLinks = () => {
-    designerInfo['twitter'] = twitterDraft;
+    designerInfo['twitter'] = twitterDraft.includes('twitter.com')
+      ? twitterDraft
+      : `https://twitter.com/${twitterDraft}`;
     designerInfo['instagram'] = instagramDraft;
     designerInfo['linkedin'] = linkedinDraft;
     designerInfo['youtube'] = youtubeDraft;
@@ -185,39 +187,29 @@ const DesignerProfileTopPart = (props) => {
       {!isEdit && (
         <div className={styles.socialIcons}>
           {designerInfo['twitter'] && designerInfo['twitter'] !== '' && (
-            <Link href={designerInfo['twitter']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/twitter.png" />
-              </a>
-            </Link>
+            <a href={designerInfo['twitter']} target="_blank">
+              <img src="/images/social-button-circle/twitter.png" />
+            </a>
           )}
           {designerInfo['instagram'] && designerInfo['instagram'] !== '' && (
-            <Link href={designerInfo['instagram']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/instagram.png" />
-              </a>
-            </Link>
+            <a href={designerInfo['instagram']} target="_blank">
+              <img src="/images/social-button-circle/instagram.png" />
+            </a>
           )}
           {designerInfo['linkedin'] && designerInfo['linkedin'] !== '' && (
-            <Link href={designerInfo['linkedin']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/linkedin.png" />
-              </a>
-            </Link>
+            <a href={designerInfo['linkedin']} target="_blank">
+              <img src="/images/social-button-circle/linkedin.png" />
+            </a>
           )}
           {designerInfo['tiktok'] && designerInfo['tiktok'] !== '' && (
-            <Link href={designerInfo['tiktok']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/tiktok.png" />
-              </a>
-            </Link>
+            <a href={designerInfo['tiktok']} target="_blank">
+              <img src="/images/social-button-circle/tiktok.png" />
+            </a>
           )}
           {designerInfo['youtube'] && designerInfo['youtube'] !== '' && (
-            <Link href={designerInfo['youtube']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/youtube.png" />
-              </a>
-            </Link>
+            <a href={designerInfo['youtube']} target="_blank">
+              <img src="/images/social-button-circle/youtube.png" />
+            </a>
           )}
         </div>
       )}
