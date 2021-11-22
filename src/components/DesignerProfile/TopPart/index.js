@@ -112,11 +112,19 @@ const DesignerProfileTopPart = (props) => {
 
   // Social
   const saveSocialLinks = () => {
-    designerInfo['twitter'] = twitterDraft;
-    designerInfo['instagram'] = instagramDraft;
-    designerInfo['linkedin'] = linkedinDraft;
-    designerInfo['youtube'] = youtubeDraft;
-    designerInfo['tiktok'] = tiktokDraft;
+    designerInfo['twitter'] = twitterDraft.includes('twitter.com')
+      ? twitterDraft
+      : `https://twitter.com/${twitterDraft}`;
+    designerInfo['instagram'] = instagramDraft.includes('https')
+      ? instagramDraft
+      : `https://${instagramDraft}`;
+    designerInfo['linkedin'] = linkedinDraft.includes('https')
+      ? linkedinDraft
+      : `https://${linkedinDraft}`;
+    designerInfo['youtube'] = youtubeDraft.includes('https')
+      ? youtubeDraft
+      : `https://${youtubeDraft}`;
+    designerInfo['tiktok'] = tiktokDraft.includes('https') ? tiktokDraft : `https://${tiktokDraft}`;
 
     dispatch(designerActions.updateProfile(designerInfo));
   };
@@ -185,39 +193,64 @@ const DesignerProfileTopPart = (props) => {
       {!isEdit && (
         <div className={styles.socialIcons}>
           {designerInfo['twitter'] && designerInfo['twitter'] !== '' && (
-            <Link href={designerInfo['twitter']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/twitter.png" />
-              </a>
-            </Link>
+            <a
+              href={
+                designerInfo['twitter'].includes('https')
+                  ? designerInfo['twitter']
+                  : `https://${designerInfo['twitter']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/twitter.png" />
+            </a>
           )}
           {designerInfo['instagram'] && designerInfo['instagram'] !== '' && (
-            <Link href={designerInfo['instagram']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/instagram.png" />
-              </a>
-            </Link>
+            <a
+              href={
+                designerInfo['instagram'].includes('https')
+                  ? designerInfo['instagram']
+                  : `https://${designerInfo['instagram']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/instagram.png" />
+            </a>
           )}
           {designerInfo['linkedin'] && designerInfo['linkedin'] !== '' && (
-            <Link href={designerInfo['linkedin']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/linkedin.png" />
-              </a>
-            </Link>
+            <a
+              href={
+                designerInfo['linkedin'].includes('https')
+                  ? designerInfo['linkedin']
+                  : `https://${designerInfo['linkedin']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/linkedin.png" />
+            </a>
           )}
           {designerInfo['tiktok'] && designerInfo['tiktok'] !== '' && (
-            <Link href={designerInfo['tiktok']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/tiktok.png" />
-              </a>
-            </Link>
+            <a
+              href={
+                designerInfo['tiktok'].includes('https')
+                  ? designerInfo['tiktok']
+                  : `https://${designerInfo['tiktok']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/tiktok.png" />
+            </a>
           )}
           {designerInfo['youtube'] && designerInfo['youtube'] !== '' && (
-            <Link href={designerInfo['youtube']}>
-              <a target="_blank">
-                <img src="/images/social-button-circle/youtube.png" />
-              </a>
-            </Link>
+            <a
+              href={
+                designerInfo['youtube'].includes('https')
+                  ? designerInfo['youtube']
+                  : `https://${designerInfo['youtube']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/youtube.png" />
+            </a>
           )}
         </div>
       )}
