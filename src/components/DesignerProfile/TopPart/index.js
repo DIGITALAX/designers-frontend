@@ -23,6 +23,7 @@ const DesignerProfileTopPart = (props) => {
   const [tiktokDraft, setTiktokDraft] = useState('');
   const [youtubeDraft, setYoutubeDraft] = useState('');
   const [linkedinDraft, setLinkedinDraft] = useState('');
+  const [mirrorDraft, setMirrorDraft] = useState('');
 
   const dispatch = useDispatch();
 
@@ -39,6 +40,10 @@ const DesignerProfileTopPart = (props) => {
   useEffect(() => {
     setInstagramDraft(designerInfo['instagram']);
   }, [designerInfo['instagram']]);
+
+  useEffect(() => {
+    setMirrorDraft(designerInfo['ThreadMirror']);
+  }, [designerInfo['ThreadMirror']])
 
   useEffect(() => {
     setLinkedinDraft(designerInfo['linkedin']);
@@ -125,6 +130,7 @@ const DesignerProfileTopPart = (props) => {
       ? youtubeDraft
       : `https://${youtubeDraft}`;
     designerInfo['tiktok'] = tiktokDraft.includes('https') ? tiktokDraft : `https://${tiktokDraft}`;
+    designerInfo['ThreadMirror'] = mirrorDraft.includes('https') ? mirrorDraft : `https://${mirrorDraft}`;
 
     dispatch(designerActions.updateProfile(designerInfo));
   };
@@ -252,6 +258,18 @@ const DesignerProfileTopPart = (props) => {
               <img src="/images/social-button-circle/youtube.png" />
             </a>
           )}
+          {designerInfo['ThreadMirror'] && designerInfo['ThreadMirror'] !== '' && (
+            <a
+              href={
+                designerInfo['ThreadMirror'].includes('https')
+                  ? designerInfo['ThreadMirror']
+                  : `https://${designerInfo['ThreadMirror']}`
+              }
+              target="_blank"
+            >
+              <img src="/images/social-button-circle/Group 53894.png" />
+            </a>
+          )}
         </div>
       )}
 
@@ -295,6 +313,14 @@ const DesignerProfileTopPart = (props) => {
               type="text"
               value={linkedinDraft}
               onChange={(e) => setLinkedinDraft(e.target.value)}
+            />
+          </div>
+          <div className={styles.inputRow}>
+            <img src="/images/social-button-circle/Group 53894.png" />
+            <input
+              type="text"
+              value={mirrorDraft}
+              onChange={(e) => setMirrorDraft(e.target.value)}
             />
           </div>
           <Button

@@ -196,7 +196,16 @@ button:focus {
   top: 0;
 }
 .enterheader {
-  height: 976px;
+  height: auto;
+}
+.enterheader h1 {
+  font-size: 5vw;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 900;
+  background: -webkit-linear-gradient(#DB00FF, #2B67F1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .productimg {
   width: 47%;
@@ -384,10 +393,7 @@ button:focus {
     width: 231px;
     height: 69px;
     top: 0;
-  }
-  .enterheader {
-    height: auto;
-  }
+  } 
   .entertext {
     font-weight: 300;
     font-size: 20px;

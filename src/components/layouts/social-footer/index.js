@@ -21,6 +21,9 @@ const SocialFooter = () => {
         <a href='https://www.youtube.com/channel/UCUoUOJ-t6lb2mKqqoefrrnA' target='_blank'>
           <img src='/images/social-button-circle/youtube.png' />
         </a>
+        <a href='https://mirror.xyz/0x95Fa3122c4672717EB768E9F49E40DC4478c4258' target='_blank'>
+          <img src='/images/social-button-circle/Group 53894.png' />
+        </a>
       </div>            
     </div>
   )

@@ -46,7 +46,7 @@ function Landing(props) {
         <>
           {' '}
           <div className="block" style={{height: 'fit-content'}}>
-            <div className="flex items-center absolute z-50 l-8">
+            <div className="flex items-center absolute z-50 l-8 bg-black">
               <p className="uppercase font-inter text-third bg-fourth text-5xl p-1 font-black">
                 GET DRESSED BY THE BEST
               </p>
@@ -77,21 +77,16 @@ function Landing(props) {
                 </div>
               } */}
             </div>
-            <div className="relative">
-              <video width="100%" autoPlay muted loop playsInline>
-                <source src="/video/v1.mp4" type="video/mp4" />
-              </video>
-            </div>
 
             <div
-              className="flex flex-col pt-20 pb-60 mb-80"
+              className="flex flex-col pt-20 mb-60"
               style={{
                 backgroundImage: "url('/images/landing_bg.png')",
                 backgroundRepeat: 'repeat-y',
                 backgroundPositionX: '140px',
               }}
             >
-              <div className="mt-20 bg-black z-50 py-10 px-12">
+              <div className="bg-black z-50 mb-20 px-12">
                 <p className="text-gray-50 uppercase font-inter font-black text-6xl whitespace-normal mt-32">
                   Building The Open fabric of a New
                 </p>
@@ -103,17 +98,7 @@ function Landing(props) {
                 </p>
               </div>
 
-              <div className="flex pl-20 items-center">
-                <img src="/images/enter.svg" className="entertextimg"/>
-                <Link href="/enter">
-                  <img
-                    src="/images/arrow.svg"
-                    className="ml-10 transform animate-horizonbounce arrowimg"
-                  />
-                </Link>
-              </div>
-
-              <div className="bg-black z-50 py-20 px-20">
+              <div className="bg-black z-50 py-20 px-20 mt-20 mb-20">
                 <p
                   className="text-gray-50 uppercase font-inter font-black whitespace-normal"
                   style={{ fontSize: '66px' }}
@@ -145,6 +130,21 @@ function Landing(props) {
                   Creators Across The Realms
                 </p>
               </div>
+              <div className="flex pl-20 items-center bg-black">
+                <img src="/images/enter.svg" className="entertextimg"/>
+                <Link href="/enter">
+                  <img
+                    src="/images/arrow.svg"
+                    className="ml-10 transform animate-horizonbounce arrowimg"
+                  />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <video width="100%" autoPlay muted loop playsInline>
+                <source src="/video/v1.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </>
