@@ -238,7 +238,7 @@ function Home(props) {
           </div>
           <div className="relative productimg">
             <img src="/images/product12.png" className="w-full enterimg" alt="" />
-            <a href="https://blog.digitalax.xyz/designer-patrons-of-the-web3-realms-ddf2c96d1e0aa" target="_blank">
+            <a href="https://digitalax.gitbook.io/digitalax/decentralised-and-forkable-protocol-stack/designer-patrons-of-the-web3-realms" target="_blank">
               <img
                 src="/images/arrow.svg"
                 className="cursor-pointer z-50 w-48 absolute b-8 r-8 animate-horizonbounce"
