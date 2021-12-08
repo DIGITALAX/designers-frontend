@@ -40,6 +40,7 @@ const HeaderTopLine = ({ className, buttonText }) => {
   const [hasScrolled, setHasScrolled] = useState(false)
   const [isCollapse, setIsCollapse] = useState(false)
   const [isDesigner, setIsDesigner] = useState(false)
+  const [designerInfo, setDesignerInfo] = useState(null)
 
   const screenWidth = useWindowDimensions().width
   const [isMobile, setIsMobile] = useState(false)
@@ -51,6 +52,7 @@ const HeaderTopLine = ({ className, buttonText }) => {
   const checkIfDesigner = async (wallet) => {
     const designers = await api.getDesignerByWallet(wallet?.toLowerCase()) || []
     if (designers.length > 0) {
+      setDesignerInfo(designers[0])
       setIsDesigner(true)
     }
   }
@@ -94,6 +96,11 @@ const HeaderTopLine = ({ className, buttonText }) => {
   const handleEditDesignerPageClick = () => {
     setIsShowMenu(false)
     Router.push('/edit-designer-profile')
+  }
+
+  const handleViewDesignerPageClick = () => {
+    setIsShowMenu(false)
+    Router.push(`/designers/${designerInfo.designerId}`)
   }
 
   return (
@@ -159,6 +166,12 @@ const HeaderTopLine = ({ className, buttonText }) => {
                     <button onClick={() => handleProfileClick()} className={styles.menuButton}>
                       Profile
                     </button>
+                    {
+                    isDesigner && 
+                      <button onClick={() => handleViewDesignerPageClick()} className={styles.menuButton}>
+                        View Designer Page
+                      </button>
+                    }
                     {
                     isDesigner && 
                       <button onClick={() => handleEditDesignerPageClick()} className={styles.menuButton}>
