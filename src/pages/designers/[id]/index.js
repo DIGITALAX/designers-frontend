@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants';
+import secondDesignerData from 'src/data/second-designers.json';
 
 import APIService from '@services/api/api.service';
 import api from '@services/api/espa/api.service';
@@ -26,7 +27,7 @@ const DesignerPage = () => {
     const designers = (await api.getAllDesigners()) || [];
     const thumbnails = await api.getAllThumbnails();
 
-    console.log('designers: ', designers)
+    // console.log('designers: ', designers)
     const designer = designers.find(
       (item) =>
         item.designerId.toLowerCase() === id.toLowerCase() ||
@@ -34,6 +35,14 @@ const DesignerPage = () => {
     );
 
     setDesignerInfo(designer);
+    const secondaryProducts = secondDesignerData.filter(
+      data => data.designer.find(
+        designerItem => designerItem.toLowerCase() === designer.designerId.toLowerCase() || 
+        (designer.newDesignerID && designer.newDesignerID.toLowerCase() === designerItem.toLowerCase())
+      )
+    )
+
+    // console.log('secondaryProducts: ', secondaryProducts)
 
     const thumbnailObj = {};
     const blockedList = [];
@@ -55,15 +64,18 @@ const DesignerPage = () => {
     const { digitalaxMaterialV2S } = result;
 
     const { digitalaxCollectionGroups } = await APIService.getCollectionGroups();
-    // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
+    // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
     const auctionItems = [];
+    const secondaryAuctions = secondaryProducts.filter(item => item.isAuction == 1)
+    const secondaryCollections = secondaryProducts.filter(item => item.isAuction == 0)
     digitalaxCollectionGroups.forEach((group) => {
       if (!(group.auctions.length === 1 && group.auctions[0].id === '0')) {
         auctionItems.push(
           ...group.auctions
             .filter((auctionItem) => {
               return (
-                auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase()
+                auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
+                secondaryAuctions.find(secondary => secondary.id == auctionItem.id)
               );
             })
             .map((item) => {
@@ -87,6 +99,10 @@ const DesignerPage = () => {
               (
                 designer['newDesignerID'] && designer['newDesignerID'] !== '' 
                 && collectionItem.designer.name.toLowerCase() === designer['newDesignerID'].toLowerCase()
+              ) ||
+              secondaryCollections.find(
+                secondary => 
+                  secondary.id == collectionItem.id && secondary.rarity == getRarityNumber(collectionItem.rarity)
               )
             );
           })
@@ -106,7 +122,7 @@ const DesignerPage = () => {
     });
 
     setMarketplaceItems(auctionItems);
-    // console.log('auctionItems: ', auctionItems)
+    console.log('auctionItems: ', auctionItems)
 
     const materials = [];
     // console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
@@ -176,7 +192,7 @@ const DesignerPage = () => {
   }
 
   // console.log('designerInfo: ', designerInfo)
-  console.log('materialList: ', materialList);
+  // console.log('materialList: ', materialList);
 
   return (
     <div className={styles.wrapper}>
