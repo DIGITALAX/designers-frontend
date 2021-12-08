@@ -14,8 +14,6 @@ const Purveyors = () => {
     fetchDesigners();
   }, []);
 
-  console.log({ designers });
-
   return (
     <div className={styles.wrapper}>
       <div className="container mx-auto p-4">
@@ -56,6 +54,10 @@ const Purveyors = () => {
                 </a>
               </Link>
               <div className={styles.text}>{designer.GDNPurveyor}</div>
+              {!!designer.ThreadMirror && <a className={styles.link} href={designer.ThreadMirror} target="_blank">
+                <img src="/images/image 1045.png" />
+                Stay Up to date >
+              </a>}
             </div>
           ))}
         </div>

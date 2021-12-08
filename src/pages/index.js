@@ -46,74 +46,28 @@ function Landing(props) {
         <>
           {' '}
           <div className="block" style={{height: 'fit-content'}}>
-            <div className="flex items-center absolute z-50 l-8">
-              <p className="uppercase font-inter text-third bg-fourth text-5xl p-1 font-black">
-                GET DRESSED BY THE BEST
-              </p>
-              <Link href="/getdressed">
-                <img
-                  src="/images/arrow.svg"
-                  className="animate-horizonbounce opengatearrow"
-                  // onClick={() => onClickTopArrow()}
-                />
-              </Link>
-              {/* {
-                showTopSocial && <div className={styles.topSocialIcons}>
-                  <a href='https://twitter.com/web3fashion' target='_blank'>
-                    <img src='/images/social-button-circle/twitter.png' />
-                  </a>
-                  <a href='https://www.instagram.com/global_designer_network/' target='_blank'>
-                    <img src='/images/social-button-circle/instagram.png' />
-                  </a>
-                  <a href='https://www.linkedin.com/company/global-designer-network/' target='_blank'>
-                    <img src='/images/social-button-circle/linkedin.png' />
-                  </a>
-                  <a href='https://www.tiktok.com/@globaldesignernetwork' target='_blank'>
-                    <img src='/images/social-button-circle/tiktok.png' />
-                  </a>
-                  <a href='https://www.youtube.com/channel/UCUoUOJ-t6lb2mKqqoefrrnA' target='_blank'>
-                    <img src='/images/social-button-circle/youtube.png' />
-                  </a>
-                </div>
-              } */}
-            </div>
-            <div className="relative">
-              <video width="100%" autoPlay muted loop playsInline>
-                <source src="/video/v1.mp4" type="video/mp4" />
-              </video>
-            </div>
 
             <div
-              className="flex flex-col pt-20 pb-60 mb-80"
+              className="flex flex-col mb-60"
               style={{
                 backgroundImage: "url('/images/landing_bg.png')",
                 backgroundRepeat: 'repeat-y',
                 backgroundPositionX: '140px',
               }}
             >
-              <div className="mt-20 bg-black z-50 py-10 px-12">
-                <p className="text-gray-50 uppercase font-inter font-black text-6xl whitespace-normal mt-32">
+              <div className="bg-black z-50 mb-20 px-12">
+                <p className="text-gray-50 uppercase font-inter font-black text-6xl whitespace-normal mt-12">
                   Building The Open fabric of a New
                 </p>
                 <p
-                  className="text-gray-50 uppercase font-inter font-black whitespace-normal text-gradient mb-32"
+                  className="text-gray-50 uppercase font-inter font-black whitespace-normal text-gradient mb-12"
                   style={{ fontSize: '80px' }}
                 >
                   Web3 Fashion movement
                 </p>
               </div>
 
-              <div className="flex pl-20 items-center">
-                <img src="/images/enter.svg" className="entertextimg"/>
-                <Link href="/enter">
-                  <img
-                    src="/images/arrow.svg"
-                    className="ml-10 transform animate-horizonbounce arrowimg"
-                  />
-                </Link>
-              </div>
-
-              <div className="bg-black z-50 py-20 px-20">
+              <div className="bg-black z-50 py-20 px-20 mt-20 mb-20">
                 <p
                   className="text-gray-50 uppercase font-inter font-black whitespace-normal"
                   style={{ fontSize: '66px' }}
@@ -145,6 +99,21 @@ function Landing(props) {
                   Creators Across The Realms
                 </p>
               </div>
+              <div className="flex pl-20 items-center bg-black">
+                <img src="/images/enter.svg" className="entertextimg"/>
+                <Link href="/enter">
+                  <img
+                    src="/images/arrow.svg"
+                    className="ml-10 transform animate-horizonbounce arrowimg"
+                  />
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <video width="100%" autoPlay muted loop playsInline>
+                <source src="/video/v1.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </>
