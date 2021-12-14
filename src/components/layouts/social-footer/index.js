@@ -22,7 +22,10 @@ const SocialFooter = () => {
           <img src='/images/social-button-circle/youtube.png' />
         </a>
         <a href='https://mirror.xyz/0x95Fa3122c4672717EB768E9F49E40DC4478c4258' target='_blank'>
-          <img src='/images/social-button-circle/Group 53894.png' />
+          <img src='/images/social-button-circle/mirror.png' />
+        </a>
+        <a href='https://discord.gg/rzFbc9ZmAg' target='_blank'>
+          <img src='/images/social-button-circle/discord.png' />
         </a>
       </div>            
     </div>

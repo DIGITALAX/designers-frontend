@@ -93,7 +93,14 @@ function Home(props) {
   return (
     <div className="block" style={{ height: 'fit-content' }}>
       <div className="relative enterheader md:w-1204 p-12 mx-auto" id="parentCo">
-        <h1> Check Out the Latest Across Web3 Fashion & the Global Designer Network DAO. </h1>
+        <h1>
+          Check Out the Latest Across Web3 Fashion & the Global Designer Network DAO. 
+        </h1>
+      </div>
+      <div className="relative enterheader md:w-1204 p-12 pt-0 mx-auto">
+        <h1>
+          <a href='https://discord.gg/rzFbc9ZmAg' target='_blank'>Join the DAO here</a>
+        </h1>
       </div>
       <div style={{ marginBottom: 90 }}>
         <p className="font-inter text-3xl text-white md:w-1204 sm:w-auto px-12 py-6 mx-auto entertext">

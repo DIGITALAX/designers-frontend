@@ -199,13 +199,18 @@ button:focus {
   height: auto;
 }
 .enterheader h1 {
-  font-size: 5vw;
+  font-size: 3.9vw;
   font-family: Inter;
   font-style: normal;
   font-weight: 900;
   background: -webkit-linear-gradient(#DB00FF, #2B67F1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.enterheader h1 a {
+  border-image-source: linear-gradient(90deg, #DB00FF 4.23%, #2B67F1 105.79%);
+  border-bottom: 0.4vw solid;
+  border-image-slice: 1;
 }
 .productimg {
   width: 47%;
