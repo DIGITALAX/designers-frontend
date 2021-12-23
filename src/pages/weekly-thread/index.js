@@ -76,8 +76,8 @@ const WeeklyThread = () => {
           </a>
         </div>
         <div className={styles.item}>
-          <img src="/images/Group 53893 (4) 1.png" />
-          <a href="" target="_blank">
+          <img src="/images/Group 53965.png" />
+          <a href="https://mirror.xyz/f3manifesto.eth" target="_blank">
             START READING HERE >
           </a>
         </div>
