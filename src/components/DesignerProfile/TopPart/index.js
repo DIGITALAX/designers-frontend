@@ -267,7 +267,7 @@ const DesignerProfileTopPart = (props) => {
               }
               target="_blank"
             >
-              <img src="/images/social-button-circle/Group 53894.png" />
+              <img src="/images/social-button-circle/mirror.png" />
             </a>
           )}
         </div>
@@ -316,7 +316,7 @@ const DesignerProfileTopPart = (props) => {
             />
           </div>
           <div className={styles.inputRow}>
-            <img src="/images/social-button-circle/Group 53894.png" />
+            <img src="/images/social-button-circle/mirror.png" />
             <input
               type="text"
               value={mirrorDraft}
