@@ -7,6 +7,7 @@ const Dropdown = ({
   options,
   value,
   onChange,
+  ascending,
   multi = false,
   max,
   searchable = false,
@@ -20,6 +21,12 @@ const Dropdown = ({
     onChange(v);
     if (!multi) setOpen(!open);
   };
+
+  const getFilteredList = () => {
+    const filtered = options.filter(option => option.toLowerCase().includes(inputValue.toLowerCase()))
+    if (ascending) return filtered.sort()
+    return filtered
+  }
 
   return (
     <>
@@ -53,8 +60,8 @@ const Dropdown = ({
         </div>
         {open && (
           <div className={styles.dropdown}>
-            {options
-              .filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))
+            {
+              getFilteredList()
               .map((option, index) => (
                 <div className={styles.item} key={index} onClick={() => onSelect(option)}>
                   <div className={styles.optionWrapper}>{option}</div>

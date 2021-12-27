@@ -741,6 +741,7 @@ const GetDressed = () => {
                   else setOutfitPattern([...outfitPattern, v]);
                 }}
                 multi
+                ascending
                 searchable
                 placeholder="Enter the name/s of the pattern, material, texture from the library. "
               />
@@ -850,6 +851,7 @@ const GetDressed = () => {
                 value={designers}
                 multi
                 searchable
+                ascending
                 placeholder="Search by designer name"
                 onChange={(v) => {
                   if (designers.includes(v))
