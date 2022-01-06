@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-import { FormControl, ClickAwayListener, Popper, Tooltip, InputBase, Fade, Select, MenuItem } from '@material-ui/core'
-import { withStyles, makeStyles } from '@material-ui/core/styles'
-import Input from '../../components/Input'
-import { upload as UploadToPinata } from '../../utils/pinata'
-import { getAccount } from '@selectors/user.selectors'
 import {
-  EXCLUSIVE_RARITY,
-  COMMON_RARITY,
-  SEMI_RARE_RARITY
-} from '@constants/global.constants'
-import styles from './styles.module.scss'
+  FormControl,
+  ClickAwayListener,
+  Popper,
+  Tooltip,
+  InputBase,
+  Fade,
+  Select,
+  MenuItem,
+} from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Input from '../../components/Input';
+import { upload as UploadToPinata } from '../../utils/pinata';
+import { getAccount } from '@selectors/user.selectors';
+import { EXCLUSIVE_RARITY, COMMON_RARITY, SEMI_RARE_RARITY } from '@constants/global.constants';
+import styles from './styles.module.scss';
 
 const abi = [
   {
@@ -138,30 +143,30 @@ const abi = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
-]
-const address = '0xED1cACcB23e4eC422ca56Ba4FB0fEA14822337fd'
+];
+const address = '0xED1cACcB23e4eC422ca56Ba4FB0fEA14822337fd';
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window
+  const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
     height,
-  }
+  };
 }
 
 function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions())
+      setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return windowDimensions
+  return windowDimensions;
 }
 
 const LightTooltip = withStyles((theme) => ({
@@ -171,51 +176,51 @@ const LightTooltip = withStyles((theme) => ({
     boxShadow: theme.shadows[1],
     fontSize: 11,
   },
-}))(Tooltip)
+}))(Tooltip);
 
 function Minting(props) {
-  const classes = useStyles()
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [open, setOpen] = useState(false)
-  const [text, setText] = useState('')
-  const account = useSelector(getAccount)
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  const account = useSelector(getAccount);
 
-  console.log('account: ', account)
+  console.log('account: ', account);
 
-  const [status, setStatus] = useState(0)
+  const [status, setStatus] = useState(0);
 
-  const [designerId, setDesignerId] = useState('')
-  const [issueNo, setIssueNo] = useState('')
-  const [pattern, setPattern] = useState('pattern')
-  const [traits, setTraits] = useState('')
-  const [degree, setDegree] = useState('Common')
-  const [description, setDescription] = useState('')
-  const [renderFile, setRenderFile] = useState(null)
-  const [sourceFile, setSourceFile] = useState(null)
-  const [itemName, setItemName] = useState('')
+  const [designerId, setDesignerId] = useState('');
+  const [issueNo, setIssueNo] = useState('');
+  const [pattern, setPattern] = useState('pattern');
+  const [traits, setTraits] = useState('');
+  const [degree, setDegree] = useState('Common');
+  const [description, setDescription] = useState('');
+  const [renderFile, setRenderFile] = useState(null);
+  const [sourceFile, setSourceFile] = useState(null);
+  const [itemName, setItemName] = useState('');
 
-  const [istooltip, setIstooltip] = React.useState(false)
+  const [istooltip, setIstooltip] = React.useState(false);
 
   const handleTooltip = () => {
-    setIstooltip(!istooltip)
-  }
+    setIstooltip(!istooltip);
+  };
   const handleLeave = () => {
-    setIstooltip(false)
-  }
-  const screenWidth = useWindowDimensions().width
-  const [isMobile, setIsMobile] = useState(false)
+    setIstooltip(false);
+  };
+  const screenWidth = useWindowDimensions().width;
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    screenWidth > 472 ? setIsMobile(false) : setIsMobile(true)
-  }, [screenWidth])
+    screenWidth > 472 ? setIsMobile(false) : setIsMobile(true);
+  }, [screenWidth]);
 
-  const handleSourceFileChange = e => {
-    setSourceFile(e.target.files[0])
-  }
+  const handleSourceFileChange = (e) => {
+    setSourceFile(e.target.files[0]);
+  };
 
-  const handleRenderFileChange = e => {
-    setRenderFile(e.target.files[0])
-  }
+  const handleRenderFileChange = (e) => {
+    setRenderFile(e.target.files[0]);
+  };
 
   const handleContributeClick = async () => {
     if (
@@ -227,10 +232,10 @@ function Minting(props) {
       description === '' ||
       itemName === ''
     ) {
-      setStatus(-1)
-      return
+      setStatus(-1);
+      return;
     }
-    setStatus(1)
+    setStatus(1);
     try {
       const metaJson = {
         'Designer ID': designerId,
@@ -258,27 +263,26 @@ function Minting(props) {
             value: itemName,
           },
         ],
-      }
+      };
 
-      const url = await UploadToPinata(metaJson, renderFile, sourceFile)
-      console.log('url: ', url)
+      const url = await UploadToPinata(metaJson, renderFile, sourceFile);
+      console.log('url: ', url);
       if (!url) {
-        return
+        return;
       }
-      const contract = new window.web3.eth.Contract(abi, address)
-      console.log('this is before mint', address)
-      console.log('this is before mint account: ', account)
+      const contract = new window.web3.eth.Contract(abi, address);
+      console.log('this is before mint', address);
+      console.log('this is before mint account: ', account);
       let response = await contract.methods
         .createNewChildWithVerifiedRole(url, 1)
-        .send({ from: account })
+        .send({ from: account });
 
-      console.log('===createChild response: ', response)
-      setStatus(2)
+      console.log('===createChild response: ', response);
+      setStatus(2);
     } catch (error) {
-      console.log('===error: ', error)
-      setStatus(3)
+      console.log('===error: ', error);
     }
-  }
+  };
 
   // const handleHover = (text) => (event) => {
   //   setAnchorEl(event.currentTarget)
@@ -288,9 +292,9 @@ function Minting(props) {
 
   const setValue = (func, value) => {
     if (!value.includes('"')) {
-      func(value)
+      func(value);
     }
-  }
+  };
 
   return (
     <div className="mintingdiv">
@@ -396,16 +400,16 @@ function Minting(props) {
                 /> */}
                 <FormControl variant="filled" fullWidth>
                   <Select
-                    id='itemType'
+                    id="itemType"
                     className="mt-16 border-1 border-third bg-white h-9 text-left"
-                    style={{color: 'white'}}
+                    style={{ color: 'white' }}
                     value={pattern}
                     inputProps={{
                       classes: {
-                          root: styles.rootClass,
-                          icon: styles.arrowClass,
+                        root: styles.rootClass,
+                        icon: styles.arrowClass,
                       },
-                  }}
+                    }}
                     label="Pattern or Material"
                     onChange={(e) => setValue(setPattern, e.target.value)}
                   >
@@ -416,16 +420,16 @@ function Minting(props) {
 
                 <FormControl variant="filled" fullWidth>
                   <Select
-                    id='degreeOfExclusivity'
+                    id="degreeOfExclusivity"
                     className="mt-16 border-1 border-third bg-white h-9 text-left"
-                    style={{color: 'white'}}
+                    style={{ color: 'white' }}
                     value={degree}
                     inputProps={{
                       classes: {
-                          root: styles.rootClass,
-                          icon: styles.arrowClass,
+                        root: styles.rootClass,
+                        icon: styles.arrowClass,
                       },
-                  }}
+                    }}
                     label="Degree of Exclusivity"
                     onChange={(e) => setValue(setDegree, e.target.value)}
                   >
@@ -460,23 +464,21 @@ function Minting(props) {
                     <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
                       Rendered File Upload
                     </span>
-                    <LightTooltip
-                      title="Files accepted PNG, JPEG"
-                      placement="right"
-                    >
+                    <LightTooltip title="Files accepted PNG, JPEG" placement="right">
                       <span className="questionMark">?</span>
                     </LightTooltip>
                   </div>
                   <label
-                  for="renderFile"
-                   className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium">
+                    for="renderFile"
+                    className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium"
+                  >
                     Choose File
                   </label>
                   <InputBase
                     type="file"
                     id="renderFile"
                     inputProps={{
-                      accept: ".jpg, .png, .jpeg"
+                      accept: '.jpg, .png, .jpeg',
                     }}
                     className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
                     style={{ display: 'none' }}
@@ -489,41 +491,40 @@ function Minting(props) {
                     {renderFile ? renderFile.name : 'No file Chosen'}
                   </span>
                 </div>
-                {pattern === 'material' && <div className="flex flex-col mt-10 w-full">
-                  <div className="flex">
-                    <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
-                      Source File Upload
-                    </span>
-                    <LightTooltip
-                      title="Files accepted PNG, JPEG, ZIP"
-                      placement="right"
+                {pattern === 'material' && (
+                  <div className="flex flex-col mt-10 w-full">
+                    <div className="flex">
+                      <span className="font-inter font-extrabold text-gray-50 text-sm mb-2">
+                        Source File Upload
+                      </span>
+                      <LightTooltip title="Files accepted PNG, JPEG, ZIP" placement="right">
+                        <span className="questionMark">?</span>
+                      </LightTooltip>
+                    </div>
+                    <label
+                      for="sourceFile"
+                      className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium"
                     >
-                      <span className="questionMark">?</span>
-                    </LightTooltip>
+                      Choose File
+                    </label>
+                    <InputBase
+                      type="file"
+                      id="sourceFile"
+                      inputProps={{
+                        accept: '.jpg, .png, .jpeg, .zip',
+                      }}
+                      className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
+                      style={{ display: 'none' }}
+                      onChange={handleSourceFileChange}
+                    />
+                    <span
+                      className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
+                      style={{ color: '#868686' }}
+                    >
+                      {sourceFile ? sourceFile.name : 'No file Chosen'}
+                    </span>
                   </div>
-                  <label
-                  for="sourceFile"
-                   className="border-2 border-third bg-white rounded-2xl py-1 px-6 max-w-max font-inter text-xs font-medium">
-                    Choose File
-                  </label>
-                  <InputBase
-                    type="file"
-                    id="sourceFile"
-                    inputProps={{
-                      accept: ".jpg, .png, .jpeg, .zip"
-                    }}
-                    className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
-                    style={{ display: 'none' }}
-                    onChange={handleSourceFileChange}
-                  />
-                  <span
-                    className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
-                    style={{ color: '#868686' }}
-                  >
-                    {sourceFile ? sourceFile.name : 'No file Chosen'}
-                  </span>
-                </div>
-              }
+                )}
               </div>
             </div>
             <div className="w-full">
@@ -565,25 +566,25 @@ function Minting(props) {
                   />
                 </div>
                 <div style={{ marginTop: 35 }}>
-                <FormControl variant="filled" fullWidth>
-                  <Select
-                    id='itemType'
-                    className="mt-10 border-1 border-third bg-white h-9 text-left"
-                    style={{color: 'white'}}
-                    value={pattern}
-                    inputProps={{
-                      classes: {
+                  <FormControl variant="filled" fullWidth>
+                    <Select
+                      id="itemType"
+                      className="mt-10 border-1 border-third bg-white h-9 text-left"
+                      style={{ color: 'white' }}
+                      value={pattern}
+                      inputProps={{
+                        classes: {
                           root: styles.rootClass,
                           icon: styles.arrowClass,
-                      },
-                  }}
-                    label="Pattern or Material"
-                    onChange={(e) => setValue(setPattern, e.target.value)}
-                  >
-                    <MenuItem value={'pattern'}>Pattern</MenuItem>
-                    <MenuItem value={'material'}>Material</MenuItem>
-                  </Select>
-                </FormControl>
+                        },
+                      }}
+                      label="Pattern or Material"
+                      onChange={(e) => setValue(setPattern, e.target.value)}
+                    >
+                      <MenuItem value={'pattern'}>Pattern</MenuItem>
+                      <MenuItem value={'material'}>Material</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
 
                 {/* <div style={{ marginTop: 35 }}>
@@ -604,31 +605,34 @@ function Minting(props) {
                 </div>
 
                 <div style={{ marginTop: 35 }}>
-                <FormControl variant="filled" fullWidth>
-                  <Select
-                    id='degreeOfExclusivity'
-                    className="mt-10 border-1 border-third bg-white h-9 text-left"
-                    style={{color: 'white'}}
-                    value={degree}
-                    inputProps={{
-                      classes: {
+                  <FormControl variant="filled" fullWidth>
+                    <Select
+                      id="degreeOfExclusivity"
+                      className="mt-10 border-1 border-third bg-white h-9 text-left"
+                      style={{ color: 'white' }}
+                      value={degree}
+                      inputProps={{
+                        classes: {
                           root: styles.rootClass,
                           icon: styles.arrowClass,
-                      },
-                  }}
-                    label="Degree of Exclusivity"
-                    onChange={(e) => setValue(setDegree, e.target.value)}
-                  >
-                    <MenuItem value={COMMON_RARITY}>Common</MenuItem>
-                    <MenuItem value={SEMI_RARE_RARITY}>Semi-Rare</MenuItem>
-                    <MenuItem value={EXCLUSIVE_RARITY}>Exclusive</MenuItem>
-                  </Select>
-                </FormControl>
+                        },
+                      }}
+                      label="Degree of Exclusivity"
+                      onChange={(e) => setValue(setDegree, e.target.value)}
+                    >
+                      <MenuItem value={COMMON_RARITY}>Common</MenuItem>
+                      <MenuItem value={SEMI_RARE_RARITY}>Semi-Rare</MenuItem>
+                      <MenuItem value={EXCLUSIVE_RARITY}>Exclusive</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
                 <div style={{ marginTop: 32 }}>
                   <div className="flex flex-col mt-10 w-full">
                     <div className="flex">
-                      <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px'}}>
+                      <span
+                        className="font-inter font-extrabold text-gray-50 mb-2"
+                        style={{ fontSize: 14, lineHeight: '22px' }}
+                      >
                         Rendered File Upload
                       </span>
 
@@ -646,8 +650,10 @@ function Minting(props) {
                       </ClickAwayListener>
                     </div>
                     <label
-                    for="renderFile"
-                    className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium" style={{fontSize: 10}}>
+                      for="renderFile"
+                      className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium"
+                      style={{ fontSize: 10 }}
+                    >
                       Choose File
                     </label>
                     <InputBase
@@ -665,48 +671,54 @@ function Minting(props) {
                     </span>
                   </div>
                 </div>
-                
-                {pattern === 'material' && <div style={{ marginTop: 32 }}>
-                  <div className="flex flex-col mt-10 w-full">
-                    <div className="flex">
-                      <span className="font-inter font-extrabold text-gray-50 mb-2" style={{fontSize: 14, lineHeight: '22px'}}>
-                        Source File Upload
-                      </span>
 
-                      <ClickAwayListener onClickAway={handleLeave}>
-                        <Tooltip
-                          title="Files accepted PNG, JPG, ZIP"
-                          placement="right-end"
-                          open={istooltip}
-                          classes={{ popper: classes.mobilePopper, tooltip: classes.tooltip }}
+                {pattern === 'material' && (
+                  <div style={{ marginTop: 32 }}>
+                    <div className="flex flex-col mt-10 w-full">
+                      <div className="flex">
+                        <span
+                          className="font-inter font-extrabold text-gray-50 mb-2"
+                          style={{ fontSize: 14, lineHeight: '22px' }}
                         >
-                          <span className="questionMark" onClick={handleTooltip}>
-                            ?
-                          </span>
-                        </Tooltip>
-                      </ClickAwayListener>
+                          Source File Upload
+                        </span>
+
+                        <ClickAwayListener onClickAway={handleLeave}>
+                          <Tooltip
+                            title="Files accepted PNG, JPG, ZIP"
+                            placement="right-end"
+                            open={istooltip}
+                            classes={{ popper: classes.mobilePopper, tooltip: classes.tooltip }}
+                          >
+                            <span className="questionMark" onClick={handleTooltip}>
+                              ?
+                            </span>
+                          </Tooltip>
+                        </ClickAwayListener>
+                      </div>
+                      <label
+                        for="sourceFile"
+                        className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium"
+                        style={{ fontSize: 10 }}
+                      >
+                        Choose File
+                      </label>
+                      <InputBase
+                        type="file"
+                        id="sourceFile"
+                        className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
+                        style={{ display: 'none' }}
+                        onChange={handleSourceFileChange}
+                      />
+                      <span
+                        className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
+                        style={{ color: '#868686', fontSize: 10 }}
+                      >
+                        {sourceFile ? sourceFile.name : 'No file Chosen'}
+                      </span>
                     </div>
-                    <label
-                    for="sourceFile"
-                    className="border-2 file-border bg-white rounded-2xl py-1 px-6 max-w-max font-inter font-medium" style={{fontSize: 10}}>
-                      Choose File
-                    </label>
-                    <InputBase
-                      type="file"
-                      id="sourceFile"
-                      className="border-1 w-180 border-third bg-white h-9 w-2/3 hidden"
-                      style={{ display: 'none' }}
-                      onChange={handleSourceFileChange}
-                    />
-                    <span
-                      className="font-medium font-inter text-xxs mx-16 mt-2 whitespace-nowrap"
-                      style={{ color: '#868686', fontSize: 10 }}
-                    >
-                      {sourceFile ? sourceFile.name : 'No file Chosen'}
-                    </span>
                   </div>
-                </div>
-                }
+                )}
               </div>
             </div>
             <div className="w-full">
@@ -718,7 +730,10 @@ function Minting(props) {
                 />
               </div>
               <div className="flex flex-col" style={{ marginTop: 61 }}>
-                <span className="font-inter font-extrabold text-gray-50 mb-2" style={{ fontSize: 14, lineHeight: '22px', marginBottom: 9 }}>
+                <span
+                  className="font-inter font-extrabold text-gray-50 mb-2"
+                  style={{ fontSize: 14, lineHeight: '22px', marginBottom: 9 }}
+                >
                   Description
                 </span>
                 <InputBase
@@ -733,7 +748,13 @@ function Minting(props) {
               <button
                 onClick={handleContributeClick}
                 className="font-black text-base font-inter px-4 bg-fourth rounded-xl max-w-min"
-                style={{ color: '#DB00FF', marginTop: 38, paddingTop: 7, paddingBottom: 8, fontSize: 15 }}
+                style={{
+                  color: '#DB00FF',
+                  marginTop: 38,
+                  paddingTop: 7,
+                  paddingBottom: 8,
+                  fontSize: 15,
+                }}
               >
                 Contribute
               </button>
@@ -754,11 +775,10 @@ function Minting(props) {
           {status === -1 && <h2 style={{ color: 'red' }}>Please fill all fields</h2>}
           {status === 1 && <h2 style={{ color: 'white' }}>Processing</h2>}
           {status === 2 && <h2 style={{ color: 'green' }}>Success</h2>}
-          {status === 3 && <h2 style={{ color: 'red' }}>Failed</h2>}
         </div>
       </div>
     </div>
-  )
+  );
 }
 const useStyles = makeStyles({
   mobilePopper: {
@@ -777,5 +797,5 @@ const useStyles = makeStyles({
     borderRadius: 0,
     marginLeft: 8,
   },
-})
-export default Minting
+});
+export default Minting;
