@@ -190,26 +190,6 @@ export const getModelCollectionGroups = gql`
   query digitalaxModelCollectionGroups {
     digitalaxModelCollectionGroups(first: 100) {
       id
-      auctions {
-        id
-        topBid
-        designer {
-          id
-          name
-          image
-        }
-        model {
-          id
-          name
-          image
-        }
-        garment {
-          id
-          animation
-          image
-          name
-        }
-      }
       collections {
         id
         rarity

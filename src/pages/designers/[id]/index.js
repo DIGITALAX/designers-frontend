@@ -72,10 +72,10 @@ const DesignerPage = () => {
     const secondaryAuctions = secondaryProducts.filter((item) => item.isAuction == 1);
     const secondaryCollections = secondaryProducts.filter((item) => item.isAuction == 0);
     [...digitalaxCollectionGroups, ...digitalaxModelCollectionGroups].forEach((group) => {
-      if (!(group.auctions.length === 1 && group.auctions[0].id === '0')) {
+      if (group?.auctions && !(group?.auctions?.length === 1 && group?.auctions[0].id === '0')) {
         auctionItems.push(
-          ...group.auctions
-            .filter((auctionItem) => {
+          ...group?.auctions
+            ?.filter((auctionItem) => {
               return (
                 auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
                 secondaryAuctions.find((secondary) => secondary.id == auctionItem.id)
@@ -98,7 +98,8 @@ const DesignerPage = () => {
             //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
             // } `)
             return (
-              collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
+              collectionItem.designer?.name.toLowerCase() ===
+                designer['designerId'].toLowerCase() ||
               (designer['newDesignerID'] &&
                 designer['newDesignerID'] !== '' &&
                 collectionItem.designer.name.toLowerCase() ===
