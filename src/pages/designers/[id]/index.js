@@ -71,7 +71,7 @@ const DesignerPage = () => {
     const auctionItems = [];
     const secondaryAuctions = secondaryProducts.filter((item) => item.isAuction == 1);
     const secondaryCollections = secondaryProducts.filter((item) => item.isAuction == 0);
-    [...digitalaxCollectionGroups, ...digitalaxModelCollectionGroups].forEach((group) => {
+    digitalaxCollectionGroups.forEach((group) => {
       if (group?.auctions && !(group?.auctions?.length === 1 && group?.auctions[0].id === '0')) {
         auctionItems.push(
           ...group?.auctions
@@ -116,6 +116,44 @@ const DesignerPage = () => {
               ...item.garments.map((garment) => {
                 return {
                   ...garment,
+                  rarity: getRarityNumber(item.rarity),
+                  isAuction: 0,
+                  id: item.id,
+                };
+              })
+            );
+          });
+      }
+    });
+
+    digitalaxModelCollectionGroups.forEach((group) => {
+      // console.log('-- current designer: ', designer)
+      if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
+        group.collections
+          .filter((collectionItem) => {
+            //   console.log(`designer: ${collectionItem.designer.name.toLowerCase()},current: ${designer['newDesignerID'].toLowerCase()}, check: ${
+            //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
+            // } `)
+            return (
+              collectionItem.designer?.name.toLowerCase() ===
+                designer['designerId'].toLowerCase() ||
+              (designer['newDesignerID'] &&
+                designer['newDesignerID'] !== '' &&
+                collectionItem.designer.name.toLowerCase() ===
+                  designer['newDesignerID'].toLowerCase()) ||
+              secondaryCollections.find(
+                (secondary) =>
+                  secondary.id == collectionItem.id &&
+                  secondary.rarity == getRarityNumber(collectionItem.rarity)
+              )
+            );
+          })
+          .forEach((item) => {
+            auctionItems.push(
+              ...item.garments.map((garment) => {
+                return {
+                  ...garment,
+                  isModel: true,
                   rarity: getRarityNumber(item.rarity),
                   isAuction: 0,
                   id: item.id,
