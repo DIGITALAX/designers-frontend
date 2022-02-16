@@ -35,12 +35,14 @@ const DesignerPage = () => {
     );
 
     setDesignerInfo(designer);
-    const secondaryProducts = secondDesignerData.filter(
-      data => data.designer.find(
-        designerItem => designerItem.toLowerCase() === designer.designerId.toLowerCase() || 
-        (designer.newDesignerID && designer.newDesignerID.toLowerCase() === designerItem.toLowerCase())
+    const secondaryProducts = secondDesignerData.filter((data) =>
+      data.designer.find(
+        (designerItem) =>
+          designerItem.toLowerCase() === designer.designerId.toLowerCase() ||
+          (designer.newDesignerID &&
+            designer.newDesignerID.toLowerCase() === designerItem.toLowerCase())
       )
-    )
+    );
 
     // console.log('secondaryProducts: ', secondaryProducts)
 
@@ -54,7 +56,7 @@ const DesignerPage = () => {
       }
     }
 
-    console.log('thumbnailObj: ', thumbnailObj)
+    console.log('thumbnailObj: ', thumbnailObj);
 
     // setThumbnailList(thumbnailObj)
 
@@ -64,18 +66,19 @@ const DesignerPage = () => {
     const { digitalaxMaterialV2S } = result;
 
     const { digitalaxCollectionGroups } = await APIService.getCollectionGroups();
+    const { digitalaxModelCollectionGroups } = await APIService.getModelCollectionGroups();
     // console.log('digitalaxCollectionGroups: ', digitalaxCollectionGroups)
     const auctionItems = [];
-    const secondaryAuctions = secondaryProducts.filter(item => item.isAuction == 1)
-    const secondaryCollections = secondaryProducts.filter(item => item.isAuction == 0)
-    digitalaxCollectionGroups.forEach((group) => {
+    const secondaryAuctions = secondaryProducts.filter((item) => item.isAuction == 1);
+    const secondaryCollections = secondaryProducts.filter((item) => item.isAuction == 0);
+    [...digitalaxCollectionGroups, ...digitalaxModelCollectionGroups].forEach((group) => {
       if (!(group.auctions.length === 1 && group.auctions[0].id === '0')) {
         auctionItems.push(
           ...group.auctions
             .filter((auctionItem) => {
               return (
                 auctionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
-                secondaryAuctions.find(secondary => secondary.id == auctionItem.id)
+                secondaryAuctions.find((secondary) => secondary.id == auctionItem.id)
               );
             })
             .map((item) => {
@@ -91,18 +94,19 @@ const DesignerPage = () => {
       if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
         group.collections
           .filter((collectionItem) => {
-          //   console.log(`designer: ${collectionItem.designer.name.toLowerCase()},current: ${designer['newDesignerID'].toLowerCase()}, check: ${
-          //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
-          // } `)
+            //   console.log(`designer: ${collectionItem.designer.name.toLowerCase()},current: ${designer['newDesignerID'].toLowerCase()}, check: ${
+            //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
+            // } `)
             return (
               collectionItem.designer.name.toLowerCase() === designer['designerId'].toLowerCase() ||
-              (
-                designer['newDesignerID'] && designer['newDesignerID'] !== '' 
-                && collectionItem.designer.name.toLowerCase() === designer['newDesignerID'].toLowerCase()
-              ) ||
+              (designer['newDesignerID'] &&
+                designer['newDesignerID'] !== '' &&
+                collectionItem.designer.name.toLowerCase() ===
+                  designer['newDesignerID'].toLowerCase()) ||
               secondaryCollections.find(
-                secondary => 
-                  secondary.id == collectionItem.id && secondary.rarity == getRarityNumber(collectionItem.rarity)
+                (secondary) =>
+                  secondary.id == collectionItem.id &&
+                  secondary.rarity == getRarityNumber(collectionItem.rarity)
               )
             );
           })
@@ -122,21 +126,21 @@ const DesignerPage = () => {
     });
 
     setMarketplaceItems(auctionItems);
-    console.log('auctionItems: ', auctionItems)
+    console.log('auctionItems: ', auctionItems);
 
     const materials = [];
-    console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S)
+    console.log('digitalaxMaterialV2S: ', digitalaxMaterialV2S);
     let noThumbnailData = [];
     // console.log('designer id: ', designer)
     if (digitalaxMaterialV2S) {
       for (const item of digitalaxMaterialV2S) {
         if (item.attributes.length <= 0) continue;
         try {
-          let imageUrl = null
-          let designerId = null
+          let imageUrl = null;
+          let designerId = null;
 
-          imageUrl = item.image == '' ? null : item.image
-          designerId = item.name == '' ? null : item.name
+          imageUrl = item.image == '' ? null : item.image;
+          designerId = item.name == '' ? null : item.name;
 
           if (!imageUrl || !designerId) {
             const res = await fetch(item.tokenUri);
@@ -145,10 +149,10 @@ const DesignerPage = () => {
             // console.log('--- item rdata: ', rdata)
 
             if (!rdata['image_url'] || !rdata[idLabel]) continue;
-            imageUrl = rdata['image_url']
-            designerId = rdata[idLabel]
+            imageUrl = rdata['image_url'];
+            designerId = rdata[idLabel];
           }
-          
+
           if (
             designer['designerId'].toLowerCase() !== designerId.toLowerCase() &&
             (!designer['newDesignerID'] ||
@@ -156,7 +160,7 @@ const DesignerPage = () => {
               designer['newDesignerID'].toLowerCase() !== designerId.toLowerCase())
           )
             continue;
-          
+
           if (!designerId || designerId === undefined || designerId === '') continue;
 
           if (blockedList.findIndex((item) => item === imageUrl) < 0) {
@@ -169,9 +173,7 @@ const DesignerPage = () => {
             materials.push({
               ...item,
               name:
-                item['attributes'] &&
-                item['attributes'].length > 0 &&
-                item['attributes'][0].value,
+                item['attributes'] && item['attributes'].length > 0 && item['attributes'][0].value,
               image: imageUrl,
               thumbnail: thumbnailObj ? thumbnailObj[imageUrl] : null,
               description: item['description'],

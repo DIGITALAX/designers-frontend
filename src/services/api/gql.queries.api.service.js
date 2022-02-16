@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request'
+import { gql } from 'graphql-request';
 
 export const getLiveAuctions = gql`
   {
@@ -15,7 +15,7 @@ export const getLiveAuctions = gql`
       lastBidTime
     }
   }
-`
+`;
 
 export const getAuctionsByIds = gql`
   query getAuctionsByIds($ids: [ID!]) {
@@ -32,7 +32,7 @@ export const getAuctionsByIds = gql`
       lastBidTime
     }
   }
-`
+`;
 
 export const getGarmentsByIds = gql`
   query getGarmentsByIds($ids: [ID!]) {
@@ -49,7 +49,7 @@ export const getGarmentsByIds = gql`
       }
     }
   }
-`
+`;
 
 export const getDesignersByIds = gql`
   query getDesignersByIds($ids: [ID!]) {
@@ -72,7 +72,7 @@ export const getDesignersByIds = gql`
       }
     }
   }
-`
+`;
 
 export const getGarmentsByDesignerId = gql`
   query getGarmentsByDesignerId($ids: [Bytes!]) {
@@ -89,7 +89,7 @@ export const getGarmentsByDesignerId = gql`
       }
     }
   }
-`
+`;
 
 export const getAuctionsHistoryByIds = gql`
   query getAuctionsHistoryByIds($ids: [ID!]) {
@@ -115,8 +115,7 @@ export const getAuctionsHistoryByIds = gql`
       }
     }
   }
-`
-
+`;
 
 export const getAuctionContracts = gql`
   {
@@ -129,24 +128,24 @@ export const getAuctionContracts = gql`
       totalSales
     }
   }
-`
+`;
 
 export const getMaterialVS = gql`
   {
-    digitalaxMaterialV2S(first: 1000) { 
-      id 
-      name 
+    digitalaxMaterialV2S(first: 1000) {
+      id
+      name
       image
-      tokenUri 
-      animation 
-      description 
-      attributes{ 
-        value 
-        type 
-      } 
-    } 
+      tokenUri
+      animation
+      description
+      attributes {
+        value
+        type
+      }
+    }
   }
-`
+`;
 
 export const getCollectionGroups = gql`
   query digitalaxCollectionGroups {
@@ -185,7 +184,56 @@ export const getCollectionGroups = gql`
       }
     }
   }
-`
+`;
+
+export const getModelCollectionGroups = gql`
+  query digitalaxModelCollectionGroups {
+    digitalaxModelCollectionGroups(first: 100) {
+      id
+      auctions {
+        id
+        topBid
+        designer {
+          id
+          name
+          image
+        }
+        model {
+          id
+          name
+          image
+        }
+        garment {
+          id
+          animation
+          image
+          name
+        }
+      }
+      collections {
+        id
+        rarity
+        garments(first: 1) {
+          id
+          animation
+          image
+          name
+        }
+        model {
+          id
+          name
+          image
+        }
+        designer {
+          id
+          name
+          image
+        }
+        valueSold
+      }
+    }
+  }
+`;
 
 export const getDigitalaxGarmentNftV2GlobalStats = gql`
   query digitalaxGarmentNFTV2GlobalStats {
