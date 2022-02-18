@@ -131,15 +131,13 @@ const DesignerPage = () => {
       if (!(group.collections.length === 1 && group.collections[0].id === '0')) {
         group.collections
           .filter((collectionItem) => {
-            //   console.log(`designer: ${collectionItem.designer.name.toLowerCase()},current: ${designer['newDesignerID'].toLowerCase()}, check: ${
-            //     collectionItem.designer.name.toLowerCase() == designer['newDesignerID'].toLowerCase()
-            // } `)
+              console.log(`collectionItem: `, collectionItem)
             return (
               collectionItem.designer?.name.toLowerCase() ===
                 designer['designerId'].toLowerCase() ||
               (designer['newDesignerID'] &&
                 designer['newDesignerID'] !== '' &&
-                collectionItem.designer.name.toLowerCase() ===
+                collectionItem.designer?.name.toLowerCase() ===
                   designer['newDesignerID'].toLowerCase()) ||
               secondaryCollections.find(
                 (secondary) =>

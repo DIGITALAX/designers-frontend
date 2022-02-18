@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useState } from 'react'
 import cn from 'classnames'
-import { useSelector } from 'react-redux'
 import api from '@services/api/espa/api.service'
 
 import styles from './styles.module.scss'
