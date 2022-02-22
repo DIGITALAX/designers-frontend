@@ -33,8 +33,6 @@ export const uploadFile = async (file) => {
 
 export const upload = async (metaJson, renderFile, sourceFile = null) => {
   try {
-    // const cloudURL = 'https://gateway.pinata.cloud'
-
     let formData = new FormData()
     formData.append("file", renderFile)
 

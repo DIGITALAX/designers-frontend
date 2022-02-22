@@ -113,21 +113,6 @@ const OnChainFashionSubmitForm = (props) => {
       console.log('uploaded: ', url)
       dispatch(designerActions.setIsloading(false));
       return url;
-      // console.log('--------- file: ', file);
-      // let url = await api.getPresignedGeneralUrl(file.type, file.name);
-      // if (url) {
-      //   const result = await api.uploadImageToS3(url, file);
-      //   if (result) {
-      //     const queryIndex = url.indexOf('?');
-      //     if (queryIndex >= 0) {
-      //       url = url.slice(0, queryIndex);
-      //     }
-      //     dispatch(designerActions.setIsloading(false));
-      //     return url;
-      //   }
-      // }
-      // dispatch(designerActions.setIsloading(false));
-      // return null;
     } catch (e) {
       dispatch(designerActions.setIsloading(false));
       return null;
@@ -165,7 +150,6 @@ const OnChainFashionSubmitForm = (props) => {
     const render4Upload = document.getElementById('render4-upload');
     const render5Upload = document.getElementById('render5-upload');
 
-    // const sourceUrl = await uploadFile(sourceUpload.files[0]);
     const sourceUrl = await uploadFile(sourceUpload.files[0]);
     // console.log('sourceUrl: ', sourceUrl)
 
