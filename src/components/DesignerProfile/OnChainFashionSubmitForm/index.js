@@ -10,6 +10,8 @@ import designerActions from '@actions/designer.actions';
 import styles from './styles.module.scss';
 import Dropdown from '@components/Dropdown';
 
+import { uploadFile as uploadFileToPinata } from '@utils/pinata'
+
 const QuestionMark = (props) => {
   const { children } = props;
 
@@ -107,21 +109,25 @@ const OnChainFashionSubmitForm = (props) => {
   const uploadFile = async (file) => {
     try {
       dispatch(designerActions.setIsloading(true));
-      console.log('--------- file: ', file);
-      let url = await api.getPresignedGeneralUrl(file.type, file.name);
-      if (url) {
-        const result = await api.uploadImageToS3(url, file);
-        if (result) {
-          const queryIndex = url.indexOf('?');
-          if (queryIndex >= 0) {
-            url = url.slice(0, queryIndex);
-          }
-          dispatch(designerActions.setIsloading(false));
-          return url;
-        }
-      }
+      const url = await uploadFileToPinata(file);
+      console.log('uploaded: ', url)
       dispatch(designerActions.setIsloading(false));
-      return null;
+      return url;
+      // console.log('--------- file: ', file);
+      // let url = await api.getPresignedGeneralUrl(file.type, file.name);
+      // if (url) {
+      //   const result = await api.uploadImageToS3(url, file);
+      //   if (result) {
+      //     const queryIndex = url.indexOf('?');
+      //     if (queryIndex >= 0) {
+      //       url = url.slice(0, queryIndex);
+      //     }
+      //     dispatch(designerActions.setIsloading(false));
+      //     return url;
+      //   }
+      // }
+      // dispatch(designerActions.setIsloading(false));
+      // return null;
     } catch (e) {
       dispatch(designerActions.setIsloading(false));
       return null;
@@ -159,6 +165,7 @@ const OnChainFashionSubmitForm = (props) => {
     const render4Upload = document.getElementById('render4-upload');
     const render5Upload = document.getElementById('render5-upload');
 
+    // const sourceUrl = await uploadFile(sourceUpload.files[0]);
     const sourceUrl = await uploadFile(sourceUpload.files[0]);
     // console.log('sourceUrl: ', sourceUrl)
 
@@ -184,6 +191,59 @@ const OnChainFashionSubmitForm = (props) => {
 
     const user = getUser();
 
+    // mint
+    // const metaJson = {
+    //   name: itemName,
+    //   description: itemDescription,
+    //   external_url: 'http://fashion.digitalax.xyz/',
+    //   attributes: [
+    //     {
+    //       trait_type: 'Designer',
+    //       value: designerId,
+    //     },
+    //     {
+    //       trait_type: 'Type',
+    //       value: itemType,
+    //     },
+    //     {
+    //       trait_type: 'Degree of Exclusivity"',
+    //       value: rarity,
+    //     },
+    //     {
+    //       trait_type: 'SourceFileExt',
+    //       value: getFileExt(sourceFile)
+    //     },
+    //     {
+    //       trait_type: 'SourceFileType',
+    //       value: sourceFile.type
+    //     },
+    //     {
+    //       trait_type: 'RenderedFileExt',
+    //       value: getFileExt(renderFile)
+    //     },
+    //     {
+    //       trait_type: 'Gender',
+    //       value: gender,
+    //     },
+    //     {
+    //       trait_type: 'Style',
+    //       value: itemStyle,
+    //     },
+    //     {
+    //       trait_type: 'Element',
+    //       value: elementType,
+    //     },
+    //   ],
+    // }
+
+    
+    // const url = await UploadToPinata(metaJson, renderFile, sourceFile)
+    // console.log('url: ', url)
+    // if (!url) {
+    //   return
+    // }
+
+    // register into fauna
     const message = await api.registerOnChainFashionItem({
       wallet: user.wallet,
       randomString: user.randomString,
