@@ -3,8 +3,8 @@ import axios from 'axios'
 const cloudURL = 'https://digitalax.mypinata.cloud'
 
 const pinataOptions = {
-  'pinata_api_key': '0d2ee8348c1e9452499d',
-  'pinata_secret_api_key': '3972307ed1683a4ce45ad2d3a4978ad3c71c8a41f5b4fe552b1e4f61f827ec3d'
+  'pinata_api_key': process.env.PINATA_API_KEY,
+  'pinata_secret_api_key': process.env.PINATA_API_SECRET_KEY
 }
 
 export const uploadFile = async (file) => {

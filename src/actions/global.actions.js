@@ -9,14 +9,13 @@ import garmentPageActions from '@actions/garment.page.actions'
 import globalReducer from '@reducers/global.reducer'
 import { isMetamaskInstalled } from '@services/metamask.service'
 import {
-  getRewardContractAddressByChainId,
   getMonaContractAddressByChainId,
   getDefaultNetworkChainId,
   getEnabledNetworkByChainId,
   getAPIUrlByChainId,
   getWSUrlByChainId,
 } from '@services/network.service'
-import { getTokenPrice, getRewardContract } from '@services/contract.service'
+import { getTokenPrice } from '@services/contract.service'
 
 import api from '@services/api/api.service'
 import ws from '@services/api/ws.service'
@@ -108,22 +107,16 @@ class GlobalActions extends BaseActions {
     return async (dispatch, getState) => {
       try {
         const chainId = getState().global.get('chainId')
-        const address = getRewardContractAddressByChainId(chainId)
-        const rewardContract = await getRewardContract(address)
         const monaContractAddress = await getMonaContractAddressByChainId(
           chainId,
         )
-        const [rewards, monaPerEth] = await Promise.all([
-          rewardContract.methods
-            .parentRewards(moment().unix(), moment().add(1, 'days').unix())
-            .call(),
+        const [monaPerEth] = await Promise.all([
           getTokenPrice(monaContractAddress),
         ])
-        dispatch(this.setValue('rewards', rewards))
+        
         dispatch(this.setValue('monaPerEth', monaPerEth))
       } catch (e) {
         console.error(e)
-        dispatch(this.setValue('rewards', 0))
         dispatch(this.setValue('monaPerEth', 0))
       }
 

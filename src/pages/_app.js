@@ -1,5 +1,6 @@
 import 'animate.css';
 import 'react-toastify/dist/ReactToastify.css';
+
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Provider, useDispatch, useSelector } from 'react-redux';
@@ -23,6 +24,7 @@ import config from '../utils/config';
 import '../assets/scss/global.scss';
 import 'tailwindcss/dist/tailwind.css';
 import '../styles/globals.css';
+
 
 if (config.SENTRY_DSN) {
   Sentry.init({
