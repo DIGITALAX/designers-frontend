@@ -1,22 +1,28 @@
-import { useDispatch, useSelector } from 'react-redux';
-import Dropdown from '@components/Dropdown';
-import { getAccount } from '@selectors/user.selectors';
-import cn from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
-import styles from './styles.module.scss';
-import { getUser } from '@helpers/user.helpers';
-import { openConnectMetamaskModal, openSignupModal } from '@actions/modals.actions';
+import cn from 'classnames';
+
+import Dropdown from '@components/Dropdown';
+import {
+  openConnectMetamaskModal,
+  openSignupModal,
+  openCC02Modal
+} from '@actions/modals.actions';
 import dressedActions from '@actions/dressed.actions';
 import { getChainId, getExchangeRateETH, getMonaPerEth } from '@selectors/global.selectors';
+import { getAccount } from '@selectors/user.selectors';
+
 import {
   POLYGON_MAINNET_CHAINID,
   MUMBAI_TESTNET_CHAINID,
-  ETHEREUM_MAINNET_CHAINID,
+  ETHEREUM_MAINNET_CHAINID
 } from '@constants/global.constants';
 import api from '@services/api/espa/api.service';
 import apiService from '@services/api/api.service';
-import { useRouter } from 'next/router';
+import { getUser } from '@helpers/user.helpers';
+import styles from './styles.module.scss';
 
 const GetDressed = () => {
   const dispatch = useDispatch();
@@ -459,6 +465,7 @@ const GetDressed = () => {
       return;
     }
 
+    dispatch(openCC02Modal(submitTx));
     submitTx();
   };
 

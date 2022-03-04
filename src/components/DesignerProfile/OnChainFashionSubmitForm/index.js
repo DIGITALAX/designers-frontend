@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 import Dropdown from '@components/Dropdown';
 
 import { uploadFile as uploadFileToPinata } from '@utils/pinata'
+import { openCC0Modal } from '@actions/modals.actions';
 
 const QuestionMark = (props) => {
   const { children } = props;
@@ -254,7 +255,7 @@ const OnChainFashionSubmitForm = (props) => {
   const onSend = () => {
     const completed = validateOnChainForm();
     if (!completed) return;
-    submitForm();
+    dispatch(openCC0Modal(submitForm));
   };
 
   const onChangeRenderFile = (e, number) => {
