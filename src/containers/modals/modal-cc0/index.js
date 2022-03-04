@@ -33,7 +33,8 @@ const ModalCC0 = ({ className }) => {
           className={(className, styles.modalWrapper)}
         >
           <div className={styles.textWrapper}>
-            Once on-chain the content you are minting will be fully CC0. If you don’t know what that is, read more here first before continuing with the minting process.
+            Once on-chain the content you are minting will be fully CC0. If you don’t know what that is, 
+            read more <a href='https://digitalax.gitbook.io/digitalax/web3-cc0' target='_blank'>here</a> first before continuing with the minting process.
           </div>
           <button className={styles.modalButton} onClick={() => handleSubmit() }>
             Confirm

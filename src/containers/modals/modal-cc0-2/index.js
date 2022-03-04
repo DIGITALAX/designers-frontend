@@ -33,7 +33,8 @@ const ModalCC02 = ({ className }) => {
           className={(className, styles.modalWrapper)}
         >
           <div className={styles.textWrapper}>
-            The DIGITALAX protocol fully embraces CC0 for all NFTs minted. If you don’t know what that is, read more here first before continuing with the minting process.
+            The DIGITALAX protocol fully embraces CC0 for all NFTs minted. If you don’t know what that is, 
+            read more <a href='https://digitalax.gitbook.io/digitalax/web3-cc0' target='_blank'>here</a> first before continuing with the minting process.
           </div>
           <button className={styles.modalButton} onClick={() => handleSubmit() }>
             Confirm
