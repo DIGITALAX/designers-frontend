@@ -2,8 +2,11 @@ import React, { useState, useRef } from 'react';
 import LazyLoad from 'react-lazyload';
 import Button from '@components/buttons/button';
 import styles from './styles.module.scss';
+import { useRouter } from 'next/router';
 
 const CollectionCard = (props) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [zoomMedia, setZoomMedia] = useState(false);
   const videoTagRef = useRef();
   const [hasAudio, setHasAudio] = useState(false);
@@ -32,13 +35,14 @@ const CollectionCard = (props) => {
   };
 
   const { item } = props;
-
-  console.log(`item:'${JSON.stringify(item)}'`);
+  const f3mItemLink = `https://market.f3manifesto.xyz/product/${item.id}/${
+    item.isAuction ? '1' : item.rarity
+  }/${item.isAuction}`;
   const itemLink = `https://${item.isModel ? 'runway' : 'fashion'}.digitalax.xyz/product/${
     item.id
   }/${item.isAuction ? '1' : item.rarity}/${item.isAuction}`;
   const onClickView = () => {
-    window.open(itemLink, '_blank');
+    window.open(id === 'F₃Manifesto' ? f3mItemLink : itemLink, '_blank');
   };
 
   return (

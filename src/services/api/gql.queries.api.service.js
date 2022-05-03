@@ -147,6 +147,30 @@ export const getMaterialVS = gql`
   }
 `;
 
+export const getF3MCollectionGroups = gql`
+  query digitalaxF3MCollectionGroups {
+    digitalaxF3MCollectionGroups(first: 100) {
+      id
+      collections {
+        id
+        rarity
+        garments(first: 1) {
+          id
+          animation
+          image
+          name
+        }
+        designer {
+          id
+          name
+          image
+        }
+        valueSold
+      }
+    }
+  }
+`;
+
 export const getCollectionGroups = gql`
   query digitalaxCollectionGroups {
     digitalaxCollectionGroups(first: 100, skip: 2) {

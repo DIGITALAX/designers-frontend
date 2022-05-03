@@ -1,6 +1,10 @@
 import { request } from 'graphql-request';
 import config from '@utils/config';
-import { DEV_HTTP_NETWORK_URL, MATIC_NETWORK_URL } from '@constants/global.constants';
+import {
+  DEV_HTTP_NETWORK_URL,
+  F3M_NETWORK_URL,
+  MATIC_NETWORK_URL,
+} from '@constants/global.constants';
 import {
   getAuctionsByIds,
   getGarmentsByIds,
@@ -12,6 +16,7 @@ import {
   getCollectionGroups,
   getDigitalaxGarmentNftV2GlobalStats,
   getModelCollectionGroups,
+  getF3MCollectionGroups,
 } from '@services/api/gql.queries.api.service';
 
 class APIService {
@@ -63,6 +68,10 @@ class APIService {
 
   async getCollectionGroups() {
     return request(MATIC_NETWORK_URL, getCollectionGroups);
+  }
+
+  async getF3MCollectionGroups() {
+    return request(F3M_NETWORK_URL, getF3MCollectionGroups);
   }
 
   async getModelCollectionGroups() {

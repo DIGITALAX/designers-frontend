@@ -11,10 +11,12 @@
     font-size: 2vw;
     line-height: 122%;
     word-wrap: break-word;
-    width: 37vw;
-
+    width: calc(100% - 6vw);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     margin-left: 3vw;
-    color: #FFFFFF;
+    color: #ffffff;
     text-transform: uppercase;
   }
 
@@ -23,7 +25,7 @@
     height: 40vw;
     position: relative;
     overflow: hidden;
-    
+
     .frameBack {
       position: absolute;
       width: 100%;
@@ -37,7 +39,8 @@
       width: 100%;
       height: 100%;
 
-      video, img {
+      video,
+      img {
         object-fit: cover;
         width: 30vw;
         height: 30vw;
@@ -55,7 +58,7 @@
       position: fixed;
       background: rgba(0, 0, 0, 0.9);
       transition: all 0.3s;
-  
+
       video,
       img {
         margin-top: 10vh;
@@ -109,8 +112,6 @@
     }
   }
 
-  
-
   .gotoLink {
     display: flex;
     justify-content: center;
@@ -126,7 +127,7 @@
       line-height: 120%;
       padding: 1vw 2vw;
 
-      color: #FFFFFF;
+      color: #ffffff;
     }
 
     img {
