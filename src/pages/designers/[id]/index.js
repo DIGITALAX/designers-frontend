@@ -79,7 +79,7 @@ const DesignerPage = () => {
             ...group?.auctions
               ?.filter((auctionItem) => {
                 return (
-                  auctionItem.designer.name.toLowerCase() ===
+                  auctionItem.designer?.name.toLowerCase() ===
                     designer['designerId'].toLowerCase() ||
                   secondaryAuctions.find((secondary) => secondary.id == auctionItem.id)
                 );
@@ -105,7 +105,7 @@ const DesignerPage = () => {
                   designer['designerId'].toLowerCase() ||
                 (designer['newDesignerID'] &&
                   designer['newDesignerID'] !== '' &&
-                  collectionItem.designer.name.toLowerCase() ===
+                  collectionItem.designer?.name.toLowerCase() ===
                     designer['newDesignerID'].toLowerCase()) ||
                 secondaryCollections.find(
                   (secondary) =>
