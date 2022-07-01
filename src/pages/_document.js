@@ -163,6 +163,16 @@ class MyDocument extends Document {
               font-weight: 400;
             }
             @font-face {
+              font-family: 'Chathura';
+              src: url("./fonts/Chathura-Regular.ttf");
+            }
+
+            @font-face {
+              font-family: 'IBM Plex Mono';
+              src: url("./fonts/IBMPlexMono-Regular.ttf");
+            }
+
+            @font-face {
               font-family: "Regular Fashion";
               src: url("./fonts/regularfashionDEMO.otf");
               font-weight: 400;
